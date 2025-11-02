@@ -34,14 +34,17 @@ Make sure your `config.json` has the correct `baseURL`:
 
 ### Automated Workflow
 
-The GitHub Action (`.github/workflows/scrape-and-post.yml`) runs daily and:
+The GitHub Action (`.github/workflows/scrape-and-post.yml`) runs every 6 hours (00:00, 06:00, 12:00, 18:00 UTC) and:
 
-1. **Scrapes** Adobe security bulletins from helpx.adobe.com
-2. **Commits** any new bulletins to the repository
-3. **Builds** the Hugo site with the new content
-4. **Deploys** to GitHub Pages (adobedigest.com)
-5. **Waits** 30 seconds for deployment to complete
-6. **Posts** new bulletins to Micro.blog (max 5 per run by default)
+1. **Scrapes** Adobe security bulletins from helpx.adobe.com (only new ones)
+2. **Checks** if any new bulletins were found
+3. **Commits** new bulletins to the repository (if found)
+4. **Builds** the Hugo site with the new content (if needed)
+5. **Deploys** to GitHub Pages at adobedigest.com (if needed)
+6. **Waits** 30 seconds for deployment to complete
+7. **Posts** new bulletins to Micro.blog (max 5 per run by default)
+
+**Optimization:** If no new bulletins are found, the workflow skips deployment and posting steps to minimize server load.
 
 ### State Tracking
 
@@ -154,7 +157,11 @@ Edit `.github/workflows/scrape-and-post.yml`:
 ```yaml
 on:
   schedule:
-    - cron: '0 14 * * *'  # Daily at 2 PM UTC
+    - cron: '0 */6 * * *'  # Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
+    # Examples:
+    # - cron: '0 */4 * * *'  # Every 4 hours
+    # - cron: '0 14 * * *'   # Daily at 2 PM UTC
+    # - cron: '0 9,15 * * *' # Twice daily at 9 AM and 3 PM UTC
 ```
 
 ### Change post limit

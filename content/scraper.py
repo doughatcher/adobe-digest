@@ -79,6 +79,8 @@ class AdobeSecurityScraper:
     def extract_bulletins(self, soup, product_name):
         """Extract security bulletin links from product page"""
         bulletins = []
+        total_found = 0
+        skipped = 0
         
         # Find all links that match APSB pattern
         for link in soup.find_all('a', href=re.compile(r'/security/products/.*/apsb\d{2}-\d{2}\.html')):
@@ -91,6 +93,7 @@ class AdobeSecurityScraper:
                 bulletin_id = re.search(r'(apsb\d{2}-\d{2})', href.lower())
                 if bulletin_id:
                     bulletin_id = bulletin_id.group(1).upper()
+                    total_found += 1
                     
                     # Skip if already scraped
                     if bulletin_id not in self.existing_posts:
@@ -99,6 +102,12 @@ class AdobeSecurityScraper:
                             'url': full_url,
                             'product': product_name
                         })
+                    else:
+                        skipped += 1
+        
+        if skipped > 0:
+            print(f"   ℹ️  Skipped {skipped} existing bulletins (already in feed)")
+            print(f"   📥 Found {len(bulletins)} new bulletins to scrape")
         
         return bulletins
     
