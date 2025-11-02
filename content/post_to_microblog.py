@@ -111,7 +111,11 @@ class MicroblogPoster:
                 import re
                 title = item.get('title', '')
                 if re.search(bulletin_id, title):
-                    return item.get('url', '')
+                    url = item.get('url', '')
+                    # Convert micro.blog subdomain to custom domain for API compatibility
+                    if 'adobedigest.micro.blog' in url:
+                        url = url.replace('adobedigest.micro.blog', 'adobedigest.com')
+                    return url
             return None
         except Exception as e:
             print(f"⚠️  Could not get post URL: {e}")
