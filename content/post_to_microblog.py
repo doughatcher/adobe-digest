@@ -77,6 +77,19 @@ class MicroblogPoster:
                                 title_match = re.search(r'^title:\s*["\']?(.+?)["\']?$', front_matter, re.MULTILINE)
                                 date_match = re.search(r'^date:\s*(.+)$', front_matter, re.MULTILINE)
                                 
+                                # Extract categories (YAML list format)
+                                categories = []
+                                in_categories = False
+                                for line in front_matter.split('\n'):
+                                    if line.startswith('categories:'):
+                                        in_categories = True
+                                        continue
+                                    if in_categories:
+                                        if line.startswith('  - '):
+                                            categories.append(line.strip('  - ').strip())
+                                        elif line and not line.startswith(' '):
+                                            in_categories = False
+                                
                                 # Extract APSB ID from title
                                 bulletin_id = None
                                 if title_match:
@@ -91,6 +104,7 @@ class MicroblogPoster:
                                         'title': title if title_match else '',
                                         'date': date_match.group(1).strip() if date_match else '',
                                         'content': body,
+                                        'categories': categories,
                                         'file': str(md_file)
                                     })
                 except Exception as e:
@@ -121,7 +135,7 @@ class MicroblogPoster:
             print(f"⚠️  Could not get post URL: {e}")
             return None
     
-    def post_to_microblog(self, title, content, published_date=None, update_url=None):
+    def post_to_microblog(self, title, content, published_date=None, update_url=None, categories=None):
         """Post or update content on Micro.blog using Micropub API"""
         
         if update_url:
@@ -131,13 +145,19 @@ class MicroblogPoster:
                 'Content-Type': 'application/json'
             }
             
+            replace_data = {
+                'name': [title],
+                'content': [content]
+            }
+            
+            # Add categories if provided
+            if categories:
+                replace_data['category'] = categories
+            
             data = json.dumps({
                 'action': 'update',
                 'url': update_url,
-                'replace': {
-                    'name': [title],
-                    'content': [content]
-                }
+                'replace': replace_data
             })
             
             encoded_data = data
@@ -153,6 +173,11 @@ class MicroblogPoster:
                 'name': title,
                 'content': content
             }
+            
+            # Add categories if provided
+            if categories:
+                for i, category in enumerate(categories):
+                    data[f'category[{i}]'] = category
             
             # Add published date if provided
             if published_date:
@@ -254,7 +279,8 @@ class MicroblogPoster:
                 result = self.post_to_microblog(
                     title=post['title'],
                     content=post['content'],
-                    update_url=post_url
+                    update_url=post_url,
+                    categories=post.get('categories', [])
                 )
             else:
                 print(f"\n📤 Publishing {post['id']}...")
@@ -263,7 +289,8 @@ class MicroblogPoster:
                 result = self.post_to_microblog(
                     title=post['title'],
                     content=post['content'],
-                    published_date=post['date']
+                    published_date=post['date'],
+                    categories=post.get('categories', [])
                 )
             
             if result['success']:
