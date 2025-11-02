@@ -1,5 +1,5 @@
 {
-	"name": "micro.blog",
+	"name": "Adobe Digest",
 	"image": "mcr.microsoft.com/devcontainers/base:noble",
 	"features": {
 		"ghcr.io/devcontainers/features/hugo:1": {
@@ -15,8 +15,10 @@
 		"ghcr.io/devcontainers/features/python:1": {
 			"installTools": true,
 			"version": "3.12"
-		}
+		},
+		"ghcr.io/guiyomh/features/just:0": {}
+
 	},
-	"postAttachCommand": "hugo serve --disableFastRender",
+	"postAttachCommand": "just serve",
 	"forwardPorts": [1313]
 }
