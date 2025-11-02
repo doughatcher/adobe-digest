@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="archive-page">
+    <h1>Archive</h1>
+    <div class="archive-list">
+        {{ range .Pages }}
+        <article class="archive-item">
+            <h2><a href="{{ .Permalink }}">{{ .Title | default "Untitled" }}</a></h2>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            {{ if .Summary }}
+            <p>{{ .Summary }}</p>
+            {{ end }}
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

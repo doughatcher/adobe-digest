@@ -1,0 +1,60 @@
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5849LGK');</script>
+    <!-- End Google Tag Manager -->
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
+    
+    {{ $title := .Title }}
+    {{ if .IsHome }}
+        {{ $title = .Site.Title }}
+    {{ else if .Title }}
+        {{ $title = printf "%s - %s" .Title .Site.Title }}
+    {{ end }}
+    <title>{{ $title }}</title>
+    
+    <!-- RSS Feed -->
+    {{ with .OutputFormats.Get "rss" }}
+        <link href="{{ .Permalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    {{ end }}
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+    
+    <!-- JavaScript -->
+    <script src="{{ "js/responsive-content.js" | relURL }}" defer></script>
+    
+    <!-- CSS Variables for customization -->
+    <style>
+    :root {
+        --sidebar-width: {{ .Site.Params.sidebar_width | default "400px" }};
+    }
+    </style>
+    
+    <!-- Micro.blog specific meta tags -->
+    {{ if .Site.Params.microblog_username }}
+    <link rel="me" href="https://micro.blog/{{ .Site.Params.microblog_username }}">
+    {{ end }}
+    
+    <!-- Webmention and IndieAuth -->
+    <link rel="webmention" href="https://micro.blog/webmention" />
+    <link rel="micropub" href="https://micro.blog/micropub" />
+    <link rel="authorization_endpoint" href="https://micro.blog/indieauth/auth" />
+    <link rel="token_endpoint" href="https://micro.blog/indieauth/token" />
+    
+    <!-- OpenGraph -->
+    <meta property="og:title" content="{{ $title }}" />
+    <meta property="og:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | truncate 155 }}{{ end }}" />
+    <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:site_name" content="{{ .Site.Title }}" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>

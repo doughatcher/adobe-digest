@@ -1,0 +1,25 @@
+{{ if and .Site.Params.show_navigation .Site.Params.show_floating_nav }}
+<nav class="horizontal-nav">
+    <ul class="nav-menu">
+        {{ $currentPage := . }}
+        
+        <!-- Home link -->
+        <li><a href="/" class="nav-link{{ if eq $currentPage.RelPermalink "/" }} active{{ end }}">Home</a></li>
+        
+        <!-- Static menu items (excluding Home) -->
+        {{ range .Site.Menus.main }}
+        {{ if ne .URL "/" }}
+        {{ $isActive := or (eq $currentPage.RelPermalink .URL) (hasPrefix $currentPage.RelPermalink .URL) }}
+        <li><a href="{{ .URL | relURL }}" class="nav-link{{ if $isActive }} active{{ end }}">{{ .Name }}</a></li>
+        {{ end }}
+        {{ end }}
+        
+        <!-- Dynamic categories -->
+        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+        {{ $categoryURL := printf "/categories/%s/" ($name | urlize) }}
+        {{ $isActive := hasPrefix $currentPage.RelPermalink $categoryURL }}
+        <li><a href="{{ $categoryURL | relURL }}" class="nav-link{{ if $isActive }} active{{ end }}">{{ $name | title }}</a></li>
+        {{ end }}
+    </ul>
+</nav>
+{{ end }}

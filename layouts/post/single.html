@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="post h-entry">
+
+  <header class="post-header">
+	{{ if .Title }}
+	  	<h1 class="p-name">{{ .Title }}</h1>
+  	{{ end }}
+    <p class="post-meta">
+	<a href="{{ .Permalink }}" class="u-url"><span class="post-meta"><time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">{{ .Date.Format "Jan 2, 2006" }}</time></span></a>
+	{{ with .Params.audio }}
+	  <script type="text/javascript" src="https://micro.blog/narration.js?url={{ . }}"></script>
+	{{ end }}	    
+	{{ if .Params.author }}
+	    by {{ .Params.author.name }}
+	{{ end }}
+	</p>
+  </header>
+
+  <article class="post-content e-content">
+	{{ .Content }}
+  </article>
+
+  <!-- Social syndication links -->
+  {{ if or .Params.mastodon .Params.bluesky .Params.threads .Params.linkedin }}
+  <div class="syndication-section">
+    <div class="syndication-links">
+      {{ if .Params.mastodon }}
+      <a href="https://mastodon.social/@{{ .Params.mastodon.username }}/{{ .Params.mastodon.id }}" class="syndication-link" target="_blank">Mastodon</a>
+      {{ end }}
+      {{ if .Params.bluesky }}
+      <a href="{{ .Params.bluesky.link }}" class="syndication-link" target="_blank">Bluesky</a>
+      {{ end }}
+      {{ if .Params.threads }}
+      <a href="{{ .Params.threads.url }}" class="syndication-link" target="_blank">Threads</a>
+      {{ end }}
+      {{ if .Params.linkedin }}
+      <a href="https://www.linkedin.com/feed/update/urn:li:activity:{{ .Params.linkedin.activity | strings.TrimPrefix "urn:li:activity:" }}" class="syndication-link" target="_blank">LinkedIn</a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+</div>
+
+{{ if .Site.Params.include_conversation }}
+<script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+{{ end }}
+
+{{ end }}

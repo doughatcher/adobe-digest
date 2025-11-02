@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Coldfusion Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-coldfusion/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Coldfusion</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB25-93: APSB25-93: Security update available for Adobe ColdFusion</title>
+      <link>https://helpx.adobe.com/security/products/coldfusion/apsb25-93.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe ColdFusion&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/coldfusion/apsb25-93.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-93</guid>
+      <pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-69: APSB25-69: Security update available for Adobe ColdFusion</title>
+      <link>https://helpx.adobe.com/security/products/coldfusion/apsb25-69.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe ColdFusion&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/coldfusion/apsb25-69.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-69</guid>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-52: APSB25-52: Security update available for Adobe ColdFusion</title>
+      <link>https://helpx.adobe.com/security/products/coldfusion/apsb25-52.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe ColdFusion&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/coldfusion/apsb25-52.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-52</guid>
+      <pubDate>Tue, 13 May 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-15: APSB25-15: Security update available for Adobe ColdFusion</title>
+      <link>https://helpx.adobe.com/security/products/coldfusion/apsb25-15.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe ColdFusion&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/coldfusion/apsb25-15.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-15</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

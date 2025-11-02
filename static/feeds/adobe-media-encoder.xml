@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Media Encoder Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-media-encoder/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Media Encoder</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB21-99: APSB21-99: &lt;/b&gt; Security update available for Adobe Media Encoder&lt;/a&gt;&lt;br /&gt;</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb21-99.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Media Encoder&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb21-99.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-99</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-24: APSB25-24: Security update available for Adobe Media Encoder</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb25-24.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Media Encoder&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb25-24.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-24</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

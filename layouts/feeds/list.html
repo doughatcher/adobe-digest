@@ -1,0 +1,262 @@
+{{ define "main" }}
+<div class="mx-auto max-w-6xl px-6 pb-8">
+  
+  <!-- Page Header -->
+  <div class="mb-8">
+    <h1 class="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+      📡 RSS Feeds
+    </h1>
+    <p class="text-lg text-gray-600 dark:text-gray-300">
+      Subscribe to stay updated with the latest Adobe security bulletins via RSS.
+    </p>
+  </div>
+
+  <!-- All Feeds Grid -->
+  <div class="grid gap-6 md:grid-cols-2">
+    <!-- Master Feed -->
+    <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center">
+          <span class="text-2xl">📡</span>
+          <div class="ml-3">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              All Security Bulletins
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              Complete feed covering all Adobe products
+            </p>
+          </div>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
+          Master Feed
+        </span>
+      </div>
+      
+      <div class="mt-4 space-y-2">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Products:</span>
+          <span class="text-gray-900 dark:text-white">Commerce, AEM, AEP</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Update Frequency:</span>
+          <span class="text-gray-900 dark:text-white">Every 6 hours</span>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex space-x-3">
+        <a href="/feeds/bulletins.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+          <span class="mr-1">📡</span>
+          Subscribe to RSS
+        </a>
+        <a href="/feeds/bulletins.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
+          View XML
+        </a>
+      </div>
+    </div>
+
+    <!-- Commerce Feed -->
+    <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center">
+          <span class="text-2xl">🛒</span>
+          <div class="ml-3">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Adobe Commerce
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              Commerce and Magento security updates
+            </p>
+          </div>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/20 dark:text-orange-300">
+          Product-Specific
+        </span>
+      </div>
+      
+      <div class="mt-4 space-y-2">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Focus:</span>
+          <span class="text-gray-900 dark:text-white">E-commerce Platform</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Includes:</span>
+          <span class="text-gray-900 dark:text-white">Magento Open Source</span>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex space-x-3">
+        <a href="/feeds/commerce-magento.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700">
+          <span class="mr-1">📡</span>
+          Subscribe to RSS
+        </a>
+        <a href="/feeds/commerce-magento.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
+          View XML
+        </a>
+      </div>
+    </div>
+
+    <!-- Experience Manager Feed -->
+    <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center">
+          <span class="text-2xl">📄</span>
+          <div class="ml-3">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Experience Manager
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              AEM content management security updates
+            </p>
+          </div>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/20 dark:text-green-300">
+          Product-Specific
+        </span>
+      </div>
+      
+      <div class="mt-4 space-y-2">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Focus:</span>
+          <span class="text-gray-900 dark:text-white">Content Management</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Components:</span>
+          <span class="text-gray-900 dark:text-white">Sites, Assets, Forms</span>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex space-x-3">
+        <a href="/feeds/experience-manager.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700">
+          <span class="mr-1">📡</span>
+          Subscribe to RSS
+        </a>
+        <a href="/feeds/experience-manager.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
+          View XML
+        </a>
+      </div>
+    </div>
+
+    <!-- Experience Platform Feed -->
+    <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center">
+          <span class="text-2xl">🗄️</span>
+          <div class="ml-3">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Experience Platform
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              AEP data platform security updates
+            </p>
+          </div>
+        </div>
+        <span class="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800 dark:bg-purple-900/20 dark:text-purple-300">
+          Product-Specific
+        </span>
+      </div>
+      
+      <div class="mt-4 space-y-2">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Focus:</span>
+          <span class="text-gray-900 dark:text-white">Data Platform</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-500 dark:text-gray-400">Components:</span>
+          <span class="text-gray-900 dark:text-white">CDP, Journey, Analytics</span>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex space-x-3">
+        <a href="/feeds/experience-platform.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700">
+          <span class="mr-1">📡</span>
+          Subscribe to RSS
+        </a>
+        <a href="/feeds/experience-platform.xml" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
+          View XML
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Subscribe Section -->
+  <div class="mt-12 rounded-lg bg-gray-50 p-6 dark:bg-gray-800">
+    <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+      📖 How to Subscribe
+    </h2>
+    
+    <div class="grid gap-6 md:grid-cols-3">
+      <div class="text-center">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20">
+          <span class="text-xl">1️⃣</span>
+        </div>
+        <h3 class="mb-2 font-medium text-gray-900 dark:text-white">Choose Your Feed</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Select the product feed that matches your needs or use the master feed for everything.
+        </p>
+      </div>
+      
+      <div class="text-center">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20">
+          <span class="text-xl">2️⃣</span>
+        </div>
+        <h3 class="mb-2 font-medium text-gray-900 dark:text-white">Copy RSS URL</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Click the RSS link to copy it to your clipboard or right-click to copy the link address.
+        </p>
+      </div>
+      
+      <div class="text-center">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20">
+          <span class="text-xl">3️⃣</span>
+        </div>
+        <h3 class="mb-2 font-medium text-gray-900 dark:text-white">Add to Reader</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Paste the URL into your preferred RSS reader like Feedly, Inoreader, or Apple News.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular RSS Readers -->
+  <div class="mt-8 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+    <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+      📱 Popular RSS Readers
+    </h2>
+    
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <a href="https://feedly.com" target="_blank" rel="noopener" class="flex items-center rounded-lg border border-gray-200 p-3 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500">
+        <div class="flex-1">
+          <div class="font-medium text-gray-900 dark:text-white">Feedly</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">Web & Mobile</div>
+        </div>
+        <span class="text-gray-400">↗</span>
+      </a>
+      
+      <a href="https://www.inoreader.com" target="_blank" rel="noopener" class="flex items-center rounded-lg border border-gray-200 p-3 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500">
+        <div class="flex-1">
+          <div class="font-medium text-gray-900 dark:text-white">Inoreader</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">Web & Mobile</div>
+        </div>
+        <span class="text-gray-400">↗</span>
+      </a>
+      
+      <a href="https://www.apple.com/apple-news/" target="_blank" rel="noopener" class="flex items-center rounded-lg border border-gray-200 p-3 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500">
+        <div class="flex-1">
+          <div class="font-medium text-gray-900 dark:text-white">Apple News</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">iOS & macOS</div>
+        </div>
+        <span class="text-gray-400">↗</span>
+      </a>
+      
+      <a href="https://miniflux.app" target="_blank" rel="noopener" class="flex items-center rounded-lg border border-gray-200 p-3 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500">
+        <div class="flex-1">
+          <div class="font-medium text-gray-900 dark:text-white">Miniflux</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">Self-hosted</div>
+        </div>
+        <span class="text-gray-400">↗</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+{{ end }}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Commerce Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-commerce/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Commerce</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB25-88: APSB25-88: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/commerce/apsb25-88.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Commerce&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/commerce/apsb25-88.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-88</guid>
+      <pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-71: APSB25-71: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/commerce/apsb25-71.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Commerce&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/commerce/apsb25-71.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-71</guid>
+      <pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-50: APSB25-50: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/commerce/apsb25-50.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Commerce&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/commerce/apsb25-50.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-50</guid>
+      <pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-26: APSB25-26: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/commerce/apsb25-26.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Commerce&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/commerce/apsb25-26.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-26</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-08: APSB25-08: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/commerce/apsb25-08.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Commerce&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/commerce/apsb25-08.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-08</guid>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB24-73: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/magento/apsb24-73.html</link>
+      <description>Adobe has released security updates for Adobe Commerce and Magento Open Source. These updates resolve critical and important vulnerabilities.&#xA;&#xA;Products: Adobe Commerce, Magento Open Source&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/magento/apsb24-73.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-73</guid>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB24-61: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/magento/apsb24-61.html</link>
+      <description>Adobe has released security updates for Adobe Commerce and Magento Open Source. These updates resolve critical and important vulnerabilities.&#xA;&#xA;Products: Adobe Commerce, Magento Open Source&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/magento/apsb24-61.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-61</guid>
+      <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB24-40: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/magento/apsb24-40.html</link>
+      <description>Adobe has released security updates for Adobe Commerce and Magento Open Source. These updates resolve critical and important vulnerabilities.&#xA;&#xA;Products: Adobe Commerce, Magento Open Source&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/magento/apsb24-40.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-40</guid>
+      <pubDate>Tue, 11 Jun 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB24-18: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/magento/apsb24-18.html</link>
+      <description>Adobe has released security updates for Adobe Commerce and Magento Open Source. These updates resolve critical and important vulnerabilities.&#xA;&#xA;Products: Adobe Commerce, Magento Open Source&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/magento/apsb24-18.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-18</guid>
+      <pubDate>Tue, 13 Feb 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB23-50: Security update available for Adobe Commerce</title>
+      <link>https://helpx.adobe.com/security/products/magento/apsb23-50.html</link>
+      <description>Adobe has released security updates for Adobe Commerce and Magento Open Source. These updates resolve critical and important vulnerabilities.&#xA;&#xA;Products: Adobe Commerce, Magento Open Source&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/magento/apsb23-50.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB23-50</guid>
+      <pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

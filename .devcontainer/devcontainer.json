@@ -1,0 +1,16 @@
+{
+	"name": "micro.blog",
+	"image": "mcr.microsoft.com/devcontainers/base:noble",
+	"features": {
+		"ghcr.io/devcontainers/features/hugo:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "lts",
+			"pnpmVersion": "latest",
+			"nvmVersion": "latest"
+		}
+	},
+	"postAttachCommand": "hugo serve --disableFastRender",
+	"forwardPorts": [1313]
+}

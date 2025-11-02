@@ -1,0 +1,357 @@
+/* Starfield Dreams Theme */
+
+/* Dark mode starfield background */
+body {
+  position: relative;
+  background: #000000;
+  overflow-x: hidden;
+}
+
+/* Light mode - soft space gradient background */
+/* Light mode overrides */
+html.light body {
+    background: linear-gradient(135deg, #d4e4f7 0%, #b8d4f1 50%, #9ec5ed 100%);
+}
+
+#starfield-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure all content is above the starfield */
+.site-container,
+.sidebar,
+.main-content,
+aside,
+.site-sidebar {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glass morphism for sidebar - LCARS warmth */
+.sidebar,
+aside,
+.site-sidebar {
+  background: rgba(30, 20, 45, 0.75) !important; /* Warmer purple tint */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid rgba(255, 153, 102, 0.2); /* LCARS peach border */
+  box-shadow: 0 8px 32px 0 rgba(102, 51, 153, 0.4);
+}
+
+html.light .sidebar,
+html.light aside,
+html.light .site-sidebar {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid rgba(51, 102, 204, 0.5);
+  box-shadow: 2px 0 20px 0 rgba(51, 102, 204, 0.25);
+}
+
+/* Enhance text contrast on glass */
+.sidebar *,
+aside *,
+.site-sidebar * {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Glass effect for main content area - LCARS accent */
+.content,
+main,
+.site-content {
+  background: rgba(15, 10, 25, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(153, 153, 255, 0.15); /* Blue accent */
+  box-shadow: 0 8px 32px 0 rgba(51, 102, 204, 0.2);
+}
+
+html.light .content,
+html.light main,
+html.light .site-content {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 102, 204, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(51, 102, 204, 0.15);
+}
+
+/* Adjust main content padding and width for better spacing */
+.main-content {
+  padding-left: 1rem !important;
+  padding-right: 3rem !important;
+  margin-left: 20px !important;
+}
+
+.content-wrapper {
+  max-width: 100% !important;
+  align-self: flex-start !important;
+}
+
+.posts-content {
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Enhance cards/posts with LCARS-inspired borders */
+article,
+.post,
+.h-entry {
+  background: rgba(35, 25, 50, 0.6) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-left: 2px solid rgba(255, 153, 102, 0.5) !important; /* Subtle LCARS peach accent */
+  border-right: 1px solid rgba(153, 153, 255, 0.2);
+  border-top: 1px solid rgba(204, 153, 204, 0.15);
+  border-bottom: 1px solid rgba(204, 153, 204, 0.15);
+  box-shadow: -2px 4px 16px 0 rgba(255, 153, 102, 0.15), 0 4px 16px 0 rgba(102, 51, 153, 0.3);
+  transition: all 0.3s ease;
+  padding: 1.5rem 1.5rem 1.5rem 1.25rem !important;
+}
+
+article:hover,
+.post:hover,
+.h-entry:hover {
+  border-left-width: 3px;
+  border-left-color: rgba(255, 153, 102, 0.8);
+  box-shadow: -4px 4px 20px 0 rgba(255, 153, 102, 0.3), 0 6px 20px 0 rgba(255, 153, 102, 0.2);
+}
+
+html.light article,
+html.light .post,
+html.light .h-entry {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-left: 3px solid rgba(51, 102, 204, 0.7) !important;
+  border-right: 1px solid rgba(70, 120, 220, 0.3);
+  border-top: 1px solid rgba(51, 102, 204, 0.2);
+  border-bottom: 1px solid rgba(51, 102, 204, 0.2);
+  box-shadow: -2px 2px 12px 0 rgba(51, 102, 204, 0.25), 0 2px 12px 0 rgba(51, 102, 204, 0.15);
+}
+
+html.light article:hover,
+html.light .post:hover,
+html.light .h-entry:hover {
+  border-left-width: 4px;
+  border-left-color: rgba(51, 102, 204, 0.9);
+  box-shadow: -4px 2px 16px 0 rgba(51, 102, 204, 0.4), 0 4px 16px 0 rgba(51, 102, 204, 0.2);
+}
+
+/* LCARS-inspired link colors */
+a {
+  color: #FF9966; /* LCARS Peach */
+  text-shadow: 0 0 10px rgba(255, 153, 102, 0.3);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #FFCC99; /* Lighter Peach */
+  text-shadow: 0 0 15px rgba(255, 153, 102, 0.5);
+}
+
+html.light a {
+  color: #3366CC; /* Cobalt blue for light mode */
+  text-shadow: none;
+}
+
+html.light a:hover {
+  color: #4678DC;
+  text-shadow: 0 1px 3px rgba(51, 102, 204, 0.3);
+}
+
+/* Enhance heading visibility */
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6 {
+  color: #1a1a2e;
+  text-shadow: 0 1px 2px rgba(255, 153, 102, 0.2);
+}
+
+/* Body text color adjustment */
+body,
+p,
+li,
+span {
+  color: #e0e0e0;
+}
+
+html.light body,
+html.light p,
+html.light li,
+html.light span {
+  color: #2a2a3a;
+}
+
+/* Publications sidebar - stripped down */
+.publications-sidebar {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+html.light .publications-sidebar {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.publication-sidebar-item {
+  border-bottom-color: rgba(255, 153, 102, 0.15) !important;
+}
+
+.publication-sidebar-item:hover {
+  background: rgba(255, 153, 102, 0.1) !important;
+}
+
+html.light .publication-sidebar-item {
+  border-bottom-color: rgba(51, 102, 204, 0.15) !important;
+}
+
+html.light .publication-sidebar-item:hover {
+  background: rgba(51, 102, 204, 0.08) !important;
+}
+
+.sidebar-section-title {
+  color: #FF9966 !important;
+  text-shadow: 0 0 8px rgba(255, 153, 102, 0.3);
+}
+
+html.light .sidebar-section-title {
+  color: #3366CC !important;
+  text-shadow: none;
+}
+
+/* Publications button with glass effect */
+.publications-see-all {
+  background: rgba(255, 153, 102, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFCC99 !important;
+  box-shadow: 
+    0 2px 8px rgba(255, 153, 102, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.publications-see-all:hover {
+  background: rgba(255, 153, 102, 0.3) !important;
+  box-shadow: 
+    0 4px 12px rgba(255, 153, 102, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+html.light .publications-see-all {
+  color: #ffffff !important;
+  background: rgba(51, 102, 204, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 
+    0 2px 8px rgba(51, 102, 204, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+html.light .publications-see-all:hover {
+  background: rgba(51, 102, 204, 0.4) !important;
+  box-shadow: 
+    0 4px 12px rgba(51, 102, 204, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Code blocks with LCARS glow */
+pre,
+code {
+  background: rgba(15, 10, 30, 0.85);
+  border: 1px solid rgba(153, 153, 255, 0.3);
+  box-shadow: 0 0 15px rgba(153, 153, 255, 0.2);
+  color: #CCCCFF;
+}
+
+/* Navigation items with glass effect */
+nav,
+.navigation {
+  background: rgba(20, 20, 40, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons and interactive elements - LCARS style */
+button,
+.btn,
+input[type="submit"] {
+  background: rgba(255, 153, 102, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 153, 102, 0.5);
+  color: #FFCC99;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 153, 102, 0.5);
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover {
+  background: rgba(255, 153, 102, 0.4);
+  border-color: rgba(255, 153, 102, 0.8);
+  box-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+  color: #ffffff;
+}
+
+/* Input fields with glass effect */
+input,
+textarea,
+select {
+  background: rgba(20, 20, 40, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Footer with glass effect */
+footer,
+.site-footer {
+  background: rgba(15, 15, 30, 0.8) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure html and body extend properly for starfield */
+html,
+body {
+  min-height: 100%;
+  background: #000000 !important;
+}
+
+html.light,
+html.light body {
+  background: linear-gradient(135deg, #e8eef5 0%, #d5e3f0 50%, #c5d9ed 100%) !important;
+}

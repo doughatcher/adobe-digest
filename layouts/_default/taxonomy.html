@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="list-header">
+    <h1>{{ .Title }}</h1>
+    {{ if .Content }}
+    <div class="list-description">
+        {{ .Content }}
+    </div>
+    {{ end }}
+</div>
+
+<div class="posts-list">
+    {{ range .Pages }}
+    <article class="post-preview{{ if .Params.microblog }} micro-post{{ end }}">
+        <div class="post-content">
+            {{ if and (not .Params.microblog) .Title }}
+            <h2 class="post-title">
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h2>
+            {{ end }}
+            
+            <div class="post-summary">
+                {{ if .Summary }}
+                    {{ .Summary }}
+                    {{ if .Truncated }}
+                    <p><a href="{{ .Permalink }}" class="read-more">Continue reading →</a></p>
+                    {{ end }}
+                {{ else }}
+                    {{ .Content }}
+                {{ end }}
+            </div>
+            
+            <div class="post-meta">
+                <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+                    <a href="{{ .Permalink }}">{{ .Date.Format "Jan 2, 2006" }}</a>
+                </time>
+                
+                {{ if .Params.tags }}
+                <div class="post-tags">
+                    {{ range .Params.tags }}
+                    <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </article>
+    {{ end }}
+</div>
+{{ end }}

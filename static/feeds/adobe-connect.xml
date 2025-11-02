@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Connect Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-connect/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Connect</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB25-61: APSB25-61: Security update available for Adobe Connect</title>
+      <link>https://helpx.adobe.com/security/products/connect/apsb25-61.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Connect&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/connect/apsb25-61.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-61</guid>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-36: APSB25-36: Security update available for Adobe Connect</title>
+      <link>https://helpx.adobe.com/security/products/connect/apsb25-36.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Connect&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/connect/apsb25-36.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-36</guid>
+      <pubDate>Tue, 13 May 2025 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

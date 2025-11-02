@@ -1,0 +1,76 @@
+{{ define "main" }}
+<div class="list-header">
+    {{ if .IsHome }}
+    <h1>{{ .Site.Title }}</h1>
+    {{ else }}
+    <h1>
+        {{ if eq .Kind "taxonomy" }}
+            {{ .Title }}
+        {{ else if eq .Kind "term" }}
+            {{ .Title }}
+        {{ else }}
+            {{ .Title }}
+        {{ end }}
+    </h1>
+    {{ end }}
+    
+    {{ if .Content }}
+    <div class="list-description">
+        {{ .Content }}
+    </div>
+    {{ end }}
+</div>
+
+<div class="posts-list">
+    {{ $paginator := .Paginate .Pages (.Site.Params.posts_per_page | default 20) }}
+    
+    {{ range $paginator.Pages }}
+    <article class="post-preview{{ if .Params.microblog }} micro-post{{ end }}">
+        <div class="post-content">
+            {{ if and (not .Params.microblog) .Title }}
+            <h2 class="post-title">
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h2>
+            {{ end }}
+            
+            <div class="post-summary">
+                {{ if .Summary }}
+                    {{ .Summary }}
+                    {{ if .Truncated }}
+                    <p><a href="{{ .Permalink }}" class="read-more">Continue reading →</a></p>
+                    {{ end }}
+                {{ else }}
+                    {{ .Content }}
+                {{ end }}
+            </div>
+            
+            <div class="post-meta">
+                <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+                    {{ .Date.Format "January 2, 2006" }}
+                </time>
+                
+                {{ if .Params.tags }}
+                <div class="post-tags">
+                    {{ range .Params.tags }}
+                    <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </article>
+    {{ end }}
+    
+    {{ if gt $paginator.TotalPages 1 }}
+    <nav class="pagination">
+        {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="prev">← Newer Posts</a>
+        {{ end }}
+        
+        {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="next">Older Posts →</a>
+        {{ end }}
+    </nav>
+    {{ end }}
+</div>
+{{ end }}

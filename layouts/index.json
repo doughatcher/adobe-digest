@@ -1,0 +1,30 @@
+{{- /* JSON feed template for micro.blog */ -}}
+{
+	"version": "https://jsonfeed.org/version/1",
+	"title": {{ .Site.Title | jsonify }},
+	"home_page_url": {{ .Site.BaseURL | jsonify }},
+	"feed_url": {{ .Permalink | jsonify }},
+	{{- if .Site.Params.description }}
+	"description": {{ .Site.Params.description | jsonify }},
+	{{- end }}
+	{{- if .Site.Params.author }}
+	"author": {
+		"name": {{ .Site.Params.author | jsonify }}
+	},
+	{{- end }}
+	"items": [
+		{{- $pages := where .Site.RegularPages "Type" "post" -}}
+		{{- range $index, $page := first 20 $pages -}}
+		{{- if ne $index 0 }},{{ end }}
+		{
+			"id": {{ .Permalink | jsonify }},
+			"url": {{ .Permalink | jsonify }},
+			{{- if .Title }}
+			"title": {{ .Title | jsonify }},
+			{{- end }}
+			"content_html": {{ .Content | jsonify }},
+			"date_published": {{ .Date.Format "2006-01-02T15:04:05Z07:00" | jsonify }}
+		}
+		{{- end }}
+	]
+}

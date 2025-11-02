@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Premiere Pro Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-premiere-pro/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Premiere Pro</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB24-58: APSB24-58: &lt;/b&gt; Security update available for Adobe Premiere Pro&lt;/a&gt;&lt;br /&gt;</title>
+      <link>https://helpx.adobe.com/security/products/premiere/apsb24-58.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Premiere Pro&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/premiere/apsb24-58.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-58</guid>
+      <pubDate>Thu, 15 Aug 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-100: APSB21-100: &lt;/b&gt; Security update available for Adobe Premiere Pro&lt;/a&gt;&lt;br /&gt;</title>
+      <link>https://helpx.adobe.com/security/products/premiere/apsb21-100.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Premiere Pro&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/premiere/apsb21-100.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-100</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-87: APSB25-87: Security update available for Adobe Premiere Pro</title>
+      <link>https://helpx.adobe.com/security/products/premiere/apsb25-87.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Premiere Pro&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/premiere/apsb25-87.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-87</guid>
+      <pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-28: APSB25-28: Security update available for Adobe Premiere Pro</title>
+      <link>https://helpx.adobe.com/security/products/premiere/apsb25-28.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Premiere Pro&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/premiere/apsb25-28.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-28</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

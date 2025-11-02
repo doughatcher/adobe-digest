@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="categories-page">
+    <div class="page-description">
+        <p>Browse posts by category</p>
+    </div>
+
+    <div class="categories-list">
+        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+        <div class="category-item">
+            <h2 class="category-name">
+                <a href="{{ "/categories/" | relURL }}{{ $name | urlize }}">{{ $name }}</a>
+                <span class="category-count">({{ len $taxonomy }})</span>
+            </h2>
+        </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

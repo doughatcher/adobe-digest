@@ -1,0 +1,79 @@
+<!-- Controls container for dark mode and theme switcher -->
+<div class="site-controls">
+    <!-- Dark mode toggle -->
+    {{ if .Site.Params.show_dark_mode_toggle }}
+    <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+    {{ end }}
+    
+    <!-- Theme Switcher -->
+    {{ partial "theme-switcher.html" . }}
+</div>
+<script>
+    (function() {
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        console.log('Saved theme:', savedTheme);
+        console.log('System prefers dark:', systemPrefersDark);
+        
+        // Set initial theme
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            html.classList.remove('light');
+            html.classList.add('dark');
+            console.log('Setting dark mode');
+        } else {
+            html.classList.remove('dark');
+            html.classList.add('light');
+            console.log('Setting light mode');
+        }
+        
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (!toggle) {
+                console.error('Toggle button not found!');
+                return;
+            }
+            
+            console.log('Toggle button found, attaching listener');
+            
+            // Toggle theme on click
+            toggle.addEventListener('click', function() {
+                const isDark = html.classList.contains('dark');
+                console.log('Toggle clicked. Currently dark?', isDark);
+                
+                if (isDark) {
+                    html.classList.remove('dark');
+                    html.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                    console.log('Switched to light mode');
+                } else {
+                    html.classList.remove('light');
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    console.log('Switched to dark mode');
+                }
+                
+                console.log('HTML classes:', html.className);
+            });
+        });
+    })();
+</script>

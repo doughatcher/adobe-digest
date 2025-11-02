@@ -1,0 +1,18 @@
+name = "Dougie"
+license = "MIT"
+licenselink = "https://github.com/doughatcher/micro.blog/blob/main/LICENSE"
+description = "A versatile micro.blog theme that adapts to your needs - microblog, publication site, or one-page portfolio. Configure the look and feel through settings without touching code."
+homepage = "https://github.com/doughatcher/micro.blog"
+tags = ["microblog", "minimal", "versatile", "configurable", "responsive", "publication", "portfolio", "multi-purpose"]
+features = ["responsive", "rss", "json-feed", "micropost-detection", "social-media", "centered-layout", "archive", "photos", "configurable-layouts", "publication-mode", "one-page-mode"]
+min_version = "0.91.0"
+
+[author]
+  name = "Doug Hatcher"
+  homepage = "https://github.com/doughatcher"
+  repo = "https://github.com/doughatcher/micro.blog"
+
+[original]
+  author = "Micro.blog"
+  homepage = "https://github.com/microdotblog/theme-blank"
+  repo = "https://github.com/microdotblog/theme-blank"

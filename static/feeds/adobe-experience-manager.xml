@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Experience Manager Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-experience-manager/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Experience Manager</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB25-90: APSB25-90: Security update available for Adobe Experience Manager</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-90.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-90.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-90</guid>
+      <pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-48: APSB25-48: Security update available for Adobe Experience Manager</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-48.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-48.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-48</guid>
+      <pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-82: APSB25-82: Security update available for Adobe AEM Forms</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-82.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-82.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-82</guid>
+      <pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-67: APSB25-67: Security update available for Adobe AEM Forms</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-67.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-67.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-67</guid>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-27: APSB25-27: Security update available for Adobe AEM Forms</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-27.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-27.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-27</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-68: APSB25-68: Security update available for Adobe AEM Screens</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-68.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-68.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-68</guid>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-32: APSB25-32: Security update available for Adobe AEM Screens</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb25-32.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Experience Manager&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb25-32.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-32</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB24-70: Security update available for Adobe Experience Manager</title>
+      <link>https://helpx.adobe.com/security/products/experience-manager/apsb24-70.html</link>
+      <description>Adobe has released security updates for Adobe Experience Manager. These updates resolve critical and important vulnerabilities including remote code execution.&#xA;&#xA;Products: Adobe Experience Manager, Adobe Experience Manager as a Cloud Service&#xA;Severity: Critical&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/experience-manager/apsb24-70.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB24-70</guid>
+      <pubDate>Tue, 08 Oct 2024 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

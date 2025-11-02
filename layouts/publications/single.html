@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article class="publication-single">
+    <header class="publication-header">
+        <h1>{{ .Title }}</h1>
+        
+        {{ if .Params.publication }}
+        <p class="publication-source">Published on {{ .Params.publication }}</p>
+        {{ end }}
+        
+        {{ if .Params.canonical_url }}
+        <p class="canonical-link">
+            <a href="{{ .Params.canonical_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                Read Full Article on {{ .Params.publication | default "External Site" }}
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="display: inline-block; margin-left: 0.5rem; vertical-align: middle;">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11 5L21 3"/>
+                </svg>
+            </a>
+        </p>
+        {{ end }}
+    </header>
+
+    <div class="publication-content">
+        {{ .Content }}
+    </div>
+
+    <footer class="publication-footer">
+        <p><a href="/publications/">← Back to Publications</a></p>
+    </footer>
+</article>
+{{ end }}

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Security Bulletins</title>
+    <link>https://adobedigest.com/</link>
+    <description>Latest security bulletins for Adobe products - manually curated and verified</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB25-999: APSB25-999: Security update for Adobe Test Product</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb25-999.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb25-999.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-999</guid>
+      <pubDate>Sun, 14 Sep 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-105: APSB21-105: &lt;/b&gt; Security update available for Adobe Animate&lt;/a&gt;&lt;br /&gt;</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb21-105.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb21-105.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-105</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-45: APSB19-45: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-45.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-45.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-45</guid>
+      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-57: APSB19-57: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-57.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-57.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-57</guid>
+      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-60: APSB21-60: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb21-60.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb21-60.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-60</guid>
+      <pubDate>Sun, 15 Aug 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-06: APSB21-06: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb21-06.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb21-06.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-06</guid>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB22-34: APSB22-34: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb22-34.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb22-34.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB22-34</guid>
+      <pubDate>Sun, 15 May 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB22-21: APSB22-21: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb22-21.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb22-21.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB22-21</guid>
+      <pubDate>Tue, 15 Mar 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-95: APSB21-95: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb21-95.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb21-95.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-95</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB21-59: APSB21-59: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb21-59.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb21-59.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-59</guid>
+      <pubDate>Sun, 15 Aug 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-25: APSB20-25: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-25.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-25.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-25</guid>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-32: APSB19-32: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-32.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-32.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-32</guid>
+      <pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-26: APSB20-26: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-26.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-26.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-26</guid>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-49: APSB20-49: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-49.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-49.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-49</guid>
+      <pubDate>Wed, 15 Jul 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-51: APSB19-51: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-51.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-51.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-51</guid>
+      <pubDate>Mon, 15 Jul 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-58: APSB20-58: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-58.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-58.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-58</guid>
+      <pubDate>Sat, 15 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-30: APSB20-30: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-30.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-30.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-30</guid>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB20-06: APSB20-06: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb20-06.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb20-06.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB20-06</guid>
+      <pubDate>Wed, 15 Jan 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-46: APSB19-46: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-46.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-46.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-46</guid>
+      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-30: APSB19-30: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-30.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-30.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-30</guid>
+      <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-26: APSB19-26: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-26.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-26.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-26</guid>
+      <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-19: APSB19-19: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-19.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-19.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-19</guid>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-06: APSB19-06: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-06.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-06.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-06</guid>
+      <pubDate>Tue, 15 Jan 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB19-01: APSB19-01: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb19-01.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb19-01.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB19-01</guid>
+      <pubDate>Tue, 15 Jan 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB18-42: APSB18-42: Security update available</title>
+      <link>https://helpx.adobe.com/security/products/other/apsb18-42.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Product&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/other/apsb18-42.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB18-42</guid>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

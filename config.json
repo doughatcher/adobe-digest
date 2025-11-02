@@ -1,0 +1,165 @@
+{
+    "title": "Adobe Digest",
+    "baseURL": "https://adobedigest.com/",
+    "menu": {},
+    "mediaTypes": {
+        "application/json": {
+            "suffixes": [
+                "json"
+            ]
+        }
+    },
+    "outputFormats": {
+        "RSS": {
+            "baseName": "feed"
+        },
+        "JSON": {
+            "baseName": "feed"
+        },
+        "RSD": {
+            "mediaType": "application/xml",
+            "baseName": "rsd",
+            "isPlainText": true,
+            "notAlternative": true
+        },
+        "ArchiveJSON": {
+            "mediaType": "application/json",
+            "path": "archive",
+            "baseName": "index",
+            "isPlainText": true,
+            "notAlternative": true
+        },
+        "PhotosJSON": {
+            "mediaType": "application/json",
+            "path": "photos",
+            "baseName": "index",
+            "isPlainText": true,
+            "notAlternative": true
+        },
+        "PodcastXML": {
+            "mediaType": "application/rss+xml",
+            "baseName": "podcast",
+            "isPlainText": true,
+            "notAlternative": true
+        },
+        "PodcastJSON": {
+            "mediaType": "application/json",
+            "baseName": "podcast",
+            "isPlainText": true,
+            "notAlternative": true
+        }
+    },
+    "outputs": {
+        "home": [
+            "HTML",
+            "RSS",
+            "JSON",
+            "RSD",
+            "ArchiveJSON",
+            "PhotosJSON",
+            "PodcastXML",
+            "PodcastJSON"
+        ],
+        "page": [
+            "HTML"
+        ],
+        "section": [
+            "HTML"
+        ],
+        "taxonomy": [
+            "HTML",
+            "RSS",
+            "JSON"
+        ],
+        "term": [
+            "HTML",
+            "RSS",
+            "JSON"
+        ]
+    },
+    "taxonomies": {
+        "category": "categories"
+    },
+    "rssLimit": 25,
+    "uglyURLs": false,
+    "blackfriday": {
+        "fractions": false
+    },
+    "markup": {
+        "goldmark": {
+            "renderer": {
+                "unsafe": true
+            }
+        }
+    },
+    "enableRobotsTXT": true,
+    "languageCode": "en",
+    "defaultContentLanguage": "en",
+    "pagination": {
+        "pagerSize": 25
+    },
+    "pluralizeListTitles": false,
+    "params": {
+        "author": {
+            "name": "Doug Hatcher",
+            "avatar": "https://avatars.micro.blog/avatars/2025/42/1836278.jpg",
+            "username": "adobedigest",
+            "activitypub": {
+                "username": "[ACTIVITYPUB_USERNAME]",
+                "url": "[ACTIVITYPUB_ACTOR]"
+            }
+        },
+        "description": "Follow <a href=\"https://micro.blog/hatcher\">@hatcher on Micro.blog</a>.",
+        "about_me": "Enterprise architecture and tech junkie",
+        "bio": "Enterprise architecture and tech junkie",
+        "avatar": "https://avatars.micro.blog/avatars/2025/42/1836278.jpg",
+        "microblog_username": "hatcher",
+        "twitter_username": "superterran",
+        "github_username": "superterran",
+        "instagram_username": "_doughatcher",
+        "linkedin_username": "doughatcher",
+        "mastodon_url": "https://doughatcher.com/@hatcher",
+        "show_avatar": true,
+        "show_bio": true,
+        "show_social_links": true,
+        "show_navigation": true,
+        "show_floating_nav": false,
+        "show_dark_mode_toggle": true,
+        "show_word_count": true,
+        "show_reading_time": true,
+        "show_thumbnails": false,
+        "show_publications": true,
+        "show_publications_sidebar": true,
+        "publications_sidebar_limit": 3,
+        "publications_title": "Enterprise Architect and Consultant",
+        "posts_per_page": 20,
+        "sidebar_width": "400px",
+        "itunes_description": "Enterprise architecture and tech junkie",
+        "itunes_category": "Society & Culture",
+        "itunes_subcategory": "Personal Journals",
+        "itunes_author": "Doug Hatcher",
+        "itunes_email": "",
+        "itunes_cover": "https://micro.blog/hatcher/podcast.png",
+        "site_id": "264500",
+        "paginate_home": false,
+        "paginate_categories": false,
+        "paginate_replies": false,
+        "theme_seconds": "1761434847",
+        "plugins_css": [],
+        "plugins_js": [],
+        "plugins_html": [],
+        "feeds": {
+            "bookmarks_json": "https://micro.blog/feeds/hatcher/bookmarks/d501e120f5a9f6497292.json"
+        },
+        "has_podcasts": false,
+        "has_newsletters": false,
+        "include_conversation": true,
+        "years": [
+            "2025"
+        ],
+        "themes": {
+            "enabled": true,
+            "default": "starfield"
+        }
+    }
+}

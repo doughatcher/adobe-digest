@@ -1,0 +1,50 @@
+{{ if .Site.Params.show_publications_sidebar }}
+<div class="publications-sidebar">
+    <h3 class="sidebar-section-title">Recent Publications</h3>
+    
+    <div class="publications-sidebar-list">
+        {{ $publicationsCategory := index .Site.Taxonomies.categories "publications" }}
+        {{ $limit := .Site.Params.publications_sidebar_limit | default 5 }}
+        
+        {{ if $publicationsCategory }}
+        {{ range first $limit $publicationsCategory.Pages }}
+        <article class="publication-sidebar-item">
+            {{ $thumbnail := "" }}
+            {{ if .Params.thumbnail }}
+                {{ $thumbnail = .Params.thumbnail }}
+            {{ else if .Params.photos }}
+                {{ $thumbnail = index .Params.photos 0 }}
+            {{ else if .Params.images }}
+                {{ $thumbnail = index .Params.images 0 }}
+            {{ end }}
+            
+            {{ if $thumbnail }}
+            <div class="publication-sidebar-thumbnail">
+                <a href="{{ .Permalink }}">
+                    <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                </a>
+            </div>
+            {{ end }}
+            
+            <div class="publication-sidebar-content">
+                <h4 class="publication-sidebar-title">
+                    <a href="{{ .Permalink }}">{{ .Title }}</a>
+                </h4>
+                {{ if .Date }}
+                <time class="publication-sidebar-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "Jan 2, 2006" }}
+                </time>
+                {{ end }}
+            </div>
+        </article>
+        {{ end }}
+        
+        <div class="publications-sidebar-footer">
+            <a href="/categories/publications/" class="publications-see-all">View all publications →</a>
+        </div>
+        {{ else }}
+        <p class="publications-sidebar-empty">No publications yet.</p>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

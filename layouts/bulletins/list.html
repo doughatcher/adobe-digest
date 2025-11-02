@@ -1,0 +1,415 @@
+{{ define "main" }}
+<style>
+    .bulletins-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: var(--hx-color-dark);
+        min-height: 100vh;
+        color: #e2e8f0;
+    }
+    
+    .bulletins-header {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f97316 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 40px rgba(239,68,68,0.3);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
+    }
+    
+    .bulletins-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transform: translate(50%, -50%);
+    }
+    
+    .bulletins-header::after {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: -20px;
+        width: 100px;
+        height: 100px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+    
+    .bulletins-header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .bulletins-header p {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+        background: #1a1a1a;
+        padding: 2rem;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        border: 1px solid #2a2a2a;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        border-color: #ef4444;
+    }
+    
+    .stat-card:hover .stat-number {
+        color: #f97316;
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(249,115,22,0.5);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #ef4444;
+        margin-bottom: 0.5rem;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-label {
+        color: #94a3b8;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .content-section {
+        background: #1a1a1a;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        margin-bottom: 3rem;
+        border: 1px solid #2a2a2a;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .section-title::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(to bottom, #ef4444, #f97316);
+        border-radius: 2px;
+    }
+    
+    .recent-bulletins {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .bulletin-item {
+        background: linear-gradient(135deg, #141414 0%, #1f1f1f 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid #ef4444;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #2a2a2a;
+    }
+    
+    .bulletin-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(239,68,68,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .bulletin-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        border-left-width: 6px;
+        border-left-color: #f97316;
+        border-color: #ef4444;
+    }
+    
+    .bulletin-item:hover::before {
+        left: 100%;
+    }
+    
+    .bulletin-link {
+        color: #f1f5f9;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .bulletin-link:hover {
+        color: #ef4444;
+    }
+    
+    .bulletin-meta {
+        color: #94a3b8;
+        font-size: 0.875rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    
+    .severity-badge {
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .severity-critical {
+        background: rgba(220,38,38,0.2);
+        color: #fca5a5;
+        border: 1px solid rgba(220,38,38,0.3);
+    }
+    
+    .severity-important {
+        background: rgba(239,68,68,0.2);
+        color: #fbb6ce;
+        border: 1px solid rgba(239,68,68,0.3);
+    }
+    
+    .severity-moderate {
+        background: rgba(249,115,22,0.2);
+        color: #fed7aa;
+        border: 1px solid rgba(249,115,22,0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .bulletins-container {
+            padding: 1rem;
+        }
+        
+        .bulletins-header {
+            padding: 2rem 1.5rem;
+        }
+        
+        .bulletins-header h1 {
+            font-size: 2.25rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+        }
+        
+        .content-section {
+            padding: 1.5rem;
+        }
+        
+        .bulletin-item {
+            padding: 1rem;
+        }
+        
+        .bulletin-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>
+
+<div class="bulletins-container">
+    <header class="bulletins-header">
+        <h1>{{ .Title }}</h1>
+        <p>{{ .Description }}</p>
+    </header>
+
+    <!-- Statistics Section -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">156</span>
+            <span class="stat-label">Total Bulletins</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">10</span>
+            <span class="stat-label">Critical</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">146</span>
+            <span class="stat-label">Important</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">0</span>
+            <span class="stat-label">Moderate</span>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-section">
+        <h2 class="section-title">Recent Bulletins</h2>
+        <div class="recent-bulletins">
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb25-999.html" class="bulletin-link">
+                    APSB25-999: Security update for Adobe Test Product
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Sep 14, 2025</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/animate/apsb21-105.html" class="bulletin-link">
+                    APSB21-105: Security update available for Adobe Animate
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Dec 15, 2021</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb19-45.html" class="bulletin-link">
+                    APSB19-45: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Jun 15, 2019</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb19-57.html" class="bulletin-link">
+                    APSB19-57: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Aug 15, 2019</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb21-60.html" class="bulletin-link">
+                    APSB21-60: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Aug 15, 2021</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb21-06.html" class="bulletin-link">
+                    APSB21-06: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Jan 15, 2021</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb22-34.html" class="bulletin-link">
+                    APSB22-34: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>May 15, 2022</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb22-21.html" class="bulletin-link">
+                    APSB22-21: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Mar 15, 2022</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb21-95.html" class="bulletin-link">
+                    APSB21-95: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Dec 15, 2021</span>
+                </div>
+            </div>
+            
+            <div class="bulletin-item">
+                <a href="https://helpx.adobe.com/security/products/other/apsb21-59.html" class="bulletin-link">
+                    APSB21-59: Security update available
+                </a>
+                <div class="bulletin-meta">
+                    <span class="severity-badge severity-important">Important</span>
+                    <span>Aug 15, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

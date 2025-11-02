@@ -1,0 +1,42 @@
+{{/* Micro post detection and handling */}}
+{{ $isMicroPost := .Params.microblog }}
+{{ $class := "post" }}
+{{ if $isMicroPost }}
+    {{ $class = "micro-post" }}
+{{ end }}
+
+<div class="post-wrapper {{ $class }}">
+    {{ if and (not $isMicroPost) .Title }}
+    <h2 class="post-title">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </h2>
+    {{ end }}
+    
+    <div class="post-content">
+        {{ .Content }}
+    </div>
+    
+    <div class="post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" class="dt-published">
+            <a href="{{ .Permalink }}" class="u-url">
+                {{ if $isMicroPost }}
+                    {{ .Date.Format "3:04 PM" }}
+                {{ else }}
+                    {{ .Date.Format "January 2, 2006" }}
+                {{ end }}
+            </a>
+        </time>
+        
+        {{ if .Params.tags }}
+        <div class="post-tags">
+            {{ range .Params.tags }}
+            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag p-category">#{{ . }}</a>
+            {{ end }}
+        </div>
+        {{ end }}
+        
+        {{ if and (not $isMicroPost) .Site.Params.show_reading_time }}
+        <span class="reading-time">{{ .ReadingTime }} min read</span>
+        {{ end }}
+    </div>
+</div>

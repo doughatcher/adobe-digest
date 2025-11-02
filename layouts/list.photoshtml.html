@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="photos-page">
+    <h1>Photos</h1>
+    <div class="photos-grid">
+        {{ range .Pages }}
+        {{ if .Params.images }}
+        {{ range .Params.images }}
+        <div class="photo-item">
+            <img src="{{ . }}" alt="Photo" loading="lazy">
+        </div>
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    </div>
+</div>
+{{ end }}

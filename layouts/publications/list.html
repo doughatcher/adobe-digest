@@ -1,0 +1,86 @@
+{{ define "main" }}
+<div class="publications-page">
+    {{ if .Content }}
+    <div class="page-description">
+        {{ .Content }}
+    </div>
+    {{ end }}
+
+    <div class="publications-list">
+        {{ range .Pages }}
+        {{ $externalLink := "" }}
+        {{ if .Params.canonical_url }}
+            {{ $externalLink = .Params.canonical_url }}
+        {{ else }}
+            {{ $externalLink = .Permalink }}
+        {{ end }}
+        
+        <article class="publication-item">
+            {{ $thumbnail := "" }}
+            {{ if .Params.thumbnail }}
+                {{ $thumbnail = .Params.thumbnail }}
+            {{ else if .Params.photos }}
+                {{ $thumbnail = index .Params.photos 0 }}
+            {{ else if .Params.images }}
+                {{ $thumbnail = index .Params.images 0 }}
+            {{ end }}
+            
+            {{ if $thumbnail }}
+            <div class="publication-thumbnail">
+                <a href="{{ $externalLink }}" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                </a>
+            </div>
+            {{ end }}
+            
+            <div class="publication-content-wrapper">
+                <h2 class="publication-title">
+                    <a href="{{ $externalLink }}" target="_blank" rel="noopener noreferrer">
+                        {{ .Title }}
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="display: inline-block; margin-left: 0.25rem; vertical-align: middle;">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11 5L21 3"/>
+                        </svg>
+                    </a>
+                </h2>
+                
+                {{ if .Params.publication }}
+                <p class="publication-source">Published on {{ .Params.publication }}{{ if eq .Params.media_type "podcast" }} • Podcast{{ end }}</p>
+                {{ end }}
+                
+                {{ if .Params.custom_summary }}
+                <div class="publication-description">
+                    {{ .Summary }}
+                </div>
+                {{ else if .Summary }}
+                <div class="publication-description">
+                    {{ .Summary }}
+                </div>
+                {{ else if .Content }}
+                <div class="publication-description">
+                    {{ .Content }}
+                </div>
+                {{ end }}
+                
+                <div class="publication-meta">
+                    {{ if .Date }}
+                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                    {{ end }}
+                    <a href="{{ $externalLink }}" target="_blank" rel="noopener noreferrer" class="read-more">
+                        {{ if .Params.canonical_url }}
+                        Read on {{ .Params.publication | default "external site" }} →
+                        {{ else }}
+                        Read more →
+                        {{ end }}
+                    </a>
+                    {{ if .Params.spotify_url }}
+                    <a href="{{ .Params.spotify_url }}" target="_blank" rel="noopener noreferrer" class="read-more">
+                        Listen on Spotify →
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

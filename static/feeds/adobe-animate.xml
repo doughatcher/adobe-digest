@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe Adobe Animate Security Bulletins</title>
+    <link>https://adobedigest.com/products/adobe-animate/</link>
+    <description>Security bulletins and advisories for Adobe Adobe Animate</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    <pubDate>Sun, 14 Sep 2025 19:29:40 +0000</pubDate>
+    <item>
+      <title>APSB21-105: APSB21-105: &lt;/b&gt; Security update available for Adobe Animate&lt;/a&gt;&lt;br /&gt;</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb21-105.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb21-105.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB21-105</guid>
+      <pubDate>Wed, 15 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-73: APSB25-73: Security update available for Adobe Animate</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb25-73.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb25-73.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-73</guid>
+      <pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-42: APSB25-42: Security update available for Adobe Animate</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb25-42.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb25-42.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-42</guid>
+      <pubDate>Tue, 13 May 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-31: APSB25-31: Security update available for Adobe Animate</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb25-31.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb25-31.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-31</guid>
+      <pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>APSB25-05: APSB25-05: Security update available for Adobe Animate</title>
+      <link>https://helpx.adobe.com/security/products/animate/apsb25-05.html</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;Products: Adobe Animate&#xA;Severity: Important&#xA;&#xA;View full advisory: https://helpx.adobe.com/security/products/animate/apsb25-05.html</description>
+      <author>Adobe Security Team</author>
+      <guid>APSB25-05</guid>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    {{ partial "head.html" . }}
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5849LGK"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+        
+        {{ partial "header.html" . }}
+        
+        <div class="site-container">
+            {{ partial "sidebar.html" . }}
+            
+            <main class="main-content">
+                {{ partial "horizontal-nav.html" . }}
+                <div class="content-wrapper">
+                    <div class="posts-content">
+                        {{ block "main" . }}{{ end }}
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        {{ partial "footer.html" . }}
+        {{ partial "custom_footer.html" . }}
+    </body>
+</html>

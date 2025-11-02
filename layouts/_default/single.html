@@ -1,0 +1,92 @@
+{{ define "main" }}
+<article class="post-single{{ if lt (len .Content) 280 }} micro-post{{ end }}">
+    {{ if and (gt (len .Content) 280) .Params.thumbnail .Site.Params.show_thumbnails }}
+    <div class="post-thumbnail">
+        <img src="{{ .Params.thumbnail }}" alt="Post thumbnail">
+    </div>
+    {{ end }}
+    
+    {{ if and (gt (len .Content) 280) .Title }}
+    <header class="post-header">
+        <h1 class="post-title">{{ .Title }}</h1>
+        <div class="post-meta">
+            <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" class="dt-published">
+                {{ .Date.Format "January 2, 2006 at 3:04 PM" }}
+            </time>
+            
+            {{ if .Site.Params.show_word_count }}
+            <span class="word-count">{{ .WordCount }} words</span>
+            {{ end }}
+            
+            {{ if .Site.Params.show_reading_time }}
+            <span class="reading-time">{{ .ReadingTime }} min read</span>
+            {{ end }}
+        </div>
+    </header>
+    {{ end }}
+    
+    <div class="post-content">
+        {{ .Content }}
+    </div>
+    
+    {{ if .Params.tags }}
+    <footer class="post-footer">
+        <div class="post-tags">
+            {{ range .Params.tags }}
+            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag p-category">#{{ . }}</a>
+            {{ end }}
+        </div>
+    </footer>
+    {{ end }}
+    
+    {{ if lt (len .Content) 280 }}
+    <div class="micro-post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" class="dt-published">
+            <a href="{{ .Permalink }}" class="u-url">
+                {{ .Date.Format "January 2, 2006 at 3:04 PM" }}
+            </a>
+        </time>
+    </div>
+    {{ end }}
+    
+    <!-- Social syndication links -->
+    {{ if or .Params.mastodon .Params.bluesky .Params.threads .Params.linkedin }}
+    <div class="syndication-section">
+        <h4>Also posted on:</h4>
+        <div class="syndication-links">
+            {{ if .Params.mastodon }}
+            <a href="https://mastodon.social/@{{ .Params.mastodon.username }}/{{ .Params.mastodon.id }}" class="syndication-link" target="_blank">Mastodon</a>
+            {{ end }}
+            {{ if .Params.bluesky }}
+            <a href="{{ .Params.bluesky.link }}" class="syndication-link" target="_blank">Bluesky</a>
+            {{ end }}
+            {{ if .Params.threads }}
+            <a href="{{ .Params.threads.url }}" class="syndication-link" target="_blank">Threads</a>
+            {{ end }}
+            {{ if .Params.linkedin }}
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:{{ .Params.linkedin.activity | strings.TrimPrefix "urn:li:activity:" }}" class="syndication-link" target="_blank">LinkedIn</a>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+</article>
+
+<!-- Navigation -->
+<nav class="post-navigation">
+    {{ if .NextInSection }}
+    <div class="nav-previous">
+        <a href="{{ .NextInSection.Permalink }}" rel="prev">
+            ← {{ .NextInSection.Title | default "Previous post" }}
+        </a>
+    </div>
+    {{ end }}
+    
+    {{ if .PrevInSection }}
+    <div class="nav-next">
+        <a href="{{ .PrevInSection.Permalink }}" rel="next">
+            {{ .PrevInSection.Title | default "Next post" }} →
+        </a>
+    </div>
+    {{ end }}
+</nav>
+{{ end }}
