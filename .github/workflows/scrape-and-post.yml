@@ -1,0 +1,79 @@
+name: Scrape and Post to Micro.blog
+
+on:
+  schedule:
+    # Run daily at 2 PM UTC (Patch Tuesday is 2nd Tuesday, but check daily)
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Maximum number of posts to publish'
+        required: false
+        default: '5'
+
+jobs:
+  scrape-and-post:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          cd content
+          pip install -r requirements.txt
+      
+      - name: Run scraper
+        run: |
+          cd content
+          python3 scraper.py
+      
+      - name: Commit new posts
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add content/posts/
+          if git diff --staged --quiet; then
+            echo "No new posts to commit"
+          else
+            git commit -m "Add new security bulletins [skip ci]"
+            git push
+          fi
+      
+      - name: Build Hugo site
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+      
+      - name: Build site
+        run: hugo --minify
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          cname: adobedigest.com
+      
+      - name: Wait for deployment
+        run: sleep 30
+      
+      - name: Post to Micro.blog
+        env:
+          MICROBLOG_TOKEN: ${{ secrets.MICROBLOG_TOKEN }}
+          MICROBLOG_API_URL: https://micro.blog/micropub
+        run: |
+          cd content
+          LIMIT="${{ github.event.inputs.limit || '5' }}"
+          python3 post_to_microblog.py "$LIMIT"

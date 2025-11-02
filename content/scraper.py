@@ -23,23 +23,42 @@ class AdobeSecurityScraper:
         self.output_dir = Path(__file__).parent / output_dir
         self.output_dir.mkdir(exist_ok=True)
         self.base_url = 'https://helpx.adobe.com'
+        self.feed_url = 'https://adobedigest.com/feed.json'
         
         # Load existing posts to avoid duplicates
         self.existing_posts = self.load_existing_posts()
         
     def load_existing_posts(self):
-        """Load list of already scraped bulletin IDs"""
-        posts_file = Path(__file__).parent / 'scraped_posts.json'
-        if posts_file.exists():
-            with open(posts_file, 'r') as f:
-                return set(json.load(f))
-        return set()
+        """Load list of already scraped bulletin IDs from published feed.json"""
+        try:
+            response = requests.get(self.feed_url, timeout=10)
+            response.raise_for_status()
+            feed_data = response.json()
+            
+            # Extract bulletin IDs from existing feed items
+            existing_ids = set()
+            for item in feed_data.get('items', []):
+                # Extract APSB ID from URL or title
+                url = item.get('url', '')
+                match = re.search(r'apsb\d{2}-\d{2}', url, re.IGNORECASE)
+                if match:
+                    existing_ids.add(match.group(0).upper())
+                else:
+                    title = item.get('title', '')
+                    match = re.search(r'APSB\d{2}-\d{2}', title)
+                    if match:
+                        existing_ids.add(match.group(0).upper())
+            
+            print(f"📊 Found {len(existing_ids)} existing posts in feed")
+            return existing_ids
+        except Exception as e:
+            print(f"⚠️  Could not load existing posts from feed: {e}")
+            print(f"   Will scrape all bulletins")
+            return set()
     
     def save_existing_posts(self):
-        """Save list of scraped bulletin IDs"""
-        posts_file = Path(__file__).parent / 'scraped_posts.json'
-        with open(posts_file, 'w') as f:
-            json.dump(list(self.existing_posts), f, indent=2)
+        """No longer needed - state is tracked via feed.json"""
+        pass
     
     def load_config(self):
         """Load products from scraper.yaml"""
