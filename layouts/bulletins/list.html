@@ -297,7 +297,7 @@
     </header>
 
     <!-- Statistics Section -->
-    {{ $allBulletins := where .Site.RegularPages "Section" "posts" }}
+    {{ $allBulletins := where .Site.RegularPages "Type" "post" }}
     {{ $criticalCount := 0 }}
     {{ $importantCount := 0 }}
     {{ $moderateCount := 0 }}

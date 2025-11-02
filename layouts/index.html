@@ -242,7 +242,7 @@
         </div>
         
         <div class="stats">
-            {{ $allBulletins := where .Site.RegularPages "Section" "posts" }}
+            {{ $allBulletins := where .Site.RegularPages "Type" "post" }}
             {{ $productPages := where .Site.RegularPages "Section" "products" }}
             <div class="stat-card">
                 <div class="stat-number">{{ len $allBulletins }}</div>

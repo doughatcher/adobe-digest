@@ -17,9 +17,10 @@ import json
 
 
 class AdobeSecurityScraper:
-    def __init__(self, config_file='scraper.yaml', output_dir='posts'):
+    def __init__(self, config_file='scraper.yaml', output_dir='.'):
         """Initialize scraper with config file and output directory"""
         self.config_file = config_file
+        # Output directly to content directory (current directory)
         self.output_dir = Path(__file__).parent / output_dir
         self.output_dir.mkdir(exist_ok=True)
         self.base_url = 'https://helpx.adobe.com'
@@ -260,10 +261,10 @@ class AdobeSecurityScraper:
         return slug
     
     def create_markdown(self, data):
-        """Create markdown file with front matter"""
+        """Create markdown file with Micro.blog front matter"""
         # Generate filename
         date = data['published_date'] or datetime.now()
-        slug = self.generate_slug(data['title'], data['id'])
+        slug = 'apsb-adobecommerce-security-update'
         
         # Create directory structure: YYYY/MM/DD/
         date_dir = self.output_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
@@ -271,19 +272,17 @@ class AdobeSecurityScraper:
         
         filename = date_dir / f"{slug}.md"
         
-        # Build front matter
+        # Build Micro.blog compatible front matter
+        url_path = f"/{date.year}/{date.month:02d}/{date.day:02d}/{slug}.html"
         front_matter = {
+            'layout': 'post',
             'title': f"{data['id'].upper()} - {data['product'].title()} Security Update",
+            'microblog': False,
+            'guid': f"http://adobedigest.micro.blog{url_path}",
             'date': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
-            'categories': ['security-bulletins', data['product']],
-            'tags': [data['id'].upper(), data['product']]
+            'type': 'post',
+            'url': url_path
         }
-        
-        if data['severity']:
-            front_matter['tags'].append(data['severity'])
-        
-        if data['cve_ids']:
-            front_matter['tags'].extend(data['cve_ids'][:10])  # Include up to 10 CVEs
         
         # Build content
         content_parts = []
@@ -378,17 +377,21 @@ class AdobeSecurityScraper:
         
         content = '\n'.join(content_parts)
         
-        # Write file
+        # Write file in Micro.blog format
         with open(filename, 'w', encoding='utf-8') as f:
             f.write('---\n')
             for key, value in front_matter.items():
-                if isinstance(value, list):
+                if isinstance(value, bool):
+                    f.write(f'{key}: {str(value).lower()}\n')
+                elif isinstance(value, list):
                     f.write(f'{key}:\n')
                     for item in value:
                         f.write(f'  - {item}\n')
+                elif value is None or value == '':
+                    f.write(f'{key}: ""\n')
                 else:
-                    f.write(f'{key}: {value}\n')
-            f.write('---\n\n')
+                    f.write(f'{key}: "{value}"\n')
+            f.write('---\n')
             f.write(content)
             f.write('\n')
         

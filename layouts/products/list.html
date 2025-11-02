@@ -296,7 +296,7 @@
         <div class="products-grid">
             {{ range .Pages.ByTitle }}
                 {{ $productSlug := .File.BaseFileName }}
-                {{ $allBulletins := where $.Site.RegularPages "Section" "posts" }}
+                {{ $allBulletins := where $.Site.RegularPages "Type" "post" }}
                 {{ $productBulletins := where $allBulletins "Params.categories" "intersect" (slice $productSlug) }}
                 {{ $bulletinCount := len $productBulletins }}
                 

@@ -56,43 +56,45 @@ class MicroblogPoster:
     def get_local_posts(self):
         """Get all local markdown posts"""
         posts = []
-        posts_dir = Path(__file__).parent / 'posts'
+        content_dir = Path(__file__).parent
         
-        for md_file in posts_dir.rglob('*.md'):
-            try:
-                with open(md_file, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    
-                    # Parse front matter
-                    if content.startswith('---\n'):
-                        parts = content.split('---\n', 2)
-                        if len(parts) >= 3:
-                            front_matter = parts[1]
-                            body = parts[2].strip()
-                            
-                            # Extract fields from front matter
-                            import re
-                            title_match = re.search(r'^title:\s*(.+)$', front_matter, re.MULTILINE)
-                            date_match = re.search(r'^date:\s*(.+)$', front_matter, re.MULTILINE)
-                            
-                            # Extract APSB ID from title
-                            bulletin_id = None
-                            if title_match:
-                                title = title_match.group(1).strip()
-                                id_match = re.search(r'APSB\d{2}-\d{2}', title)
-                                if id_match:
-                                    bulletin_id = id_match.group(0)
-                            
-                            if bulletin_id:
-                                posts.append({
-                                    'id': bulletin_id,
-                                    'title': title if title_match else '',
-                                    'date': date_match.group(1).strip() if date_match else '',
-                                    'content': body,
-                                    'file': str(md_file)
-                                })
-            except Exception as e:
-                print(f"⚠️  Error reading {md_file}: {e}")
+        # Look in year directories (2023, 2024, 2025, etc.)
+        for year_dir in sorted(content_dir.glob('[0-9][0-9][0-9][0-9]'), reverse=True):
+            for md_file in year_dir.rglob('*.md'):
+                try:
+                    with open(md_file, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        
+                        # Parse front matter
+                        if content.startswith('---\n'):
+                            parts = content.split('---\n', 2)
+                            if len(parts) >= 3:
+                                front_matter = parts[1]
+                                body = parts[2].strip()
+                                
+                                # Extract fields from front matter
+                                import re
+                                title_match = re.search(r'^title:\s*["\']?(.+?)["\']?$', front_matter, re.MULTILINE)
+                                date_match = re.search(r'^date:\s*(.+)$', front_matter, re.MULTILINE)
+                                
+                                # Extract APSB ID from title
+                                bulletin_id = None
+                                if title_match:
+                                    title = title_match.group(1).strip()
+                                    id_match = re.search(r'APSB\d{2}-\d{2}', title)
+                                    if id_match:
+                                        bulletin_id = id_match.group(0)
+                                
+                                if bulletin_id:
+                                    posts.append({
+                                        'id': bulletin_id,
+                                        'title': title if title_match else '',
+                                        'date': date_match.group(1).strip() if date_match else '',
+                                        'content': body,
+                                        'file': str(md_file)
+                                    })
+                except Exception as e:
+                    print(f"⚠️  Error reading {md_file}: {e}")
         
         # Sort by date (newest first)
         posts.sort(key=lambda x: x['date'], reverse=True)
