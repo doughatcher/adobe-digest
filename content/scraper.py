@@ -92,8 +92,13 @@ class AdobeSecurityScraper:
             'title': '',
             'summary': '',
             'published_date': None,
+            'priority': '',
             'severity': '',
-            'cve_ids': []
+            'cve_ids': [],
+            'affected_versions': [],
+            'solution': '',
+            'vulnerabilities': [],
+            'acknowledgements': []
         }
         
         # Extract title
@@ -103,14 +108,31 @@ class AdobeSecurityScraper:
         else:
             data['title'] = f"{bulletin_info['id'].upper()} - {bulletin_info['product']}"
         
-        # Extract date from bulletin ID (APSB25-94 = 2025)
-        match = re.match(r'apsb(\d{2})-(\d{2})', bulletin_info['id'].lower())
-        if match:
-            year = 2000 + int(match.group(1))
-            # Estimate month based on bulletin number (rough approximation)
-            bulletin_num = int(match.group(2))
-            month = min((bulletin_num // 8) + 1, 12)
-            data['published_date'] = datetime(year, month, 1)
+        # Extract date and priority from first table
+        tables = soup.find_all('table')
+        if tables:
+            first_table = tables[0]
+            rows = first_table.find_all('tr')
+            if len(rows) > 1:
+                cells = rows[1].find_all(['td', 'th'])
+                if len(cells) >= 2:
+                    # Parse date
+                    date_text = cells[1].get_text(strip=True)
+                    try:
+                        data['published_date'] = datetime.strptime(date_text, '%B %d, %Y')
+                    except:
+                        pass
+                if len(cells) >= 3:
+                    data['priority'] = cells[2].get_text(strip=True)
+        
+        # Fallback date extraction from bulletin ID
+        if not data['published_date']:
+            match = re.match(r'apsb(\d{2})-(\d{2})', bulletin_info['id'].lower())
+            if match:
+                year = 2000 + int(match.group(1))
+                bulletin_num = int(match.group(2))
+                month = min((bulletin_num // 8) + 1, 12)
+                data['published_date'] = datetime(year, month, 1)
         
         # Extract summary
         summary_section = soup.find('h2', id='Summary')
@@ -123,20 +145,82 @@ class AdobeSecurityScraper:
                     summary_content.append(sibling.get_text(strip=True))
             data['summary'] = ' '.join(summary_content)
         
-        # Extract CVE IDs
-        text = soup.get_text()
-        cve_pattern = r'CVE-\d{4}-\d{4,7}'
-        data['cve_ids'] = list(set(re.findall(cve_pattern, text)))
+        # Extract affected versions from second table
+        if len(tables) > 1:
+            version_table = tables[1]
+            rows = version_table.find_all('tr')[1:]  # Skip header
+            for row in rows:
+                cells = row.find_all('td')
+                if len(cells) >= 2:
+                    product = cells[0].get_text(strip=True)
+                    version = cells[1].get_text(strip=True)
+                    if product and version:
+                        data['affected_versions'].append({
+                            'product': product,
+                            'version': version
+                        })
         
-        # Try to determine severity
-        text_lower = text.lower()
-        if 'critical' in text_lower:
+        # Extract solution
+        solution_section = soup.find('h2', id='Solution')
+        if solution_section:
+            solution_content = []
+            for sibling in solution_section.find_next_siblings():
+                if sibling.name == 'h2':
+                    break
+                if sibling.name in ['p', 'ul', 'ol']:
+                    solution_content.append(sibling.get_text(strip=True))
+            data['solution'] = ' '.join(solution_content)
+        
+        # Extract vulnerability details
+        vuln_section = soup.find('h2', string='Vulnerability Details')
+        if vuln_section:
+            vuln_table = vuln_section.find_next('table')
+            if vuln_table:
+                headers = [th.get_text(strip=True) for th in vuln_table.find_all('th')]
+                rows = vuln_table.find_all('tr')[1:]  # Skip header
+                
+                for row in rows:
+                    cells = row.find_all('td')
+                    if len(cells) >= 8:
+                        vuln = {
+                            'category': cells[0].get_text(strip=True),
+                            'impact': cells[1].get_text(strip=True),
+                            'severity': cells[2].get_text(strip=True),
+                            'auth_required': cells[3].get_text(strip=True),
+                            'admin_required': cells[4].get_text(strip=True),
+                            'cvss_score': cells[5].get_text(strip=True),
+                            'cvss_vector': cells[6].get_text(strip=True),
+                            'cve': cells[7].get_text(strip=True)
+                        }
+                        data['vulnerabilities'].append(vuln)
+                        
+                        # Add CVE to list
+                        cve_ids = re.findall(r'CVE-\d{4}-\d{4,7}', vuln['cve'])
+                        data['cve_ids'].extend(cve_ids)
+        
+        # Remove duplicate CVEs
+        data['cve_ids'] = list(set(data['cve_ids']))
+        
+        # Extract acknowledgements
+        ack_section = soup.find('h2', id='Acknowledgements')
+        if ack_section:
+            ack_content = []
+            for sibling in ack_section.find_next_siblings():
+                if sibling.name == 'h2':
+                    break
+                if sibling.name in ['p', 'ul']:
+                    ack_content.append(sibling.get_text(strip=True))
+            data['acknowledgements'] = ack_content
+        
+        # Determine overall severity from vulnerabilities
+        severities = [v['severity'] for v in data['vulnerabilities'] if v.get('severity')]
+        if 'Critical' in severities:
             data['severity'] = 'Critical'
-        elif 'important' in text_lower:
+        elif 'Important' in severities:
             data['severity'] = 'Important'
-        elif 'moderate' in text_lower:
+        elif 'Moderate' in severities:
             data['severity'] = 'Moderate'
-        elif 'low' in text_lower:
+        elif 'Low' in severities:
             data['severity'] = 'Low'
         
         return data
@@ -171,25 +255,98 @@ class AdobeSecurityScraper:
             front_matter['tags'].append(data['severity'])
         
         if data['cve_ids']:
-            front_matter['tags'].extend(data['cve_ids'][:5])  # Limit to 5 CVEs
+            front_matter['tags'].extend(data['cve_ids'][:10])  # Include up to 10 CVEs
         
         # Build content
         content_parts = []
         
+        # Summary
         if data['summary']:
+            content_parts.append(f"## Summary\n")
             content_parts.append(data['summary'])
             content_parts.append('')
         
-        content_parts.append(f"**Bulletin ID:** {data['id'].upper()}")
+        # Bulletin metadata
+        content_parts.append(f"## Bulletin Information\n")
+        content_parts.append(f"- **Bulletin ID:** {data['id'].upper()}")
+        content_parts.append(f"- **Published:** {date.strftime('%B %d, %Y')}")
+        
+        if data['priority']:
+            content_parts.append(f"- **Priority:** {data['priority']}")
         
         if data['severity']:
-            content_parts.append(f"**Severity:** {data['severity']}")
+            content_parts.append(f"- **Severity:** {data['severity']}")
         
         if data['cve_ids']:
-            content_parts.append(f"**CVE IDs:** {', '.join(data['cve_ids'][:10])}")
+            content_parts.append(f"- **CVE Count:** {len(data['cve_ids'])}")
         
         content_parts.append('')
-        content_parts.append(f"[Read full bulletin]({data['url']})")
+        
+        # Affected versions
+        if data['affected_versions']:
+            content_parts.append(f"## Affected Versions\n")
+            for av in data['affected_versions'][:5]:  # Limit to first 5
+                content_parts.append(f"- **{av['product']}:** {av['version']}")
+            if len(data['affected_versions']) > 5:
+                content_parts.append(f"- *...and {len(data['affected_versions']) - 5} more versions*")
+            content_parts.append('')
+        
+        # Solution
+        if data['solution']:
+            content_parts.append(f"## Solution\n")
+            content_parts.append(data['solution'][:500])  # Limit length
+            if len(data['solution']) > 500:
+                content_parts.append('...')
+            content_parts.append('')
+        
+        # Vulnerability details
+        if data['vulnerabilities']:
+            content_parts.append(f"## Vulnerability Details\n")
+            content_parts.append(f"**Total Vulnerabilities:** {len(data['vulnerabilities'])}\n")
+            
+            # Count by severity
+            severity_counts = {}
+            for v in data['vulnerabilities']:
+                sev = v.get('severity', 'Unknown')
+                severity_counts[sev] = severity_counts.get(sev, 0) + 1
+            
+            if severity_counts:
+                content_parts.append(f"**Severity Breakdown:**")
+                for sev, count in sorted(severity_counts.items(), reverse=True):
+                    content_parts.append(f"- **{sev}:** {count}")
+                content_parts.append('')
+            
+            # List first 3 vulnerabilities with details
+            content_parts.append(f"**Key Vulnerabilities:**\n")
+            for i, vuln in enumerate(data['vulnerabilities'][:3], 1):
+                content_parts.append(f"### {i}. {vuln.get('cve', 'Unknown CVE')}")
+                content_parts.append(f"- **Category:** {vuln.get('category', 'N/A')}")
+                content_parts.append(f"- **Impact:** {vuln.get('impact', 'N/A')}")
+                content_parts.append(f"- **Severity:** {vuln.get('severity', 'N/A')}")
+                content_parts.append(f"- **CVSS Score:** {vuln.get('cvss_score', 'N/A')}")
+                if vuln.get('auth_required'):
+                    content_parts.append(f"- **Authentication Required:** {vuln.get('auth_required')}")
+                content_parts.append('')
+            
+            if len(data['vulnerabilities']) > 3:
+                content_parts.append(f"*...and {len(data['vulnerabilities']) - 3} more vulnerabilities*\n")
+        
+        # CVE list
+        if data['cve_ids']:
+            content_parts.append(f"## CVE Identifiers\n")
+            content_parts.append(', '.join(data['cve_ids']))
+            content_parts.append('')
+        
+        # Acknowledgements
+        if data['acknowledgements']:
+            content_parts.append(f"## Acknowledgements\n")
+            for ack in data['acknowledgements'][:3]:  # Limit to first 3
+                content_parts.append(f"- {ack[:200]}")
+            content_parts.append('')
+        
+        # Link to full bulletin
+        content_parts.append(f"---\n")
+        content_parts.append(f"[**Read Full Bulletin on Adobe Security Portal →**]({data['url']})")
         
         content = '\n'.join(content_parts)
         
