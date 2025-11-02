@@ -34,12 +34,20 @@ class MicroblogPoster:
             # Extract bulletin IDs
             existing_ids = set()
             for item in feed_data.get('items', []):
-                url = item.get('url', '')
                 import re
+                # Try to extract from URL first
+                url = item.get('url', '')
                 match = re.search(r'apsb\d{2}-\d{2}', url, re.IGNORECASE)
                 if match:
                     existing_ids.add(match.group(0).upper())
+                else:
+                    # Try to extract from title if not in URL
+                    title = item.get('title', '')
+                    match = re.search(r'APSB\d{2}-\d{2}', title)
+                    if match:
+                        existing_ids.add(match.group(0).upper())
             
+            print(f"📊 Found {len(existing_ids)} existing posts in feed")
             return existing_ids
         except Exception as e:
             print(f"⚠️  Could not load existing posts: {e}")
