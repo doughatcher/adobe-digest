@@ -247,7 +247,7 @@
                 <div class="stat-label">Security Bulletins</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{{ .Site.Lastmod.Format "Jan 2" }}</div>
+                <div class="stat-number">{{ with .Site.RegularPages.ByLastmod.Reverse }}{{ (index . 0).Lastmod.Format "Jan 2" }}{{ end }}</div>
                 <div class="stat-label">Last Updated</div>
             </div>
             <div class="stat-card">
