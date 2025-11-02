@@ -296,7 +296,12 @@
         <div class="products-grid">
             {{ range .Pages.ByTitle }}
                 {{ $productSlug := .File.BaseFileName }}
-                {{ $allBulletins := where $.Site.RegularPages "Type" "post" }}
+                {{ $allPages := $.Site.RegularPages }}
+                {{ $allBulletins := where $allPages "Type" "in" (slice "post" "posts") }}
+                {{ if eq (len $allBulletins) 0 }}
+                    {{ $allBulletins = where $allPages ".Title" "!=" "" }}
+                    {{ $allBulletins = where $allBulletins ".Title" "match" "APSB" }}
+                {{ end }}
                 {{ $productBulletins := where $allBulletins "Params.categories" "intersect" (slice $productSlug) }}
                 {{ $bulletinCount := len $productBulletins }}
                 

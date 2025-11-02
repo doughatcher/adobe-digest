@@ -297,7 +297,12 @@
     </header>
 
     <!-- Statistics Section -->
-    {{ $allBulletins := where .Site.RegularPages "Type" "post" }}
+    {{ $allPages := .Site.RegularPages }}
+    {{ $allBulletins := where $allPages "Type" "in" (slice "post" "posts") }}
+    {{ if eq (len $allBulletins) 0 }}
+        {{ $allBulletins = where $allPages ".Title" "!=" "" }}
+        {{ $allBulletins = where $allBulletins ".Title" "match" "APSB" }}
+    {{ end }}
     {{ $criticalCount := 0 }}
     {{ $importantCount := 0 }}
     {{ $moderateCount := 0 }}

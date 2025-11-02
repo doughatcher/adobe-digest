@@ -242,7 +242,12 @@
         </div>
         
         <div class="stats">
-            {{ $allBulletins := where .Site.RegularPages "Type" "post" }}
+            {{ $allPages := .Site.RegularPages }}
+            {{ $allBulletins := where $allPages "Type" "in" (slice "post" "posts") }}
+            {{ if eq (len $allBulletins) 0 }}
+                {{ $allBulletins = where $allPages ".Title" "!=" "" }}
+                {{ $allBulletins = where $allBulletins ".Title" "match" "APSB" }}
+            {{ end }}
             {{ $productPages := where .Site.RegularPages "Section" "products" }}
             <div class="stat-card">
                 <div class="stat-number">{{ len $allBulletins }}</div>
