@@ -1,6 +1,6 @@
 .hugo_build.lock
 public/
 data/
-content/
+content/**/ */
 .DS_Store
 .env

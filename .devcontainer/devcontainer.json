@@ -6,9 +6,15 @@
 			"version": "latest"
 		},
 		"ghcr.io/devcontainers/features/node:1": {
+			"nodeGypDependencies": true,
+			"installYarnUsingApt": true,
 			"version": "lts",
 			"pnpmVersion": "latest",
 			"nvmVersion": "latest"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"installTools": true,
+			"version": "3.12"
 		}
 	},
 	"postAttachCommand": "hugo serve --disableFastRender",
