@@ -295,10 +295,10 @@
         
         <div class="products-grid">
             {{ range .Pages.ByTitle }}
-                {{ $bulletinCount := 0 }}
-                {{ if .Params.bulletin_count }}
-                    {{ $bulletinCount = .Params.bulletin_count }}
-                {{ end }}
+                {{ $productSlug := .File.BaseFileName }}
+                {{ $allBulletins := where $.Site.RegularPages "Section" "posts" }}
+                {{ $productBulletins := where $allBulletins "Params.categories" "intersect" (slice $productSlug) }}
+                {{ $bulletinCount := len $productBulletins }}
                 
                 <div class="product-card">
                     <h3 class="product-title">
@@ -326,7 +326,6 @@
                             </svg>
                         </a>
                         
-                        {{ $productSlug := .File.BaseFileName }}
                         <a href="/feeds/{{ $productSlug }}.xml" class="product-link" title="RSS feed for {{ .Params.product | default .Title }}" style="font-size: 0.75rem; background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.2); color: #10b981;">
                             <svg fill="currentColor" viewBox="0 0 20 20" style="width: 14px; height: 14px;">
                                 <path d="M3.429 2.063c8.944 0 16.2 7.256 16.2 16.2h-3.464c0-7.027-5.709-12.736-12.736-12.736v-3.464zm0 6.93c3.658 0 6.626 2.967 6.626 6.625h-3.464c0-1.746-1.417-3.163-3.162-3.163v-3.462zm-1.12 6.929c1.075 0 1.947.872 1.947 1.947s-.872 1.948-1.947 1.948-1.948-.873-1.948-1.948.873-1.947 1.948-1.947z"/>

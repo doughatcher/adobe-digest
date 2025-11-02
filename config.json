@@ -1,6 +1,6 @@
 {
     "title": "Adobe Digest",
-    "baseURL": "https://adobedigest.com/",
+    "baseURL": "/",
     "menu": {},
     "mediaTypes": {
         "application/json": {
@@ -158,8 +158,8 @@
             "2025"
         ],
         "themes": {
-            "enabled": true,
-            "default": "starfield"
+            "enabled": false,
+            "default": ""
         }
     }
 }

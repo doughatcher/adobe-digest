@@ -1,28 +1,54 @@
 <!DOCTYPE html>
-<html>
-    {{ partial "head.html" . }}
-    <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5849LGK"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ $title := .Title }}
+    {{ if .IsHome }}
+        {{ $title = .Site.Title }}
+    {{ else if .Title }}
+        {{ $title = printf "%s - %s" .Title .Site.Title }}
+    {{ end }}
+    <title>{{ $title }}</title>
+    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        {{ partial "header.html" . }}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: #0f0f0f;
+            min-height: 100vh;
+        }
         
-        <div class="site-container">
-            {{ partial "sidebar.html" . }}
-            
-            <main class="main-content">
-                {{ partial "horizontal-nav.html" . }}
-                <div class="content-wrapper">
-                    <div class="posts-content">
-                        {{ block "main" . }}{{ end }}
-                    </div>
-                </div>
-            </main>
-        </div>
+        :root {
+            --hx-color-dark: #0f0f0f;
+            --hx-color-darker: #1a1a1a;
+            --hx-color-border: #2a2a2a;
+            --hx-color-text: #e2e8f0;
+            --hx-color-text-muted: #94a3b8;
+            --hx-color-primary: #ef4444;
+            --hx-color-secondary: #f97316;
+        }
         
-        {{ partial "footer.html" . }}
-        {{ partial "custom_footer.html" . }}
-    </body>
+        a {
+            color: var(--hx-color-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--hx-color-secondary);
+        }
+    </style>
+</head>
+<body>
+    {{ block "main" . }}{{ end }}
+</body>
 </html>

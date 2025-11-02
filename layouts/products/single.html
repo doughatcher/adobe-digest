@@ -303,7 +303,7 @@
         position: relative;
     }
     
-    .product-content h2::after {
+    .content-section h2::after {
         content: '';
         position: absolute;
         bottom: -2px;
@@ -311,6 +311,78 @@
         width: 50px;
         height: 2px;
         background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+    
+    .bulletins-list {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .bulletin-item {
+        background: linear-gradient(135deg, #141414 0%, #1f1f1f 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid #ef4444;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        border: 1px solid #2a2a2a;
+    }
+    
+    .bulletin-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        border-left-width: 6px;
+        border-left-color: #f97316;
+        border-color: #ef4444;
+    }
+    
+    .bulletin-link {
+        color: #f1f5f9;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .bulletin-link:hover {
+        color: #ef4444;
+    }
+    
+    .bulletin-meta {
+        color: #94a3b8;
+        font-size: 0.875rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    
+    .severity-badge {
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .severity-critical {
+        background: rgba(220,38,38,0.2);
+        color: #fca5a5;
+        border: 1px solid rgba(220,38,38,0.3);
+    }
+    
+    .severity-important {
+        background: rgba(239,68,68,0.2);
+        color: #fbb6ce;
+        border: 1px solid rgba(239,68,68,0.3);
+    }
+    
+    .severity-moderate {
+        background: rgba(249,115,22,0.2);
+        color: #fed7aa;
+        border: 1px solid rgba(249,115,22,0.3);
     }
     
     .product-content ul {
@@ -467,22 +539,26 @@
     </header>
 
     <!-- Statistics Section -->
-    {{ if .Params.bulletin_count }}
+    {{ $productSlug := .File.BaseFileName }}
+    {{ $allBulletins := where .Site.RegularPages "Section" "posts" }}
+    {{ $productBulletins := where $allBulletins "Params.categories" "intersect" (slice $productSlug) }}
+    {{ $bulletinCount := len $productBulletins }}
     {{ $criticalCount := 0 }}
     {{ $importantCount := 0 }}
-    {{ $content := .RawContent }}
-    {{ $criticalMatches := findRE "\\*\\*Critical\\*\\*: (\\d+)" $content }}
-    {{ if $criticalMatches }}
-        {{ $criticalCount = index (findRE "\\d+" (index $criticalMatches 0)) 0 }}
+    {{ $moderateCount := 0 }}
+    {{ range $productBulletins }}
+        {{ if in .Params.tags "Critical" }}
+            {{ $criticalCount = add $criticalCount 1 }}
+        {{ else if in .Params.tags "Important" }}
+            {{ $importantCount = add $importantCount 1 }}
+        {{ else if in .Params.tags "Moderate" }}
+            {{ $moderateCount = add $moderateCount 1 }}
+        {{ end }}
     {{ end }}
-    {{ $importantMatches := findRE "\\*\\*Important\\*\\*: (\\d+)" $content }}
-    {{ if $importantMatches }}
-        {{ $importantCount = index (findRE "\\d+" (index $importantMatches 0)) 0 }}
-    {{ end }}
-    {{ $productSlug := .File.BaseFileName }}
+    
     <div class="stats-grid">
         <div class="stat-card">
-            <span class="stat-number">{{ .Params.bulletin_count }}</span>
+            <span class="stat-number">{{ $bulletinCount }}</span>
             <span class="stat-label">Total Bulletins</span>
         </div>
         <div class="stat-card">
@@ -498,15 +574,50 @@
             <span class="stat-label">RSS Feed</span>
         </a>
     </div>
-    {{ end }}
 
     <!-- Content Section -->
+    {{ if .Content }}
     <div class="content-section">
-        <h2>Security Information</h2>
+        <h2>About {{ .Params.product | default .Title }}</h2>
         <div class="product-content">
             {{ .Content }}
         </div>
     </div>
+    {{ end }}
+    
+    <!-- Bulletins Section -->
+    {{ if gt $bulletinCount 0 }}
+    <div class="content-section">
+        <h2>Security Bulletins</h2>
+        <div class="bulletins-list">
+            {{ range $productBulletins.ByDate.Reverse }}
+            <div class="bulletin-item">
+                <a href="{{ .Permalink }}" class="bulletin-link">
+                    {{ .Title }}
+                </a>
+                <div class="bulletin-meta">
+                    {{ $severity := "" }}
+                    {{ $severityClass := "" }}
+                    {{ if in .Params.tags "Critical" }}
+                        {{ $severity = "Critical" }}
+                        {{ $severityClass = "severity-critical" }}
+                    {{ else if in .Params.tags "Important" }}
+                        {{ $severity = "Important" }}
+                        {{ $severityClass = "severity-important" }}
+                    {{ else if in .Params.tags "Moderate" }}
+                        {{ $severity = "Moderate" }}
+                        {{ $severityClass = "severity-moderate" }}
+                    {{ end }}
+                    {{ if $severity }}
+                    <span class="severity-badge {{ $severityClass }}">{{ $severity }}</span>
+                    {{ end }}
+                    <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
 
     <!-- Action Buttons -->
     <div class="product-actions">

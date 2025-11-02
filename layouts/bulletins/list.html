@@ -238,6 +238,16 @@
         border: 1px solid rgba(249,115,22,0.3);
     }
     
+    .product-tag {
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(59,130,246,0.2);
+        color: #93c5fd;
+        border: 1px solid rgba(59,130,246,0.3);
+    }
+    
     @media (max-width: 768px) {
         .bulletins-container {
             padding: 1rem;
@@ -287,21 +297,35 @@
     </header>
 
     <!-- Statistics Section -->
+    {{ $allBulletins := where .Site.RegularPages "Section" "posts" }}
+    {{ $criticalCount := 0 }}
+    {{ $importantCount := 0 }}
+    {{ $moderateCount := 0 }}
+    {{ range $allBulletins }}
+        {{ if in .Params.tags "Critical" }}
+            {{ $criticalCount = add $criticalCount 1 }}
+        {{ else if in .Params.tags "Important" }}
+            {{ $importantCount = add $importantCount 1 }}
+        {{ else if in .Params.tags "Moderate" }}
+            {{ $moderateCount = add $moderateCount 1 }}
+        {{ end }}
+    {{ end }}
+    
     <div class="stats-grid">
         <div class="stat-card">
-            <span class="stat-number">156</span>
+            <span class="stat-number">{{ len $allBulletins }}</span>
             <span class="stat-label">Total Bulletins</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number">10</span>
+            <span class="stat-number">{{ $criticalCount }}</span>
             <span class="stat-label">Critical</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number">146</span>
+            <span class="stat-number">{{ $importantCount }}</span>
             <span class="stat-label">Important</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number">0</span>
+            <span class="stat-number">{{ $moderateCount }}</span>
             <span class="stat-label">Moderate</span>
         </div>
     </div>
@@ -310,105 +334,37 @@
     <div class="content-section">
         <h2 class="section-title">Recent Bulletins</h2>
         <div class="recent-bulletins">
+            {{ $bulletins := $allBulletins.ByDate.Reverse }}
+            {{ range first 25 $bulletins }}
             <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb25-999.html" class="bulletin-link">
-                    APSB25-999: Security update for Adobe Test Product
+                <a href="{{ .Permalink }}" class="bulletin-link">
+                    {{ .Title }}
                 </a>
                 <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Sep 14, 2025</span>
+                    {{ $severity := "" }}
+                    {{ $severityClass := "" }}
+                    {{ if in .Params.tags "Critical" }}
+                        {{ $severity = "Critical" }}
+                        {{ $severityClass = "severity-critical" }}
+                    {{ else if in .Params.tags "Important" }}
+                        {{ $severity = "Important" }}
+                        {{ $severityClass = "severity-important" }}
+                    {{ else if in .Params.tags "Moderate" }}
+                        {{ $severity = "Moderate" }}
+                        {{ $severityClass = "severity-moderate" }}
+                    {{ end }}
+                    {{ if $severity }}
+                    <span class="severity-badge {{ $severityClass }}">{{ $severity }}</span>
+                    {{ end }}
+                    <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+                    {{ if .Params.categories }}
+                        {{ range after 1 .Params.categories }}
+                        <span class="product-tag">{{ . | humanize | title }}</span>
+                        {{ end }}
+                    {{ end }}
                 </div>
             </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/animate/apsb21-105.html" class="bulletin-link">
-                    APSB21-105: Security update available for Adobe Animate
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Dec 15, 2021</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb19-45.html" class="bulletin-link">
-                    APSB19-45: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Jun 15, 2019</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb19-57.html" class="bulletin-link">
-                    APSB19-57: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Aug 15, 2019</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb21-60.html" class="bulletin-link">
-                    APSB21-60: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Aug 15, 2021</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb21-06.html" class="bulletin-link">
-                    APSB21-06: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Jan 15, 2021</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb22-34.html" class="bulletin-link">
-                    APSB22-34: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>May 15, 2022</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb22-21.html" class="bulletin-link">
-                    APSB22-21: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Mar 15, 2022</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb21-95.html" class="bulletin-link">
-                    APSB21-95: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Dec 15, 2021</span>
-                </div>
-            </div>
-            
-            <div class="bulletin-item">
-                <a href="https://helpx.adobe.com/security/products/other/apsb21-59.html" class="bulletin-link">
-                    APSB21-59: Security update available
-                </a>
-                <div class="bulletin-meta">
-                    <span class="severity-badge severity-important">Important</span>
-                    <span>Aug 15, 2021</span>
-                </div>
-            </div>
+            {{ end }}
         </div>
     </div>
 </div>
