@@ -100,26 +100,62 @@ class MicroblogPoster:
         posts.sort(key=lambda x: x['date'], reverse=True)
         return posts
     
-    def post_to_microblog(self, title, content, published_date=None):
-        """Post content to Micro.blog using Micropub API"""
-        headers = {
-            'Authorization': f'Bearer {self.token}',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    def get_post_url_from_feed(self, bulletin_id):
+        """Get the URL of an existing post from the feed"""
+        try:
+            response = requests.get(self.feed_url, timeout=10)
+            response.raise_for_status()
+            feed_data = response.json()
+            
+            for item in feed_data.get('items', []):
+                import re
+                title = item.get('title', '')
+                if re.search(bulletin_id, title):
+                    return item.get('url', '')
+            return None
+        except Exception as e:
+            print(f"⚠️  Could not get post URL: {e}")
+            return None
+    
+    def post_to_microblog(self, title, content, published_date=None, update_url=None):
+        """Post or update content on Micro.blog using Micropub API"""
         
-        # Prepare post data
-        data = {
-            'h': 'entry',
-            'name': title,
-            'content': content
-        }
-        
-        # Add published date if provided
-        if published_date:
-            data['published'] = published_date
-        
-        # Encode data
-        encoded_data = urlencode(data)
+        if update_url:
+            # Update existing post - use JSON format for Micropub updates
+            headers = {
+                'Authorization': f'Bearer {self.token}',
+                'Content-Type': 'application/json'
+            }
+            
+            data = json.dumps({
+                'action': 'update',
+                'url': update_url,
+                'replace': {
+                    'name': [title],
+                    'content': [content]
+                }
+            })
+            
+            encoded_data = data
+        else:
+            # Create new post - use form encoding
+            headers = {
+                'Authorization': f'Bearer {self.token}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+            
+            data = {
+                'h': 'entry',
+                'name': title,
+                'content': content
+            }
+            
+            # Add published date if provided
+            if published_date:
+                data['published'] = published_date
+            
+            # Encode data
+            encoded_data = urlencode(data)
         
         try:
             response = requests.post(
@@ -129,13 +165,14 @@ class MicroblogPoster:
                 timeout=30
             )
             
-            if response.status_code in [200, 201, 202]:
+            if response.status_code in [200, 201, 202, 204]:
                 # Extract URL from response
-                location = response.headers.get('Location', '')
+                location = response.headers.get('Location', update_url or '')
                 result = {
                     'success': True,
                     'url': location,
-                    'status': response.status_code
+                    'status': response.status_code,
+                    'updated': bool(update_url)
                 }
                 
                 # Try to get JSON response with preview URL
@@ -159,8 +196,8 @@ class MicroblogPoster:
                 'error': str(e)
             }
     
-    def run(self, limit=5):
-        """Post new bulletins to Micro.blog"""
+    def run(self, limit=5, update_mode=False):
+        """Post new bulletins to Micro.blog or update existing ones"""
         print("🚀 Micro.blog Poster")
         print("=" * 50)
         
@@ -171,62 +208,113 @@ class MicroblogPoster:
         print(f"📊 Found {len(local_posts)} local posts")
         print(f"📊 Found {len(existing_ids)} existing posts in feed")
         
-        # Find new posts
-        new_posts = [p for p in local_posts if p['id'] not in existing_ids]
+        if update_mode:
+            # Update mode: update existing posts
+            posts_to_process = [p for p in local_posts if p['id'] in existing_ids]
+            mode_name = "update"
+            print(f"\n♻️  Update mode: Will update {len(posts_to_process)} existing posts")
+        else:
+            # Create mode: only post new ones
+            posts_to_process = [p for p in local_posts if p['id'] not in existing_ids]
+            mode_name = "publish"
+            print(f"\n📝 Found {len(posts_to_process)} new posts to publish")
         
-        if not new_posts:
-            print("\n✅ No new posts to publish")
+        if not posts_to_process:
+            if update_mode:
+                print("\n✅ No existing posts to update")
+            else:
+                print("\n✅ No new posts to publish")
             return
         
-        print(f"\n📝 Found {len(new_posts)} new posts to publish")
+        # Limit posts to process
+        posts_to_process = posts_to_process[:limit]
         
-        # Limit posts to publish
-        posts_to_publish = new_posts[:limit]
-        
-        if len(new_posts) > limit:
+        if len(posts_to_process) > limit:
             print(f"⚠️  Limiting to {limit} posts per run")
         
-        # Publish each post
+        # Process each post
         successful = 0
         failed = 0
         
-        for post in posts_to_publish:
-            print(f"\n📤 Publishing {post['id']}...")
-            print(f"   Title: {post['title']}")
-            
-            result = self.post_to_microblog(
-                title=post['title'],
-                content=post['content'],
-                published_date=post['date']
-            )
+        for post in posts_to_process:
+            if update_mode:
+                print(f"\n♻️  Updating {post['id']}...")
+                print(f"   Title: {post['title']}")
+                
+                # Get existing post URL
+                post_url = self.get_post_url_from_feed(post['id'])
+                if not post_url:
+                    print(f"   ⚠️  Could not find URL for {post['id']}, skipping")
+                    continue
+                
+                result = self.post_to_microblog(
+                    title=post['title'],
+                    content=post['content'],
+                    update_url=post_url
+                )
+            else:
+                print(f"\n📤 Publishing {post['id']}...")
+                print(f"   Title: {post['title']}")
+                
+                result = self.post_to_microblog(
+                    title=post['title'],
+                    content=post['content'],
+                    published_date=post['date']
+                )
             
             if result['success']:
-                print(f"   ✅ Published successfully!")
+                if result.get('updated'):
+                    print(f"   ✅ Updated successfully!")
+                else:
+                    print(f"   ✅ Published successfully!")
                 if result.get('url'):
                     print(f"   🔗 {result['url']}")
                 successful += 1
             else:
-                print(f"   ❌ Failed to publish")
-                print(f"   Error: {result.get('error', 'Unknown error')}")
+                print(f"   ❌ Failed to {mode_name}")
+                error_msg = result.get('error', 'Unknown error')
+                status = result.get('status', 'unknown')
+                print(f"   Error: {error_msg}")
+                print(f"   Status: {status}")
                 failed += 1
         
         print("\n" + "=" * 50)
-        print(f"✅ Published {successful} posts")
+        if update_mode:
+            print(f"✅ Updated {successful} posts")
+        else:
+            print(f"✅ Published {successful} posts")
         if failed:
             print(f"❌ Failed {failed} posts")
 
 
 def main():
-    # Get limit from command line args
+    # Parse command line args
     limit = 5
-    if len(sys.argv) > 1:
-        try:
-            limit = int(sys.argv[1])
-        except ValueError:
-            print(f"Invalid limit: {sys.argv[1]}, using default of 5")
+    update_mode = False
+    
+    for arg in sys.argv[1:]:
+        if arg in ['--update', '-u']:
+            update_mode = True
+        elif arg in ['--help', '-h']:
+            print("Usage: post_to_microblog.py [LIMIT] [--update]")
+            print("\nArguments:")
+            print("  LIMIT      Maximum number of posts to process (default: 5)")
+            print("  --update   Update existing posts instead of creating new ones")
+            print("\nExamples:")
+            print("  python3 post_to_microblog.py 10          # Post up to 10 new bulletins")
+            print("  python3 post_to_microblog.py --update    # Update up to 5 existing posts")
+            print("  python3 post_to_microblog.py 10 --update # Update up to 10 existing posts")
+            sys.exit(0)
+        else:
+            try:
+                limit = int(arg)
+            except ValueError:
+                print(f"Invalid argument: {arg}")
+                print("Use --help for usage information")
+                sys.exit(1)
     
     poster = MicroblogPoster()
-    poster.run(limit=limit)
+    poster.run(limit=limit, update_mode=update_mode)
 
 
 if __name__ == '__main__':

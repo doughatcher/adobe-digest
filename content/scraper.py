@@ -17,7 +17,7 @@ import json
 
 
 class AdobeSecurityScraper:
-    def __init__(self, config_file='scraper.yaml', output_dir='.'):
+    def __init__(self, config_file='scraper.yaml', output_dir='.', force=False):
         """Initialize scraper with config file and output directory"""
         self.config_file = config_file
         # Output directly to content directory (current directory)
@@ -25,9 +25,14 @@ class AdobeSecurityScraper:
         self.output_dir.mkdir(exist_ok=True)
         self.base_url = 'https://helpx.adobe.com'
         self.feed_url = 'https://adobedigest.com/feed.json'
+        self.force = force
         
-        # Load existing posts to avoid duplicates
-        self.existing_posts = self.load_existing_posts()
+        # Load existing posts to avoid duplicates (unless force mode)
+        if not force:
+            self.existing_posts = self.load_existing_posts()
+        else:
+            self.existing_posts = set()
+            print("🔄 Force mode: Will scrape all bulletins")
         
     def load_existing_posts(self):
         """Load list of already scraped bulletin IDs from published feed.json"""
@@ -281,8 +286,18 @@ class AdobeSecurityScraper:
             'guid': f"http://adobedigest.micro.blog{url_path}",
             'date': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
             'type': 'post',
-            'url': url_path
+            'url': url_path,
+            'categories': ['security-bulletins', data['product']],
+            'tags': [data['id'].upper(), data['product']]
         }
+        
+        # Add severity tag if available
+        if data['severity']:
+            front_matter['tags'].append(data['severity'])
+        
+        # Add CVE tags (limit to 10)
+        if data['cve_ids']:
+            front_matter['tags'].extend(data['cve_ids'][:10])
         
         # Build content
         content_parts = []
@@ -461,7 +476,9 @@ class AdobeSecurityScraper:
 
 
 def main():
-    scraper = AdobeSecurityScraper()
+    import sys
+    force = '--force' in sys.argv or '-f' in sys.argv
+    scraper = AdobeSecurityScraper(force=force)
     scraper.run()
 
 
