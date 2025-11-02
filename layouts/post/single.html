@@ -1,49 +1,444 @@
 {{ define "main" }}
-<div class="post h-entry">
+<style>
+    .bulletin-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: var(--hx-color-dark);
+        min-height: 100vh;
+        color: #e2e8f0;
+    }
+    
+    .bulletin-breadcrumb {
+        font-size: 0.875rem;
+        color: #94a3b8;
+        margin-bottom: 2rem;
+        background: #1a1a1a;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        border: 1px solid #2a2a2a;
+    }
+    
+    .bulletin-breadcrumb a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    
+    .bulletin-breadcrumb a:hover {
+        color: #ef4444;
+    }
+    
+    .bulletin-breadcrumb span {
+        margin: 0 0.75rem;
+        color: #475569;
+    }
+    
+    .bulletin-breadcrumb .current {
+        color: #ef4444;
+        font-weight: 600;
+    }
+    
+    .bulletin-header {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f97316 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 40px rgba(239,68,68,0.3);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .bulletin-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transform: translate(50%, -50%);
+    }
+    
+    .bulletin-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+        line-height: 1.2;
+    }
+    
+    .bulletin-meta {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+        font-size: 0.95rem;
+    }
+    
+    .bulletin-date {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .bulletin-date svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .content-section {
+        background: #1a1a1a;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        margin-bottom: 2rem;
+        border: 1px solid #2a2a2a;
+        line-height: 1.8;
+    }
+    
+    .bulletin-content {
+        color: #cbd5e1;
+        font-size: 1.05rem;
+    }
+    
+    .bulletin-content p {
+        margin-bottom: 1rem;
+    }
+    
+    .bulletin-content strong {
+        color: #f1f5f9;
+        font-weight: 600;
+    }
+    
+    .bulletin-content a {
+        color: #60a5fa;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        font-weight: 500;
+    }
+    
+    .bulletin-content a:hover {
+        color: #93c5fd;
+        text-decoration: underline;
+    }
+    
+    .tags-section {
+        background: #1a1a1a;
+        padding: 1.5rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid #2a2a2a;
+        margin-bottom: 2rem;
+    }
+    
+    .tags-section h3 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #94a3b8;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .post-tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        padding: 0.4rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        background: rgba(59,130,246,0.15);
+        color: #93c5fd;
+        border: 1px solid rgba(59,130,246,0.3);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+        background: rgba(59,130,246,0.25);
+        border-color: rgba(59,130,246,0.5);
+        color: #bfdbfe;
+        transform: translateY(-1px);
+    }
+    
+    .severity-critical {
+        background: rgba(220,38,38,0.2);
+        color: #fca5a5;
+        border: 1px solid rgba(220,38,38,0.4);
+    }
+    
+    .severity-critical:hover {
+        background: rgba(220,38,38,0.3);
+        border-color: rgba(220,38,38,0.6);
+        color: #fecaca;
+    }
+    
+    .severity-important {
+        background: rgba(239,68,68,0.2);
+        color: #fbb6ce;
+        border: 1px solid rgba(239,68,68,0.4);
+    }
+    
+    .severity-important:hover {
+        background: rgba(239,68,68,0.3);
+        border-color: rgba(239,68,68,0.6);
+        color: #fecdd3;
+    }
+    
+    .severity-moderate {
+        background: rgba(249,115,22,0.2);
+        color: #fed7aa;
+        border: 1px solid rgba(249,115,22,0.4);
+    }
+    
+    .severity-moderate:hover {
+        background: rgba(249,115,22,0.3);
+        border-color: rgba(249,115,22,0.6);
+        color: #fde68a;
+    }
+    
+    .post-navigation {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+    
+    .nav-previous,
+    .nav-next {
+        flex: 1;
+        max-width: calc(50% - 0.5rem);
+    }
+    
+    .nav-previous a,
+    .nav-next a {
+        display: block;
+        padding: 1.5rem;
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        color: #e2e8f0;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .nav-previous a:hover,
+    .nav-next a:hover {
+        background: #2a2a2a;
+        border-color: #ef4444;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    
+    .nav-next {
+        text-align: right;
+    }
+    
+    .actions-section {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        gap: 0.5rem;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #ef4444, #f97316);
+        color: white;
+        border: 2px solid #ef4444;
+        box-shadow: 0 6px 20px rgba(239,68,68,0.4);
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #dc2626, #ea580c);
+        border-color: #dc2626;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(239,68,68,0.5);
+    }
+    
+    .btn-secondary {
+        background: #1a1a1a;
+        color: #e2e8f0;
+        border: 2px solid #2a2a2a;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .btn-secondary:hover {
+        background: #2a2a2a;
+        border-color: #3a3a3a;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+    
+    .btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    @media (max-width: 768px) {
+        .bulletin-container {
+            padding: 1rem;
+        }
+        
+        .bulletin-header {
+            padding: 2rem 1.5rem;
+        }
+        
+        .bulletin-header h1 {
+            font-size: 1.875rem;
+        }
+        
+        .content-section {
+            padding: 1.5rem;
+        }
+        
+        .post-navigation {
+            flex-direction: column;
+        }
+        
+        .nav-previous,
+        .nav-next {
+            max-width: 100%;
+        }
+        
+        .nav-next {
+            text-align: left;
+        }
+        
+        .actions-section {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
 
-  <header class="post-header">
-	{{ if .Title }}
-	  	<h1 class="p-name">{{ .Title }}</h1>
-  	{{ end }}
-    <p class="post-meta">
-	<a href="{{ .Permalink }}" class="u-url"><span class="post-meta"><time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">{{ .Date.Format "Jan 2, 2006" }}</time></span></a>
-	{{ with .Params.audio }}
-	  <script type="text/javascript" src="https://micro.blog/narration.js?url={{ . }}"></script>
-	{{ end }}	    
-	{{ if .Params.author }}
-	    by {{ .Params.author.name }}
-	{{ end }}
-	</p>
-  </header>
-
-  <article class="post-content e-content">
-	{{ .Content }}
-  </article>
-
-  <!-- Social syndication links -->
-  {{ if or .Params.mastodon .Params.bluesky .Params.threads .Params.linkedin }}
-  <div class="syndication-section">
-    <div class="syndication-links">
-      {{ if .Params.mastodon }}
-      <a href="https://mastodon.social/@{{ .Params.mastodon.username }}/{{ .Params.mastodon.id }}" class="syndication-link" target="_blank">Mastodon</a>
-      {{ end }}
-      {{ if .Params.bluesky }}
-      <a href="{{ .Params.bluesky.link }}" class="syndication-link" target="_blank">Bluesky</a>
-      {{ end }}
-      {{ if .Params.threads }}
-      <a href="{{ .Params.threads.url }}" class="syndication-link" target="_blank">Threads</a>
-      {{ end }}
-      {{ if .Params.linkedin }}
-      <a href="https://www.linkedin.com/feed/update/urn:li:activity:{{ .Params.linkedin.activity | strings.TrimPrefix "urn:li:activity:" }}" class="syndication-link" target="_blank">LinkedIn</a>
-      {{ end }}
+<div class="bulletin-container">
+    <nav class="bulletin-breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/bulletins/">Bulletins</a>
+        <span>/</span>
+        <span class="current">{{ .Title }}</span>
+    </nav>
+    
+    <header class="bulletin-header">
+        <h1>{{ .Title }}</h1>
+        <div class="bulletin-meta">
+            <div class="bulletin-date">
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                </svg>
+                <time datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "January 2, 2006" }}
+                </time>
+            </div>
+            {{ if .Params.categories }}
+                {{ range after 1 .Params.categories }}
+                <span>{{ . | humanize | title }}</span>
+                {{ end }}
+            {{ end }}
+        </div>
+    </header>
+    
+    <div class="content-section">
+        <div class="bulletin-content">
+            {{ .Content }}
+        </div>
     </div>
-  </div>
-  {{ end }}
-
+    
+    {{ if .Params.tags }}
+    <div class="tags-section">
+        <h3>Tags & Metadata</h3>
+        <div class="post-tags">
+            {{ range .Params.tags }}
+                {{ $class := "tag" }}
+                {{ if eq . "Critical" }}
+                    {{ $class = "tag severity-critical" }}
+                {{ else if eq . "Important" }}
+                    {{ $class = "tag severity-important" }}
+                {{ else if eq . "Moderate" }}
+                    {{ $class = "tag severity-moderate" }}
+                {{ end }}
+                <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="{{ $class }}">{{ . }}</a>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+    
+    <div class="actions-section">
+        <a href="/bulletins/" class="btn btn-secondary">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+            </svg>
+            All Bulletins
+        </a>
+        
+        {{ if .Params.categories }}
+            {{ range after 1 .Params.categories }}
+            <a href="/products/{{ . | urlize }}/" class="btn btn-secondary">
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                </svg>
+                {{ . | humanize | title }} Bulletins
+            </a>
+            {{ end }}
+        {{ end }}
+        
+        <a href="/" class="btn btn-primary">
+            Home
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+            </svg>
+        </a>
+    </div>
+    
+    <nav class="post-navigation">
+        {{ if .NextInSection }}
+        <div class="nav-previous">
+            <a href="{{ .NextInSection.Permalink }}" rel="prev">
+                ← {{ .NextInSection.Title }}
+            </a>
+        </div>
+        {{ end }}
+        
+        {{ if .PrevInSection }}
+        <div class="nav-next">
+            <a href="{{ .PrevInSection.Permalink }}" rel="next">
+                {{ .PrevInSection.Title }} →
+            </a>
+        </div>
+        {{ end }}
+    </nav>
 </div>
-
-{{ if .Site.Params.include_conversation }}
-<script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
-{{ end }}
-
 {{ end }}
