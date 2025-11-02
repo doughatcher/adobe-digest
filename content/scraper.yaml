@@ -1,3 +1,25 @@
-products:
-  - name: adobe-commerce
-    url: https://helpx.adobe.com/security/products/magento.html
+# Scraper configuration for Adobe Digest
+# Each source can have a different type: adobe-helpx or atom-feed
+
+sources:
+  # Adobe HelpX Security Bulletins
+  - type: adobe-helpx
+    name: adobe-commerce
+    url: https://helpx.adobe.com/security/security-bulletin.html
+    section_id: magento
+  
+  - type: adobe-helpx
+    name: adobe-experience-manager
+    url: https://helpx.adobe.com/security/security-bulletin.html
+    section_id: experience-manager
+  
+  - type: adobe-helpx
+    name: adobe-aem-forms
+    url: https://helpx.adobe.com/security/security-bulletin.html
+    section_id: aem-forms
+  
+  # Sansec.io Security Research
+  - type: atom-feed
+    name: sansec-research
+    url: https://sansec.io/atom.xml
+    limit: 20  # Only fetch the 20 most recent articles
