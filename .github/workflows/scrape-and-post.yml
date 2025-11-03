@@ -52,8 +52,22 @@ jobs:
           echo "Total posts: $total_posts"
           
           echo ""
-          echo "� Posting to Micro.blog..."
+          echo "📤 Posting to Micro.blog..."
           python3 post_to_microblog.py 5
+      
+      - name: Commit tracking file
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          cd content
+          if [ -f scraped_posts.json ]; then
+            git add scraped_posts.json
+            git diff --staged --quiet || git commit -m "Update scraped post IDs [skip ci]"
+            git push
+            echo "✅ Tracking file updated"
+          else
+            echo "ℹ️  No tracking file to commit"
+          fi
       
       - name: Create summary
         run: |

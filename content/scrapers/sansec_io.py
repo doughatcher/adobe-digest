@@ -55,11 +55,14 @@ class SansecScraper:
             else:
                 continue
             
-            # Create ID from URL
-            article['id'] = article['url'].split('/')[-1] if article['url'] else f"sansec-{total_found}"
+            # Create ID from URL - use just the slug without sansec- prefix
+            url_slug = article['url'].split('/')[-1] if article['url'] else f"{total_found}"
+            article['id'] = url_slug
             
-            # Skip if already scraped
-            if article['id'] in self.existing_posts:
+            # Check for duplicates - try both with and without sansec- prefix
+            # (for backwards compatibility with different tracking methods)
+            prefixed_id = f"sansec-{url_slug}"
+            if article['id'] in self.existing_posts or prefixed_id in self.existing_posts:
                 skipped += 1
                 continue
             
@@ -215,7 +218,9 @@ class SansecScraper:
             try:
                 filename = self.create_markdown(article)
                 created_files.append(filename)
+                # Track both the slug and the prefixed version for future runs
                 self.existing_posts.add(article['id'])
+                self.existing_posts.add(f"sansec-{article['id']}")
             except Exception as e:
                 print(f"   ✗ Error creating markdown for {article['id']}: {e}")
         

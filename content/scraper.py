@@ -32,14 +32,28 @@ class ScraperCoordinator:
         self.adobe_scraper = AdobeHelpxScraper(self.output_dir, self.existing_posts)
         self.sansec_scraper = SansecScraper(self.output_dir, self.existing_posts)
     
-    def load_existing_posts(self):
-        """Load list of already scraped IDs from published feed.json"""
+    def load_from_tracking_file(self):
+        """Load tracked IDs from scraped_posts.json"""
+        tracking_file = self.output_dir / 'scraped_posts.json'
+        if tracking_file.exists():
+            try:
+                import json
+                with open(tracking_file, 'r') as f:
+                    data = json.load(f)
+                    ids = set(data.get('ids', []))
+                    print(f"📄 Loaded {len(ids)} IDs from tracking file")
+                    return ids
+            except Exception as e:
+                print(f"⚠️  Error loading tracking file: {e}")
+        return set()
+    
+    def load_from_feed(self):
+        """Load IDs from published feed.json (limited to recent items)"""
         try:
             response = requests.get(self.feed_url, timeout=10)
             response.raise_for_status()
             feed_data = response.json()
             
-            # Extract IDs from existing feed items
             existing_ids = set()
             for item in feed_data.get('items', []):
                 # Extract APSB ID from URL or title (for Adobe bulletins)
@@ -55,21 +69,100 @@ class ScraperCoordinator:
                 
                 # Extract Sansec article IDs (from URL path)
                 if 'sansec.io' in url or 'sansec-' in url:
-                    # Get the last part of the URL path
                     article_id = url.rstrip('/').split('/')[-1]
-                    # Also try to extract from the slug
                     slug_match = re.search(r'sansec-(.+)\.html', url)
                     if slug_match:
                         article_id = slug_match.group(1)
                     if article_id:
                         existing_ids.add(article_id)
             
-            print(f"📊 Found {len(existing_ids)} existing posts in feed")
+            print(f"🌐 Loaded {len(existing_ids)} IDs from live feed")
             return existing_ids
         except Exception as e:
-            print(f"⚠️  Could not load existing posts from feed: {e}")
-            print(f"   Will scrape all content")
+            print(f"⚠️  Could not load from feed: {e}")
             return set()
+    
+    def load_from_local_files(self):
+        """Scan local markdown files for existing IDs"""
+        existing_ids = set()
+        
+        # Scan year directories for markdown files
+        for year_dir in self.output_dir.glob('[0-9][0-9][0-9][0-9]'):
+            for md_file in year_dir.rglob('*.md'):
+                try:
+                    # Extract ID from filename
+                    filename = md_file.stem
+                    
+                    # Check for APSB ID in filename
+                    match = re.search(r'apsb\d{2}-\d{2}', filename, re.IGNORECASE)
+                    if match:
+                        existing_ids.add(match.group(0).upper())
+                    # Check for Sansec slug
+                    elif filename.startswith('sansec-'):
+                        existing_ids.add(filename)
+                    else:
+                        # Fallback: use full filename as ID
+                        existing_ids.add(filename)
+                except Exception as e:
+                    continue
+        
+        print(f"📁 Loaded {len(existing_ids)} IDs from local files")
+        return existing_ids
+    
+    def load_existing_posts(self):
+        """Load existing posts from multiple sources (hybrid approach)"""
+        print("🔍 Loading existing posts from multiple sources...")
+        
+        existing_ids = set()
+        
+        # Source 1: Tracking file (most reliable, full history)
+        tracked_ids = self.load_from_tracking_file()
+        existing_ids.update(tracked_ids)
+        
+        # Source 2: Live feed (verification, limited to recent)
+        feed_ids = self.load_from_feed()
+        existing_ids.update(feed_ids)
+        
+        # Source 3: Local filesystem (backup)
+        local_ids = self.load_from_local_files()
+        existing_ids.update(local_ids)
+        
+        print(f"📊 Total unique IDs: {len(existing_ids)}")
+        return existing_ids
+    
+    def save_tracking_file(self, new_ids):
+        """Update tracking file with newly scraped IDs"""
+        tracking_file = self.output_dir / 'scraped_posts.json'
+        
+        # Load existing data
+        data = {'ids': [], 'last_updated': None}
+        if tracking_file.exists():
+            try:
+                import json
+                with open(tracking_file, 'r') as f:
+                    data = json.load(f)
+            except Exception as e:
+                print(f"⚠️  Error loading existing tracking file: {e}")
+        
+        # Add new IDs
+        current_ids = set(data.get('ids', []))
+        current_ids.update(new_ids)
+        
+        # Save updated data
+        import json
+        from datetime import datetime
+        data = {
+            'ids': sorted(list(current_ids)),
+            'last_updated': datetime.now().isoformat(),
+            'total_count': len(current_ids)
+        }
+        
+        try:
+            with open(tracking_file, 'w') as f:
+                json.dump(data, f, indent=2)
+            print(f"💾 Updated tracking file: {len(new_ids)} new IDs, {len(current_ids)} total")
+        except Exception as e:
+            print(f"⚠️  Error saving tracking file: {e}")
     
     def load_config(self):
         """Load sources from scraper.yaml"""
@@ -87,6 +180,7 @@ class ScraperCoordinator:
         print(f"Loaded {len(sources)} sources from config\n")
         
         all_files = []
+        new_ids = set()
         
         # Process each source
         for source in sources:
@@ -96,13 +190,28 @@ class ScraperCoordinator:
                 if source_type == 'adobe-helpx':
                     files = self.adobe_scraper.scrape(source)
                     all_files.extend(files)
+                    # Extract IDs from created files
+                    for file_path in files:
+                        filename = Path(file_path).stem
+                        match = re.search(r'apsb\d{2}-\d{2}', filename, re.IGNORECASE)
+                        if match:
+                            new_ids.add(match.group(0).upper())
                 elif source_type == 'atom-feed':
                     files = self.sansec_scraper.scrape(source)
                     all_files.extend(files)
+                    # Extract IDs from created files
+                    for file_path in files:
+                        filename = Path(file_path).stem
+                        if filename.startswith('sansec-'):
+                            new_ids.add(filename)
                 else:
                     print(f"⚠️  Unknown source type: {source_type} for {source.get('name', 'unknown')}")
             except Exception as e:
                 print(f"✗ Error scraping {source.get('name', 'unknown')}: {e}")
+        
+        # Update tracking file with newly scraped IDs
+        if new_ids:
+            self.save_tracking_file(new_ids)
         
         print("\n" + "=" * 50)
         print(f"✅ Complete! Created {len(all_files)} new posts")
