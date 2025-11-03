@@ -1598,6 +1598,86 @@ a:hover {
   margin-left: 0.5rem;
 }
 
+/* Newsletter Subscribe Form */
+.footer-subscribe {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.footer-subscribe h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.footer-subscribe p {
+  margin: 0 0 1.5rem 0;
+  color: hsl(var(--muted-foreground));
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.subscribe-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid hsl(var(--input));
+  border-radius: var(--radius);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: all 0.2s;
+}
+
+.subscribe-input:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
+}
+
+.subscribe-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.subscribe-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.subscribe-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .subscribe-form {
+    flex-direction: column;
+  }
+  
+  .subscribe-input {
+    min-width: 100%;
+  }
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {

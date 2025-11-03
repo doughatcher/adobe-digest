@@ -69,5 +69,15 @@
             {{ partial "publications-sidebar.html" . }}
         </div>
         {{ end }}
+        
+        <!-- Newsletter Subscribe Form -->
+        <div class="footer-subscribe">
+            <h3>Subscribe to Updates</h3>
+            <p>Get the latest Adobe security bulletins and research delivered to your inbox.</p>
+            <form method="POST" action="https://micro.blog/users/subscribe/267908" class="subscribe-form">
+                <input type="text" name="email" size="30" placeholder="Your email address" class="subscribe-input" /> 
+                <input type="submit" value="Subscribe" class="subscribe-button" />
+            </form>
+        </div>
     </div>
 </footer>
