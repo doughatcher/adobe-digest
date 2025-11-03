@@ -29,15 +29,27 @@ class MicroblogPoster:
             print(f"📍 Posting to: {self.mp_destination}")
     
     def get_existing_posts(self):
-        """Fetch existing posts from published feed"""
+        """Fetch existing posts from published feed AND tracking file"""
+        existing_ids = set()
+        existing_titles = set()
+        
+        # First, load from tracking file (most comprehensive)
+        tracking_file = Path(__file__).parent / 'scraped_posts.json'
+        if tracking_file.exists():
+            try:
+                with open(tracking_file, 'r') as f:
+                    tracking_data = json.load(f)
+                    tracked_ids = tracking_data.get('ids', [])
+                    existing_ids.update(tracked_ids)
+                    print(f"📊 Loaded {len(tracked_ids)} IDs from tracking file")
+            except Exception as e:
+                print(f"⚠️  Could not load tracking file: {e}")
+        
+        # Then, also check the feed for titles (for title-based deduplication)
         try:
             response = requests.get(self.feed_url, timeout=10)
             response.raise_for_status()
             feed_data = response.json()
-            
-            # Extract post IDs (APSB IDs or URL slugs) AND titles for deduplication
-            existing_ids = set()
-            existing_titles = set()
             
             for item in feed_data.get('items', []):
                 import re
@@ -67,14 +79,14 @@ class MicroblogPoster:
                             if slug not in ['000000'] and not re.match(r'^[0-9a-f]{6}$', slug):
                                 existing_ids.add(slug)
             
-            print(f"📊 Found {len(existing_ids)} existing posts in feed")
-            # Store titles for later use
-            self._existing_titles = existing_titles
-            return existing_ids
+            print(f"📊 Found {len(existing_titles)} titles in feed")
         except Exception as e:
-            print(f"⚠️  Could not load existing posts: {e}")
-            self._existing_titles = set()
-            return set()
+            print(f"⚠️  Could not load feed: {e}")
+        
+        print(f"📊 Total {len(existing_ids)} existing post IDs")
+        # Store titles for later use
+        self._existing_titles = existing_titles
+        return existing_ids
     
     def get_local_posts(self):
         """Get all local markdown posts"""
