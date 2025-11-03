@@ -88,6 +88,9 @@ class SansecScraper:
             
             articles.append(article)
         
+        # Reverse the list to get newest first (Atom feed is oldest-first)
+        articles.reverse()
+        
         if total_found > 0:
             if skipped > 0:
                 print(f"   ℹ️  Skipped {skipped} existing articles (already in feed)")
