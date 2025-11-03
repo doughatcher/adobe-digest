@@ -17,9 +17,7 @@
             color: #e2e8f0;
             background: #0f0f0f;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 3rem 0;
         }
         
         .container {
@@ -61,20 +59,21 @@
         }
         
         .description {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.7;
             margin-bottom: 3rem;
-            color: #cbd5e1;
-            max-width: 700px;
+            color: #94a3b8;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
         
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            margin: 3rem 0;
+            margin: 3rem auto;
+            max-width: 500px;
         }
         
         .stat-card {
@@ -309,7 +308,7 @@
         <div class="tagline">Security intelligence platform for Adobe products</div>
         
         <div class="description">
-            <p>Adobe Digest is a comprehensive security intelligence platform specializing in Adobe product security. Currently featuring automated Adobe security bulletin monitoring with plans to expand into security research, vulnerability analysis, and multi-source threat intelligence.</p>
+            <p>Automated tracking of Adobe security bulletins and vulnerability research.</p>
         </div>
         
         <div class="stats">
@@ -319,7 +318,6 @@
                 {{ $allBulletins = where $allPages ".Title" "!=" "" }}
                 {{ $allBulletins = where $allBulletins ".Title" "match" "APSB" }}
             {{ end }}
-            {{ $productPages := where .Site.RegularPages "Section" "products" }}
             <div class="stat-card">
                 <div class="stat-number">{{ len $allBulletins }}</div>
                 <div class="stat-label">Security Bulletins</div>
@@ -328,15 +326,10 @@
                 <div class="stat-number">{{ with $allBulletins.ByDate.Reverse }}{{ (index . 0).Date.Format "Jan 2" }}{{ end }}</div>
                 <div class="stat-label">Last Updated</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ len $productPages }}</div>
-                <div class="stat-label">Adobe Products</div>
-            </div>
         </div>
         
         <div class="links">
             <a href="/bulletins/" class="btn">Browse Bulletins</a>
-            <a href="/products/" class="btn btn-secondary">View by Product</a>
             <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
         </div>
         
@@ -364,8 +357,16 @@
         {{ end }}
         
         <div class="footer">
-            <p><strong>How it works:</strong> We automatically scrape Adobe's security bulletin page, clean and structure the data, then generate this static site with Hugo. All data is sourced directly from Adobe's official security advisories.</p>
-            <p style="margin-top: 1rem;"><em>This is an unofficial community resource. Always refer to Adobe's official advisories for authoritative information.</em></p>
+            <div style="background: #141414; padding: 2rem; border-radius: 12px; border: 1px solid #2a2a2a; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: #ef4444; margin-bottom: 0.75rem;">📧 Subscribe to Updates</h3>
+                <p style="color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.95rem;">Get the latest Adobe security bulletins and research delivered to your inbox.</p>
+                <form method="POST" action="https://micro.blog/users/subscribe/267908" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                    <input type="text" name="email" size="30" placeholder="Your email address" style="flex: 1; min-width: 250px; padding: 0.875rem 1rem; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; transition: all 0.2s ease;" /> 
+                    <input type="submit" value="Subscribe" style="padding: 0.875rem 2rem; background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-size: 0.95rem;" />
+                </form>
+            </div>
+            
+            <p style="font-size: 0.85rem;"><em>This is an unofficial community resource. Data sourced from Adobe's official security advisories.</em></p>
             <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.7;">
                 Brought to you by <a href="https://doughatcher.com" style="color: #ef4444; text-decoration: none; font-weight: 600;">Doug Hatcher</a> & 
                 <a href="https://blueacornici.com" style="color: #ef4444; text-decoration: none; font-weight: 600;">Blue Acorn iCi</a>
