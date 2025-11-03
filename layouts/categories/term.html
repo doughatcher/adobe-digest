@@ -1,93 +1,177 @@
 {{ define "main" }}
+<style>
+    .category-page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .category-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid var(--border-color, #2a2a2a);
+    }
+    
+    .category-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--accent-color, #ef4444);
+        margin-bottom: 0.5rem;
+        text-transform: capitalize;
+    }
+    
+    .category-description {
+        font-size: 1.1rem;
+        color: var(--text-secondary, #94a3b8);
+    }
+    
+    .category-stats {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .category-stat {
+        font-size: 0.9rem;
+        color: var(--text-secondary, #94a3b8);
+    }
+    
+    .category-stat strong {
+        color: var(--accent-color, #ef4444);
+        font-weight: 700;
+    }
+    
+    .posts-list {
+        display: grid;
+        gap: 1.5rem;
+    }
+    
+    .post-card {
+        background: var(--card-bg, #1a1a1a);
+        border: 1px solid var(--border-color, #2a2a2a);
+        border-radius: 12px;
+        padding: 1.75rem;
+        transition: all 0.3s ease;
+    }
+    
+    .post-card:hover {
+        border-color: var(--accent-color, #ef4444);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .post-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        flex: 1;
+    }
+    
+    .post-title a {
+        color: var(--text-primary, #e2e8f0);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    
+    .post-title a:hover {
+        color: var(--accent-secondary, #f97316);
+    }
+    
+    .post-date {
+        flex-shrink: 0;
+        color: var(--text-secondary, #94a3b8);
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+    
+    .post-excerpt {
+        color: var(--text-secondary, #94a3b8);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .post-meta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+    }
+    
+    .post-tag {
+        padding: 0.25rem 0.75rem;
+        background: var(--tag-bg, #0f0f0f);
+        border: 1px solid var(--border-color, #2a2a2a);
+        border-radius: 4px;
+        color: var(--text-secondary, #94a3b8);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    @media (max-width: 768px) {
+        .category-page {
+            padding: 1rem;
+        }
+        
+        .category-title {
+            font-size: 2rem;
+        }
+        
+        .post-header {
+            flex-direction: column;
+        }
+        
+        .post-date {
+            align-self: flex-start;
+        }
+    }
+</style>
+
 <div class="category-page">
-    <div class="page-description">
-        <p>Posts in <strong>{{ .Title }}</strong> category</p>
+    <div class="category-header">
+        <h1 class="category-title">{{ .Title }}</h1>
+        <p class="category-description">Security bulletins and updates</p>
+        <div class="category-stats">
+            <div class="category-stat"><strong>{{ len .Pages }}</strong> {{ if eq (len .Pages) 1 }}bulletin{{ else }}bulletins{{ end }}</div>
+            {{ with .Pages.ByDate.Reverse }}
+                {{ with index . 0 }}
+                    <div class="category-stat">Latest: <strong>{{ .Date.Format "Jan 2, 2006" }}</strong></div>
+                {{ end }}
+            {{ end }}
+        </div>
     </div>
 
-    <div class="publications-list">
+    <div class="posts-list">
         {{ range .Pages }}
-        {{ $externalLink := .Permalink }}
-        {{ $contentLink := "" }}
-        {{ $linkDomain := "" }}
-        
-        {{/* Extract link from content using regex */}}
-        {{ $content := .Content }}
-        {{ if findRE `href="([^"]+)"` $content 1 }}
-            {{ $matches := findRE `href="([^"]+)"` $content 1 }}
-            {{ $match := index $matches 0 }}
-            {{ $contentLink = replaceRE `href="([^"]+)"` "$1" $match }}
-            {{ $externalLink = $contentLink }}
-            {{/* Extract domain from URL */}}
-            {{ if findRE `https?://([^/]+)` $contentLink 1 }}
-                {{ $domainMatches := findRE `https?://([^/]+)` $contentLink 1 }}
-                {{ $domainMatch := index $domainMatches 0 }}
-                {{ $linkDomain = replaceRE `https?://([^/]+)` "$1" $domainMatch }}
-            {{ end }}
-        {{ else if .Params.canonical_url }}
-            {{ $externalLink = .Params.canonical_url }}
-            {{ $contentLink = .Params.canonical_url }}
-        {{ end }}
-        
-        <article class="publication-item">
-            {{ $thumbnail := "" }}
-            {{ if .Params.thumbnail }}
-                {{ $thumbnail = .Params.thumbnail }}
-            {{ else if .Params.photos }}
-                {{ $thumbnail = index .Params.photos 0 }}
-            {{ else if .Params.images }}
-                {{ $thumbnail = index .Params.images 0 }}
-            {{ end }}
-            
-            {{ if $thumbnail }}
-            <div class="publication-thumbnail">
-                <a href="{{ $externalLink }}" target="_blank" rel="noopener noreferrer">
-                    <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                </a>
-            </div>
-            {{ end }}
-            
-            <div class="publication-content-wrapper">
-                <h2 class="publication-title">
-                    <a href="{{ $externalLink }}" target="_blank" rel="noopener noreferrer">
-                        {{ .Title }}
-                        {{ if $contentLink }}
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="display: inline-block; margin-left: 0.25rem; vertical-align: middle;">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m4-3h6v6m-11 5L21 3"/>
-                        </svg>
-                        {{ end }}
-                    </a>
+        <article class="post-card">
+            <div class="post-header">
+                <h2 class="post-title">
+                    <a href="{{ .Permalink }}">{{ .Title }}</a>
                 </h2>
-                
-                {{ if .Params.publication }}
-                <p class="publication-source">Published on {{ .Params.publication }}{{ if eq .Params.media_type "podcast" }} • Podcast{{ end }}</p>
-                {{ end }}
-                
-                {{ if .Params.custom_summary }}
-                <div class="publication-description">
-                    {{ .Summary }}
-                </div>
-                {{ else if .Summary }}
-                <div class="publication-description">
-                    {{ .Summary }}
-                </div>
-                {{ end }}
-                
-                <div class="publication-meta">
-                    {{ if .Date }}
-                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-                    {{ end }}
-                    {{ if $contentLink }}
-                    <a href="{{ $contentLink }}" target="_blank" rel="noopener noreferrer" class="read-more">
-                        Learn more on {{ $linkDomain | default (.Params.publication | default "external site") }} →
-                    </a>
-                    {{ end }}
-                    {{ if .Params.spotify_url }}
-                    <a href="{{ .Params.spotify_url }}" target="_blank" rel="noopener noreferrer" class="read-more">
-                        Listen on Spotify →
-                    </a>
-                    {{ end }}
-                </div>
+                <div class="post-date">{{ .Date.Format "Jan 2, 2006" }}</div>
             </div>
+            
+            {{ if .Summary }}
+            <div class="post-excerpt">
+                {{ .Summary | truncate 200 }}
+            </div>
+            {{ end }}
+            
+            {{ if .Params.tags }}
+            <div class="post-meta">
+                {{ range first 3 .Params.tags }}
+                <span class="post-tag">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
         </article>
         {{ end }}
     </div>
