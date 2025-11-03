@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adobe Digest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -44,11 +45,19 @@
         }
         
         .logo {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: #ef4444;
             margin-bottom: 1rem;
             text-shadow: 0 0 20px rgba(239,68,68,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .logo i {
+            font-size: 3rem;
         }
         
         .tagline {
@@ -304,7 +313,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">🛡️ Adobe Digest</div>
+        <div class="logo"><i class="fa-brands fa-adobe"></i> Adobe Digest</div>
         <div class="tagline">Security intelligence platform for Adobe products</div>
         
         <div class="description">
