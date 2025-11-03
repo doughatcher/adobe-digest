@@ -340,12 +340,20 @@
             <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
         </div>
         
-        {{ $newsPages := where .Site.RegularPages ".Params.tags" "intersect" (slice "news") }}
+        {{ $allPages := .Site.RegularPages }}
+        {{ $newsPages := slice }}
+        {{ range $allPages }}
+            {{ $isSansec := findRE "sansec" .RelPermalink }}
+            {{ $isAPSB := findRE "APSB\\d{2}-\\d{2}" .Title }}
+            {{ if and $isSansec (not $isAPSB) }}
+                {{ $newsPages = $newsPages | append . }}
+            {{ end }}
+        {{ end }}
         {{ if gt (len $newsPages) 0 }}
         <div class="news-section">
             <h2 class="news-header">📰 Latest Security News</h2>
             <div class="news-items">
-                {{ range first 5 $newsPages.ByDate.Reverse }}
+                {{ range first 5 ($newsPages.ByDate.Reverse) }}
                 <div class="news-item">
                     <div class="news-date">{{ .Date.Format "Jan 2, 2006" }}</div>
                     <div class="news-content">
@@ -353,9 +361,7 @@
                             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                         </div>
                         <div class="news-source">
-                            {{ if in .Params.tags "sansec" }}Sansec Research
-                            {{ else if in .Params.tags "adobe-helpx" }}Adobe Security
-                            {{ else }}Security Research{{ end }}
+                            Sansec Research
                         </div>
                     </div>
                 </div>
