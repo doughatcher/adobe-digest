@@ -120,6 +120,9 @@ class SansecScraper:
         source_categories = data.get('source_categories', [])
         source_name = data.get('source_name', 'sansec-research')
         
+        # All non-APSB content gets 'news' tag
+        base_tags = ['news', 'sansec', 'sansec-research', 'ecommerce-security', 'magento', 'malware', 'security-research', source_name]
+        
         front_matter = {
             'layout': 'post',
             'title': data['title'],
@@ -129,7 +132,7 @@ class SansecScraper:
             'type': 'post',
             'url': url_path,
             'categories': ['security-research', 'sansec'] + source_categories,
-            'tags': ['sansec', 'sansec-research', 'ecommerce-security', 'magento', 'malware', 'security-research', source_name] + source_categories
+            'tags': base_tags + source_categories
         }
         
         # Build content
