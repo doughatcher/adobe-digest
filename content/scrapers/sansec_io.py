@@ -116,6 +116,10 @@ class SansecScraper:
         # Build Micro.blog compatible front matter
         url_path = f"/{date.year}/{date.month:02d}/{date.day:02d}/{slug}.html"
         
+        # Get categories from source config (passed in data)
+        source_categories = data.get('source_categories', [])
+        source_name = data.get('source_name', 'sansec-research')
+        
         front_matter = {
             'layout': 'post',
             'title': data['title'],
@@ -124,8 +128,8 @@ class SansecScraper:
             'date': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
             'type': 'post',
             'url': url_path,
-            'categories': ['security-research', 'sansec'],
-            'tags': ['sansec', 'sansec-research', 'ecommerce-security', 'magento', 'malware', 'news', 'security-research']
+            'categories': ['security-research', 'sansec'] + source_categories,
+            'tags': ['sansec', 'sansec-research', 'ecommerce-security', 'magento', 'malware', 'security-research', source_name] + source_categories
         }
         
         # Build content
@@ -171,11 +175,13 @@ class SansecScraper:
         {
             'name': 'sansec-research',
             'url': 'https://sansec.io/atom.xml',
-            'limit': 50  # Optional: limit number of articles to fetch
+            'limit': 50,  # Optional: limit number of articles to fetch
+            'categories': []  # Optional categories to add
         }
         """
         source_name = config.get('name', 'sansec')
         limit = config.get('limit', 50)
+        source_categories = config.get('categories', [])
         
         print(f"\n🔍 Scraping {source_name}...")
         
@@ -197,6 +203,10 @@ class SansecScraper:
         # Process each article
         for article in articles:
             print(f"   Processing {article['id']}...")
+            
+            # Add source info to article for markdown generation
+            article['source_name'] = source_name
+            article['source_categories'] = source_categories
             
             # Create markdown
             try:

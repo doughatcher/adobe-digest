@@ -19,10 +19,14 @@ class MicroblogPoster:
     def __init__(self):
         self.api_url = os.getenv('MICROBLOG_API_URL', 'https://micro.blog/micropub')
         self.token = os.getenv('MICROBLOG_TOKEN')
+        self.mp_destination = os.getenv('MICROBLOG_MP_DESTINATION')
         self.feed_url = 'https://adobedigest.com/feed.json'
         
         if not self.token:
             raise ValueError("MICROBLOG_TOKEN not set in environment")
+        
+        if self.mp_destination:
+            print(f"📍 Posting to: {self.mp_destination}")
     
     def get_existing_posts(self):
         """Fetch existing posts from published feed"""
@@ -31,26 +35,45 @@ class MicroblogPoster:
             response.raise_for_status()
             feed_data = response.json()
             
-            # Extract bulletin IDs
+            # Extract post IDs (APSB IDs or URL slugs) AND titles for deduplication
             existing_ids = set()
+            existing_titles = set()
+            
             for item in feed_data.get('items', []):
                 import re
-                # Try to extract from URL first
                 url = item.get('url', '')
+                title = item.get('title', '').strip()
+                
+                # Store title for deduplication
+                if title:
+                    existing_titles.add(title.lower())
+                
+                # Try to extract APSB ID from URL first
                 match = re.search(r'apsb\d{2}-\d{2}', url, re.IGNORECASE)
                 if match:
                     existing_ids.add(match.group(0).upper())
                 else:
-                    # Try to extract from title if not in URL
-                    title = item.get('title', '')
+                    # Try to extract from title
                     match = re.search(r'APSB\d{2}-\d{2}', title)
                     if match:
                         existing_ids.add(match.group(0).upper())
+                    else:
+                        # Extract slug from URL for non-APSB posts (e.g., Sansec)
+                        # URL format: https://adobedigest.com/2025/10/22/sansec-sessionreaper-exploitation.html
+                        slug_match = re.search(r'/([^/]+)\.html$', url)
+                        if slug_match:
+                            slug = slug_match.group(1)
+                            # Ignore generic Micro.blog generated slugs like "000000", "13cd3c", etc.
+                            if slug not in ['000000'] and not re.match(r'^[0-9a-f]{6}$', slug):
+                                existing_ids.add(slug)
             
             print(f"📊 Found {len(existing_ids)} existing posts in feed")
+            # Store titles for later use
+            self._existing_titles = existing_titles
             return existing_ids
         except Exception as e:
             print(f"⚠️  Could not load existing posts: {e}")
+            self._existing_titles = set()
             return set()
     
     def get_local_posts(self):
@@ -77,34 +100,56 @@ class MicroblogPoster:
                                 title_match = re.search(r'^title:\s*["\']?(.+?)["\']?$', front_matter, re.MULTILINE)
                                 date_match = re.search(r'^date:\s*(.+)$', front_matter, re.MULTILINE)
                                 
-                                # Extract categories (YAML list format)
+                                # Extract categories and tags (YAML list format)
                                 categories = []
+                                tags = []
                                 in_categories = False
+                                in_tags = False
+                                
                                 for line in front_matter.split('\n'):
                                     if line.startswith('categories:'):
                                         in_categories = True
+                                        in_tags = False
                                         continue
+                                    elif line.startswith('tags:'):
+                                        in_tags = True
+                                        in_categories = False
+                                        continue
+                                    
                                     if in_categories:
                                         if line.startswith('  - '):
                                             categories.append(line.strip('  - ').strip())
                                         elif line and not line.startswith(' '):
                                             in_categories = False
+                                    elif in_tags:
+                                        if line.startswith('  - '):
+                                            tags.append(line.strip('  - ').strip())
+                                        elif line and not line.startswith(' '):
+                                            in_tags = False
                                 
-                                # Extract APSB ID from title
-                                bulletin_id = None
+                                # Extract post ID - either APSB ID or filename-based ID
+                                post_id = None
                                 if title_match:
                                     title = title_match.group(1).strip()
+                                    # Try to extract APSB ID from title
                                     id_match = re.search(r'APSB\d{2}-\d{2}', title)
                                     if id_match:
-                                        bulletin_id = id_match.group(0)
+                                        post_id = id_match.group(0)
                                 
-                                if bulletin_id:
+                                # If no APSB ID, use filename as ID (for Sansec and other posts)
+                                if not post_id:
+                                    post_id = md_file.stem  # e.g., "sansec-sessionreaper-exploitation"
+                                
+                                if post_id and title_match and date_match:
+                                    # Use tags as categories for Micropub (Micro.blog uses categories as tags)
+                                    all_categories = tags if tags else categories
+                                    
                                     posts.append({
-                                        'id': bulletin_id,
+                                        'id': post_id,
                                         'title': title if title_match else '',
                                         'date': date_match.group(1).strip() if date_match else '',
                                         'content': body,
-                                        'categories': categories,
+                                        'categories': all_categories,
                                         'file': str(md_file)
                                     })
                 except Exception as e:
@@ -114,7 +159,7 @@ class MicroblogPoster:
         posts.sort(key=lambda x: x['date'], reverse=True)
         return posts
     
-    def get_post_url_from_feed(self, bulletin_id):
+    def get_post_url_from_feed(self, post_id):
         """Get the URL of an existing post from the feed"""
         try:
             response = requests.get(self.feed_url, timeout=10)
@@ -123,10 +168,18 @@ class MicroblogPoster:
             
             for item in feed_data.get('items', []):
                 import re
-                title = item.get('title', '')
-                if re.search(bulletin_id, title):
-                    url = item.get('url', '')
+                url = item.get('url', '')
+                
+                # Check if post_id is in the URL (works for both APSB IDs and slugs)
+                if re.search(re.escape(post_id.lower()), url.lower()):
                     # Convert micro.blog subdomain to custom domain for API compatibility
+                    if 'adobedigest.micro.blog' in url:
+                        url = url.replace('adobedigest.micro.blog', 'adobedigest.com')
+                    return url
+                
+                # Also check title for APSB IDs
+                title = item.get('title', '')
+                if re.search(re.escape(post_id), title, re.IGNORECASE):
                     if 'adobedigest.micro.blog' in url:
                         url = url.replace('adobedigest.micro.blog', 'adobedigest.com')
                     return url
@@ -154,11 +207,17 @@ class MicroblogPoster:
             if categories:
                 replace_data['category'] = categories
             
-            data = json.dumps({
+            update_request = {
                 'action': 'update',
                 'url': update_url,
                 'replace': replace_data
-            })
+            }
+            
+            # Add mp-destination if configured for multi-blog accounts
+            if self.mp_destination:
+                update_request['mp-destination'] = self.mp_destination
+            
+            data = json.dumps(update_request)
             
             encoded_data = data
         else:
@@ -173,6 +232,10 @@ class MicroblogPoster:
                 'name': title,
                 'content': content
             }
+            
+            # Add mp-destination if configured for multi-blog accounts
+            if self.mp_destination:
+                data['mp-destination'] = self.mp_destination
             
             # Add categories if provided
             if categories:
@@ -243,8 +306,16 @@ class MicroblogPoster:
             mode_name = "update"
             print(f"\n♻️  Update mode: Will update {len(posts_to_process)} existing posts")
         else:
-            # Create mode: only post new ones
-            posts_to_process = [p for p in local_posts if p['id'] not in existing_ids]
+            # Create mode: only post new ones - check both ID and title
+            posts_to_process = []
+            for p in local_posts:
+                if p['id'] not in existing_ids:
+                    # Also check if title already exists (for when slugs don't match)
+                    if p['title'].lower() not in self._existing_titles:
+                        posts_to_process.append(p)
+                    else:
+                        print(f"⏭️  Skipping duplicate by title: {p['title'][:60]}")
+            
             mode_name = "publish"
             print(f"\n📝 Found {len(posts_to_process)} new posts to publish")
         

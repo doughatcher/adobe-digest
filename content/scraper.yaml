@@ -23,3 +23,5 @@ sources:
     name: sansec-research
     url: https://sansec.io/atom.xml
     limit: 20  # Only fetch the 20 most recent articles
+    categories:
+      - news

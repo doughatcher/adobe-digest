@@ -255,6 +255,9 @@ class AdobeHelpxScraper:
         # Normalize product name for category
         product_category = data['product'].replace('_', '-').replace(' ', '-').lower()
         
+        # Get categories from source config (passed in data)
+        source_categories = data.get('source_categories', [])
+        
         front_matter = {
             'layout': 'post',
             'title': f"{data['id'].upper()} - {data['product_name']} Security Update",
@@ -263,8 +266,8 @@ class AdobeHelpxScraper:
             'date': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
             'type': 'post',
             'url': url_path,
-            'categories': ['security-bulletins', product_category],
-            'tags': [data['id'].upper(), product_category, 'adobe-helpx', 'adobe', 'security-bulletin']
+            'categories': ['security-bulletins', product_category] + source_categories,
+            'tags': [data['id'].upper(), product_category, 'adobe-helpx', 'adobe', 'security-bulletin', data.get('source_name', '')]
         }
         
         # Add severity tag if available
@@ -398,11 +401,13 @@ class AdobeHelpxScraper:
         {
             'name': 'adobe-commerce',
             'url': 'https://helpx.adobe.com/security/security-bulletin.html',
-            'section_id': 'magento'  # The anchor ID on the page
+            'section_id': 'magento',  # The anchor ID on the page
+            'categories': []  # Optional categories to add
         }
         """
         product_name = config.get('name', 'unknown')
         section_id = config.get('section_id', product_name)
+        source_categories = config.get('categories', [])
         
         print(f"\n🔍 Scraping {product_name} from Adobe HelpX...")
         
@@ -427,6 +432,10 @@ class AdobeHelpxScraper:
             
             # Parse bulletin
             data = self.parse_bulletin(bulletin_soup, bulletin)
+            
+            # Add source info to data for markdown generation
+            data['source_name'] = product_name
+            data['source_categories'] = source_categories
             
             # Create markdown
             try:

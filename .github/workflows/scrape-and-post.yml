@@ -39,24 +39,21 @@ jobs:
       - name: Scrape and post to Micro.blog
         env:
           MICROBLOG_TOKEN: ${{ secrets.MICROBLOG_TOKEN }}
+          MICROBLOG_MP_DESTINATION: ${{ secrets.MICROBLOG_MP_DESTINATION }}
           MICROBLOG_API_URL: https://micro.blog/micropub
         run: |
           cd content
-          # Scrape new content (generates markdown in temp location)
+          echo "🔍 Running scraper..."
           python3 scraper.py
           
-          # Count new posts generated
-          NEW_COUNT=$(find 20*/ -name "*.md" -type f 2>/dev/null | wc -l)
-          echo "📝 Found $NEW_COUNT new posts to publish"
+          echo ""
+          echo "📊 Counting generated posts..."
+          total_posts=$(find [0-9][0-9][0-9][0-9] -name "*.md" 2>/dev/null | wc -l)
+          echo "Total posts: $total_posts"
           
-          # Post to Micro.blog if we have new content
-          if [ "$NEW_COUNT" -gt 0 ]; then
-            LIMIT="${{ github.event.inputs.limit || '20' }}"
-            echo "🚀 Posting up to $LIMIT items to Micro.blog..."
-            python3 post_to_microblog.py "$LIMIT"
-          else
-            echo "✅ No new content to post"
-          fi
+          echo ""
+          echo "� Posting to Micro.blog..."
+          python3 post_to_microblog.py 5
       
       - name: Create summary
         run: |
