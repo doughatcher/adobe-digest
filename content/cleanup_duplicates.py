@@ -74,11 +74,26 @@ class DuplicateCleanup:
                 items = data.get('items', [])
                 for item in items:
                     # Micropub source returns posts with these properties
+                    # All values are arrays in Micropub format
+                    props = item.get('properties', {})
+                    
+                    # Extract URL from properties.url array
+                    url_array = props.get('url', [])
+                    url = url_array[0] if url_array else ''
+                    
+                    # Extract title from properties.name array
+                    name_array = props.get('name', [])
+                    title = name_array[0] if name_array else ''
+                    
+                    # Extract published date from properties.published array
+                    published_array = props.get('published', [])
+                    pub_date = published_array[0] if published_array else ''
+                    
                     posts.append({
-                        'url': item.get('url', ''),
-                        'title': item.get('properties', {}).get('name', [''])[0] if 'properties' in item else '',
-                        'published': item.get('properties', {}).get('published', [''])[0] if 'properties' in item else '',
-                        'content': item.get('properties', {}).get('content', [''])[0] if 'properties' in item else '',
+                        'url': url,
+                        'title': title,
+                        'published': pub_date,
+                        'date_published': pub_date,  # Add both formats for compatibility
                     })
                 
                 print(f"✅ Fetched {len(posts)} posts from Micro.blog API")
