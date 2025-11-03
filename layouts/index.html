@@ -195,6 +195,79 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         
+        .products-section {
+            margin: 3rem 0;
+        }
+        
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        
+        .product-card {
+            background: #141414;
+            padding: 1.75rem;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .product-card:hover {
+            border-color: #ef4444;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 0.75rem;
+        }
+        
+        .product-meta {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-links {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.5rem 1rem;
+            background: #1a1a1a;
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid #2a2a2a;
+            transition: all 0.2s ease;
+        }
+        
+        .product-link:hover {
+            background: #2a2a2a;
+            border-color: #ef4444;
+            color: #f97316;
+        }
+        
         .news-section {
             margin: 3rem 0;
             text-align: left;
@@ -346,8 +419,66 @@
         </div>
         
         <div class="links">
-            <a href="/bulletins/" class="btn">Browse Bulletins</a>
+            <a href="/bulletins/" class="btn">Browse All Bulletins</a>
             <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
+        </div>
+        
+        <div class="products-section">
+            <h2 class="section-header">🔒 Monitored Products</h2>
+            <div class="product-cards">
+                {{ $allPosts := .Site.RegularPages }}
+                {{ $commercePosts := where $allPosts "Params.tags" "intersect" (slice "adobe-commerce") }}
+                {{ $aemPosts := where $allPosts "Params.tags" "intersect" (slice "adobe-experience-manager") }}
+                {{ $formsPosts := where $allPosts "Params.tags" "intersect" (slice "adobe-aem-forms") }}
+                
+                <div class="product-card">
+                    <div class="product-name">Adobe Commerce</div>
+                    <div class="product-meta">
+                        {{ $latestCommerce := first 1 ($commercePosts.ByDate.Reverse) }}
+                        {{ with $latestCommerce }}
+                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
+                        {{ else }}
+                            No bulletins yet
+                        {{ end }}
+                    </div>
+                    <div class="product-links">
+                        <a href="/feeds/adobe-commerce.xml" class="product-link">📡 RSS</a>
+                        <a href="/categories/adobe-commerce/" class="product-link">View All →</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-name">Experience Manager</div>
+                    <div class="product-meta">
+                        {{ $latestAEM := first 1 ($aemPosts.ByDate.Reverse) }}
+                        {{ with $latestAEM }}
+                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
+                        {{ else }}
+                            No bulletins yet
+                        {{ end }}
+                    </div>
+                    <div class="product-links">
+                        <a href="/feeds/adobe-experience-manager.xml" class="product-link">📡 RSS</a>
+                        <a href="/categories/adobe-experience-manager/" class="product-link">View All →</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-name">AEM Forms</div>
+                    <div class="product-meta">
+                        {{ $latestForms := first 1 ($formsPosts.ByDate.Reverse) }}
+                        {{ with $latestForms }}
+                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
+                        {{ else }}
+                            No bulletins yet
+                        {{ end }}
+                    </div>
+                    <div class="product-links">
+                        <a href="/feeds/adobe-aem-forms.xml" class="product-link">📡 RSS</a>
+                        <a href="/categories/adobe-aem-forms/" class="product-link">View All →</a>
+                    </div>
+                </div>
+            </div>
         </div>
         
         {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
