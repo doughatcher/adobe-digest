@@ -184,6 +184,77 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         
+        .news-section {
+            margin: 3rem 0;
+            text-align: left;
+        }
+        
+        .news-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .news-items {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .news-item {
+            background: #141414;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .news-item:hover {
+            border-color: #ef4444;
+            transform: translateX(4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .news-date {
+            flex-shrink: 0;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            width: 80px;
+        }
+        
+        .news-content {
+            flex-grow: 1;
+        }
+        
+        .news-title {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .news-title a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .news-title a:hover {
+            color: #f97316;
+        }
+        
+        .news-source {
+            color: #64748b;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
         .footer {
             margin-top: 3rem;
             padding-top: 2rem;
@@ -268,6 +339,30 @@
             <a href="/products/" class="btn btn-secondary">View by Product</a>
             <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
         </div>
+        
+        {{ $newsPages := where .Site.RegularPages ".Params.tags" "intersect" (slice "news") }}
+        {{ if gt (len $newsPages) 0 }}
+        <div class="news-section">
+            <h2 class="news-header">📰 Latest Security News</h2>
+            <div class="news-items">
+                {{ range first 5 $newsPages.ByDate.Reverse }}
+                <div class="news-item">
+                    <div class="news-date">{{ .Date.Format "Jan 2, 2006" }}</div>
+                    <div class="news-content">
+                        <div class="news-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </div>
+                        <div class="news-source">
+                            {{ if in .Params.tags "sansec" }}Sansec Research
+                            {{ else if in .Params.tags "adobe-helpx" }}Adobe Security
+                            {{ else }}Security Research{{ end }}
+                        </div>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
         
         <div class="footer">
             <p><strong>How it works:</strong> We automatically scrape Adobe's security bulletin page, clean and structure the data, then generate this static site with Hugo. All data is sourced directly from Adobe's official security advisories.</p>

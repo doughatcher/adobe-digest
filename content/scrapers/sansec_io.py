@@ -122,7 +122,7 @@ class SansecScraper:
             'type': 'post',
             'url': url_path,
             'categories': ['security-research', 'sansec'],
-            'tags': ['sansec', 'ecommerce-security', 'magento', 'malware']
+            'tags': ['sansec', 'sansec-research', 'ecommerce-security', 'magento', 'malware', 'news', 'security-research']
         }
         
         # Build content

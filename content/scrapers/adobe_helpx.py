@@ -264,7 +264,7 @@ class AdobeHelpxScraper:
             'type': 'post',
             'url': url_path,
             'categories': ['security-bulletins', product_category],
-            'tags': [data['id'].upper(), product_category]
+            'tags': [data['id'].upper(), product_category, 'adobe-helpx', 'adobe', 'security-bulletin']
         }
         
         # Add severity tag if available
