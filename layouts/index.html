@@ -433,14 +433,27 @@
             <h2 class="section-header">🔒 Monitored Products</h2>
             <div class="product-cards">
                 {{ $allPosts := .Site.RegularPages }}
-                {{ $commercePosts := where $allPosts "Params.tags" "intersect" (slice "adobe-commerce") }}
-                {{ $aemPosts := where $allPosts "Params.tags" "intersect" (slice "adobe-experience-manager") }}
-                {{ $formsPosts := where $allPosts "Params.tags" "intersect" (slice "adobe-aem-forms") }}
+                
+                {{ $commercePosts := slice }}
+                {{ $aemPosts := slice }}
+                {{ $formsPosts := slice }}
+                
+                {{ range $allPosts }}
+                    {{ if or (in .Title "Adobe Commerce") (in .RelPermalink "commerce") (in .Title "Magento") }}
+                        {{ $commercePosts = $commercePosts | append . }}
+                    {{ end }}
+                    {{ if or (in .Title "Experience Manager") (in .RelPermalink "experience-manager") }}
+                        {{ $aemPosts = $aemPosts | append . }}
+                    {{ end }}
+                    {{ if or (in .Title "AEM Forms") (in .RelPermalink "aem-forms") }}
+                        {{ $formsPosts = $formsPosts | append . }}
+                    {{ end }}
+                {{ end }}
                 
                 <div class="product-card">
                     <div class="product-name">Adobe Commerce</div>
                     <div class="product-meta">
-                        {{ $latestCommerce := first 1 ($commercePosts.ByDate.Reverse) }}
+                        {{ $latestCommerce := first 1 (sort $commercePosts ".Date" "desc") }}
                         {{ with $latestCommerce }}
                             {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
                         {{ else }}
@@ -456,7 +469,7 @@
                 <div class="product-card">
                     <div class="product-name">Experience Manager</div>
                     <div class="product-meta">
-                        {{ $latestAEM := first 1 ($aemPosts.ByDate.Reverse) }}
+                        {{ $latestAEM := first 1 (sort $aemPosts ".Date" "desc") }}
                         {{ with $latestAEM }}
                             {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
                         {{ else }}
@@ -472,7 +485,7 @@
                 <div class="product-card">
                     <div class="product-name">AEM Forms</div>
                     <div class="product-meta">
-                        {{ $latestForms := first 1 ($formsPosts.ByDate.Reverse) }}
+                        {{ $latestForms := first 1 (sort $formsPosts ".Date" "desc") }}
                         {{ with $latestForms }}
                             {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
                         {{ else }}
