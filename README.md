@@ -1,192 +1,203 @@
-# Dougie
+# Adobe Digest
 
-**A versatile micro.blog theme by Doug Hatcher (who definitely doesn't go by Dougie)**
+**Automated security bulletin aggregator for Adobe Commerce, AEM, and related products**
 
-Dougie is a multi-purpose theme designed to power different types of micro.blog sites with the same codebase. Whether you need a microblog, a publication site, or a one-page portfolio, Dougie adapts to your needs through configuration alone.
-
-## Philosophy
-
-One theme, multiple personalities. Dougie transforms based on your configuration - no code changes required. Just adjust the settings in your `config.json` to switch between layouts and modes.
-
-## Modes
-
-### 1. **Microblog Mode** (Default)
-A modern two-column layout perfect for personal microblogging:
-- Sidebar with profile, avatar, bio, and social links
-- Main content area with centered posts
-- Micropost detection (< 280 characters get special styling)
-- Timeline-style presentation
-- Tag and syndication link support
-
-### 2. **Publication Mode**
-Transform your site into a professional publication:
-- Header navigation instead of sidebar
-- Featured posts and article listings
-- Reading time and word count
-- Category-focused organization
-- Professional typography
-
-### 3. **One-Page Mode**
-Create a portfolio or landing page:
-- Single scrolling page layout
-- Section-based design
-- Perfect for personal portfolios
-- About, work, and contact sections
-- Minimal, focused presentation
+Adobe Digest is an automated system that scrapes, aggregates, and publishes security bulletins and research articles related to Adobe Commerce (Magento), Adobe Experience Manager (AEM), and related technologies. The content is automatically posted to [adobedigest.com](https://adobedigest.com) via Micro.blog.
 
 ## Features
 
-- ✨ **Highly Configurable**: Switch modes and styles via config.json
-- 📱 **Fully Responsive**: Works beautifully on all devices
-- 🌙 **Dark Mode Support**: Automatic theme switching
-- 🎨 **CSS Custom Properties**: Easy color and style customization
-- ⚡ **Smart Content Centering**: Adapts to content height
-- 🏷️ **Micropost Detection**: Special styling for short posts
-- 🔗 **Social Media Integration**: Support for all major platforms
-- 📊 **Publication Features**: Word count, reading time, categories
-- 🎯 **SEO Optimized**: Proper meta tags and structured data
+- 🔍 **Automated Scraping**: Monitors multiple sources for new security content
+- 📰 **Multi-Source Aggregation**: Adobe HelpX bulletins, Sansec research, Akamai blog
+- 🤖 **Smart Filtering**: Content filtering for relevant Adobe Commerce/AEM topics
+- 📝 **Micro.blog Integration**: Automatic posting via Micropub API
+- ⏰ **Scheduled Updates**: Runs every 6 hours via GitHub Actions
+- 🔄 **Deduplication**: Tracks posted content to avoid duplicates
+- 📊 **Hugo Static Site**: Fast, modern website built with Hugo
 
-## Installation
+## Data Sources
 
-### For Micro.blog Hosted Sites
-1. Go to your micro.blog Design settings
-2. Click "Edit Custom Theme"
-3. Upload or clone this repository
-4. Configure your desired mode in `config.json`
+1. **Adobe Security Bulletins** (via Adobe HelpX)
+   - Adobe Commerce (Magento)
+   - Adobe Experience Manager
+   - Adobe AEM Forms
 
-### For Self-Hosted Hugo Sites
+2. **Sansec.io Security Research**
+   - Magento/Adobe Commerce security research
+   - Threat intelligence and malware analysis
+
+3. **Akamai Security Blog** (filtered)
+   - Posts mentioning Adobe Commerce, AEM, or related vulnerabilities
+   - SessionReaper, CosmicString, and other Adobe-related threats
+
+## Architecture
+
+```
+┌─────────────────┐
+│ GitHub Actions  │  Runs every 6 hours
+│  (Scraper)      │  
+└────────┬────────┘
+         │
+         ├──> Scrape Adobe HelpX
+         ├──> Scrape Sansec.io 
+         ├──> Scrape Akamai Blog (filtered)
+         │
+         v
+┌─────────────────┐
+│  Post to        │  Via Micropub API
+│  Micro.blog     │  
+└────────┬────────┘
+         │
+         v
+┌─────────────────┐
+│  adobedigest.com│  Hugo static site
+│  (Micro.blog)   │  Custom theme
+└─────────────────┘
+```
+
+## Local Development
+
+### Prerequisites
+
+- Python 3.11+
+- Hugo 0.152+
+- Node.js (for justfile tasks)
+
+### Setup
+
 ```bash
-git clone https://github.com/doughatcher/micro.blog.git themes/dougie
+# Clone the repository
+git clone https://github.com/doughatcher/adobe-digest.git
+cd adobe-digest
+
+# Create Python virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+cd scraper
+pip install -r requirements.txt
+```
+
+### Running the Scraper Locally
+
+```bash
+cd scraper
+python3 scraper.py
+```
+
+This will:
+- Read sources from `data/sources.yaml`
+- Scrape new content
+- Create markdown files in `content/YYYY/MM/DD/`
+- Update `scraped_posts.json` tracking file
+
+### Testing Micro.blog Posting
+
+```bash
+# Set environment variables
+export MICROBLOG_TOKEN="your-token"
+export MICROBLOG_MP_DESTINATION="https://adobedigest.micro.blog/"
+
+# Post up to 5 new items
+cd scraper
+python3 post_to_microblog.py 5
+```
+
+### Building the Site
+
+```bash
+# Build with Hugo
+hugo
+
+# Serve locally
+hugo server
 ```
 
 ## Configuration
 
-### Switching Modes
+### Adding New Sources
 
-Add to your `config.json`:
+Edit `data/sources.yaml`:
 
-```json
-{
-  "params": {
-    "theme_mode": "microblog",  // Options: "microblog", "publication", "onepage"
-    "show_avatar": true,
-    "show_bio": true,
-    "show_social_links": true,
-    "sidebar_width": "400px"
-  }
-}
+```yaml
+sources:
+  - type: adobe-helpx
+    name: source-identifier
+    display_name: "Display Name"
+    url: https://helpx.adobe.com/security/security-bulletin.html
+    section_id: product-section
+    
+  - type: atom-feed
+    name: source-identifier
+    display_name: "Display Name"
+    url: https://example.com/feed.xml
+    limit: 20
+    includes:
+      - keyword1
+      - keyword2
+    categories:
+      - category1
 ```
 
-### Microblog Configuration
+### GitHub Secrets
 
-```json
-{
-  "params": {
-    "theme_mode": "microblog",
-    "author": {
-      "name": "Your Name",
-      "avatar": "https://your-avatar-url.jpg",
-      "username": "yourusername"
-    },
-    "bio": "Your bio here",
-    "show_avatar": true,
-    "show_bio": true,
-    "show_social_links": true,
-    "show_word_count": false,
-    "show_reading_time": false,
-    "posts_per_page": 20,
-    "twitter_username": "yourhandle",
-    "github_username": "yourhandle",
-    "mastodon_url": "https://mastodon.social/@you"
-  }
-}
+Required secrets for GitHub Actions:
+- `MICROBLOG_TOKEN`: Your Micro.blog API token
+- `MICROBLOG_MP_DESTINATION`: Your blog URL (e.g., `https://adobedigest.micro.blog/`)
+
+## Workflows
+
+### Scrape and Post (`scrape-and-post.yml`)
+- **Schedule**: Every 6 hours
+- **Manual**: Via workflow_dispatch
+- **Actions**: Scrape sources → Post to Micro.blog → Commit tracking file
+
+### Test (`test.yml`)
+- **Trigger**: Push to main, PRs
+- **Actions**: Validate YAML, test scraper, verify Hugo build
+
+## Project Structure
+
 ```
-
-### Publication Configuration
-
-```json
-{
-  "params": {
-    "theme_mode": "publication",
-    "publication_name": "Your Publication",
-    "show_word_count": true,
-    "show_reading_time": true,
-    "show_categories": true,
-    "show_featured": true,
-    "posts_per_page": 10
-  }
-}
+adobe-digest/
+├── .github/
+│   └── workflows/          # GitHub Actions workflows
+├── content/                # Hugo content (generated by scraper)
+│   ├── 2024/
+│   ├── 2025/
+│   └── bulletins/
+├── data/
+│   └── sources.yaml        # Scraper source configuration
+├── layouts/                # Hugo templates
+│   ├── index.html          # Homepage
+│   └── _default/
+├── scraper/                # Python scraping system
+│   ├── scraper.py          # Main scraper
+│   ├── post_to_microblog.py # Micropub poster
+│   ├── scraped_posts.json  # Tracking file
+│   └── scrapers/           # Individual scrapers
+│       ├── adobe_helpx.py
+│       ├── sansec_io.py
+│       └── atom_feed.py
+└── static/                 # Static assets
 ```
-
-### One-Page Configuration
-
-```json
-{
-  "params": {
-    "theme_mode": "onepage",
-    "sections": ["about", "work", "contact"],
-    "show_nav": true,
-    "hero_title": "Your Name",
-    "hero_subtitle": "What you do"
-  }
-}
-```
-
-## Customization
-
-### Colors & Styling
-
-The theme uses CSS Custom Properties for easy customization. Edit `static/css/main.css`:
-
-```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  /* ... and many more */
-}
-```
-
-### Custom CSS
-
-Add your custom styles to `static/custom.css` - this file is loaded after the main stylesheet.
-
-## Design System
-
-Dougie uses a modern design system inspired by shadcn/ui:
-- **Typography**: Inter for sans-serif, JetBrains Mono for monospace
-- **Colors**: HSL-based color system for easy theming
-- **Spacing**: Consistent rem-based spacing scale
-- **Components**: Reusable, well-structured component classes
-
-## Browser Support
-
-- Chrome/Edge (latest 2 versions)
-- Firefox (latest 2 versions)
-- Safari (latest 2 versions)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Credits
 
-- **Created by**: Doug Hatcher ([@hatcher](https://micro.blog/hatcher))
-- **Based on**: [theme-blank](https://github.com/microdotblog/theme-blank) by Micro.blog
-- **Design inspiration**: shadcn/ui design system
-- **Named after**: Absolutely nobody - Doug doesn't go by Dougie
+- **Theme**: Forked from [Dougie](https://github.com/doughatcher/micro.blog) theme
+- **Hosting**: [Micro.blog](https://micro.blog)
+- **Sources**: Adobe, Sansec.io, Akamai
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details
 
-## Support
+## Links
 
-- **Issues**: [GitHub Issues](https://github.com/doughatcher/micro.blog/issues)
-- **Micro.blog**: [@hatcher](https://micro.blog/hatcher)
-- **Website**: [doughatcher.com](https://doughatcher.com)
+- **Website**: [adobedigest.com](https://adobedigest.com)
+- **Micro.blog**: [@adobedigest](https://micro.blog/adobedigest)
+- **Repository**: [github.com/doughatcher/adobe-digest](https://github.com/doughatcher/adobe-digest)
 
 ---
 
-*Built with ❤️ for the Micro.blog community*
+*Automated security intelligence for Adobe Commerce and AEM*
