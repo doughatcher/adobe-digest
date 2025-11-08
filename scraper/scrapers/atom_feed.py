@@ -129,9 +129,11 @@ class AtomFeedScraper:
                         # Try RFC 2822 format (RSS)
                         from email.utils import parsedate_to_datetime
                         article['published_date'] = parsedate_to_datetime(date_str)
-                except:
+                except Exception as e:
+                    print(f"   ⚠️  Error parsing date '{date_str}': {e}, using current time")
                     article['published_date'] = datetime.now()
             else:
+                print(f"   ⚠️  No date element found for {article.get('title', 'unknown')}, using current time")
                 article['published_date'] = datetime.now()
             
             articles.append(article)
