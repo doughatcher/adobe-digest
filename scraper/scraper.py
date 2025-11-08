@@ -12,7 +12,7 @@ from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper
 
 
 class ScraperCoordinator:
-    def __init__(self, config_file='sources.yaml', output_dir='../content', force=False):
+    def __init__(self, config_file='../data/sources.yaml', output_dir='../content', force=False):
         """Initialize coordinator with config file and output directory"""
         self.config_file = Path(__file__).parent / config_file
         # Output to content directory

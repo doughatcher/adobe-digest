@@ -61,14 +61,19 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          cd content
-          if [ -f scraped_posts.json ]; then
-            git add scraped_posts.json
-            git diff --staged --quiet || git commit -m "Update scraped post IDs [skip ci]"
+          
+          # Add tracking file if it exists
+          if [ -f content/scraped_posts.json ]; then
+            git add content/scraped_posts.json
+          fi
+          
+          # Commit if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "Update scraped post IDs [skip ci]"
             git push
             echo "✅ Tracking file updated"
           else
-            echo "ℹ️  No tracking file to commit"
+            echo "ℹ️  No changes to commit"
           fi
       
       - name: Create summary
