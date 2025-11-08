@@ -6,6 +6,8 @@ Fetches release notes from experienceleague.adobe.com
 
 import re
 import requests
+import hashlib
+import json
 from bs4 import BeautifulSoup
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +23,100 @@ class AdobeReleasesScraper:
         self.output_dir.mkdir(exist_ok=True)
         self.base_url = 'https://experienceleague.adobe.com'
         self.existing_posts = existing_posts or set()
+        # Load tracking data for content hashes and states
+        self.tracking_file = Path(__file__).parent.parent / 'scraped_posts.json'
+        self.release_tracking = self.load_release_tracking()
+    
+    def load_release_tracking(self):
+        """Load release tracking data (content hashes, states, dates)"""
+        if self.tracking_file.exists():
+            try:
+                with open(self.tracking_file, 'r') as f:
+                    data = json.load(f)
+                    return data.get('release_tracking', {})
+            except Exception as e:
+                print(f"   ⚠️  Error loading release tracking: {e}")
+        return {}
+    
+    def save_release_tracking(self, tracking_data):
+        """Save release tracking data back to scraped_posts.json"""
+        if self.tracking_file.exists():
+            try:
+                with open(self.tracking_file, 'r') as f:
+                    data = json.load(f)
+            except:
+                data = {'ids': [], 'last_updated': None, 'total_count': 0}
+        else:
+            data = {'ids': [], 'last_updated': None, 'total_count': 0}
+        
+        data['release_tracking'] = tracking_data
+        data['last_updated'] = datetime.now().isoformat()
+        
+        try:
+            with open(self.tracking_file, 'w') as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            print(f"   ⚠️  Error saving release tracking: {e}")
+    
+    def detect_release_state(self, soup, version):
+        """
+        Detect if release is alpha, beta, or GA (general availability)
+        Returns: 'alpha', 'beta', 'ga', or None
+        """
+        page_text = soup.get_text().lower()
+        title = soup.find('h1')
+        title_text = title.get_text().lower() if title else ''
+        
+        # Check for alpha/beta indicators
+        # Look for "alpha", "beta", "pre-release", "preview" etc.
+        if re.search(r'\balpha\b', page_text) or re.search(r'\balpha\b', title_text):
+            return 'alpha'
+        if re.search(r'\bbeta\b', page_text) or re.search(r'\bbeta\b', title_text):
+            return 'beta'
+        if re.search(r'\bpre-release\b', page_text) or re.search(r'\bpreview\b', page_text):
+            return 'beta'
+        
+        # Default to GA (general availability) if no pre-release indicators
+        return 'ga'
+    
+    def create_content_hash(self, soup):
+        """
+        Create a hash of the meaningful content to detect updates
+        This helps track when release notes are updated
+        """
+        # Extract main content sections
+        content_parts = []
+        
+        # Get title
+        title = soup.find('h1')
+        if title:
+            content_parts.append(title.get_text(strip=True))
+        
+        # Get main content (look for common content containers)
+        for selector in ['main', 'article', '.content', '#content', 'body']:
+            main_content = soup.select_one(selector)
+            if main_content:
+                # Get all headings
+                for heading in main_content.find_all(['h2', 'h3', 'h4']):
+                    content_parts.append(heading.get_text(strip=True))
+                
+                # Get substantial paragraphs (helps detect content changes)
+                for p in main_content.find_all('p'):
+                    text = p.get_text(strip=True)
+                    if len(text) > 20:  # Only substantial content
+                        content_parts.append(text[:200])  # First 200 chars
+                
+                # Get list items
+                for li in main_content.find_all('li'):
+                    text = li.get_text(strip=True)
+                    if len(text) > 10:
+                        content_parts.append(text[:100])
+                
+                break
+        
+        # Create hash of combined content
+        combined = '|'.join(content_parts)
+        return hashlib.md5(combined.encode('utf-8')).hexdigest()
         
     def fetch_page(self, url):
         """Fetch and parse HTML page"""
@@ -80,40 +176,41 @@ class AdobeReleasesScraper:
             
             total_found += 1
             
-            # Create a unique ID for this release
-            release_id = f"{product_name}-{version}"
-            
-            # Skip if already scraped
-            if release_id in self.existing_posts:
-                skipped += 1
-                continue
-            
             # Build full URL
             full_url = urljoin(self.base_url, href)
             
+            # Create base ID (will be extended with state later)
+            base_id = f"{product_name}-{version}"
+            
+            # Always add to releases list - we'll determine if we need to scrape
+            # after we fetch the page and can detect state/content changes
             releases.append({
-                'id': release_id,
+                'base_id': base_id,
                 'version': version,
                 'url': full_url,
                 'product': product_name
             })
         
-        if total_found > 0:
-            if skipped > 0:
-                print(f"   ℹ️  Skipped {skipped} existing releases")
-            print(f"   📥 Found {len(releases)} new releases to scrape")
-        else:
-            print(f"   ℹ️  No releases found")
+        print(f"   📥 Found {len(releases)} release versions to check")
         
         return releases
     
     def parse_release_notes(self, soup, release_info):
         """Parse release notes page and extract relevant information"""
+        # Detect release state (alpha, beta, GA)
+        state = self.detect_release_state(soup, release_info['version'])
+        
+        # Create content hash to detect updates
+        content_hash = self.create_content_hash(soup)
+        
         data = {
-            'id': release_info['id'],
+            'base_id': release_info['base_id'],
+            'id': f"{release_info['base_id']}-{state}",  # Include state in ID
             'url': release_info['url'],
             'version': release_info['version'],
             'product': release_info['product'],
+            'state': state,
+            'content_hash': content_hash,
             'title': '',
             'summary': '',
             'published_date': None,
@@ -129,7 +226,8 @@ class AdobeReleasesScraper:
             data['title'] = title_tag.get_text(strip=True)
         else:
             product_display = release_info['product'].replace('-', ' ').title()
-            data['title'] = f"{product_display} {release_info['version']} Release Notes"
+            state_label = state.upper() if state != 'ga' else ''
+            data['title'] = f"{product_display} {release_info['version']} {state_label} Release Notes".strip()
         
         # Try to extract date from various sources
         # 1. Check meta tags first (most reliable)
@@ -278,7 +376,7 @@ class AdobeReleasesScraper:
         """Create markdown file with Micro.blog front matter"""
         date = data['published_date'] or datetime.now()
         
-        # Create slug from version
+        # Create slug from ID (which now includes state)
         slug = f"{data['id']}"
         
         # Create directory structure: YYYY/MM/DD/
@@ -299,6 +397,14 @@ class AdobeReleasesScraper:
         # Determine if this is a security release
         is_security = 'p' in data['version'].lower() or bool(data['security_fixes'])
         
+        # Build tags list
+        tags = [data['version'], product_category, 'release-notes', data.get('source_name', '')]
+        
+        # Add state tag
+        state = data.get('state', 'ga')
+        if state != 'ga':
+            tags.append(state)
+        
         front_matter = {
             'layout': 'post',
             'title': data['title'],
@@ -308,7 +414,7 @@ class AdobeReleasesScraper:
             'type': 'post',
             'url': url_path,
             'categories': ['releases', product_category] + source_categories,
-            'tags': [data['version'], product_category, 'release-notes', data.get('source_name', '')]
+            'tags': tags
         }
         
         # Add security tag if applicable
@@ -317,6 +423,13 @@ class AdobeReleasesScraper:
         
         # Build content
         content_parts = []
+        
+        # Add release state notice for alpha/beta
+        state = data.get('state', 'ga')
+        if state == 'alpha':
+            content_parts.append(f"**⚠️ ALPHA RELEASE** - This is a pre-release version for testing purposes.\n")
+        elif state == 'beta':
+            content_parts.append(f"**⚠️ BETA RELEASE** - This is a pre-release version for evaluation.\n")
         
         # Summary
         if data['summary']:
@@ -329,6 +442,8 @@ class AdobeReleasesScraper:
         content_parts.append(f"- **Version:** {data['version']}")
         product_display = data['product'].replace('-', ' ').title()
         content_parts.append(f"- **Product:** {product_display}")
+        if state != 'ga':
+            content_parts.append(f"- **Release Type:** {state.upper()}")
         content_parts.append(f"- **Released:** {date.strftime('%B %d, %Y')}")
         content_parts.append('')
         
@@ -408,29 +523,94 @@ class AdobeReleasesScraper:
         releases = self.extract_releases_from_versions_page(soup, product)
         
         created_files = []
+        skipped_count = 0
+        updated_count = 0
         
         # Process each release
         for release in releases:
-            print(f"   Processing {release['version']}...")
+            print(f"   Checking {release['version']}...")
             
             # Fetch release notes page
             release_soup = self.fetch_page(release['url'])
             if not release_soup:
                 continue
             
-            # Parse release notes
+            # Parse release notes to get state and content hash
             data = self.parse_release_notes(release_soup, release)
             
-            # Add source info to data for markdown generation
-            data['source_name'] = source_name
-            data['source_categories'] = source_categories
+            base_id = data['base_id']
+            state = data['state']
+            content_hash = data['content_hash']
+            full_id = data['id']  # base_id + state
             
-            # Create markdown
-            try:
-                filename = self.create_markdown(data)
-                created_files.append(filename)
-                self.existing_posts.add(release['id'])
-            except Exception as e:
-                print(f"   ✗ Error creating markdown for {release['id']}: {e}")
+            # Check if we need to create a post
+            should_create = False
+            reason = ""
+            
+            # Get tracking info for this release
+            tracking_key = base_id
+            tracked = self.release_tracking.get(tracking_key, {})
+            
+            # Case 1: This version/state combination has never been seen
+            if full_id not in self.existing_posts:
+                should_create = True
+                if state == 'alpha':
+                    reason = f"New ALPHA release {release['version']}"
+                elif state == 'beta':
+                    reason = f"New BETA release {release['version']}"
+                else:
+                    # Check if we've seen this version in a different state
+                    previous_state = tracked.get('last_state')
+                    if previous_state and previous_state != state:
+                        reason = f"State change: {previous_state.upper()} → {state.upper()}"
+                    else:
+                        reason = f"New GA release {release['version']}"
+            
+            # Case 2: Content has been updated since last scrape
+            elif tracked.get('content_hash') != content_hash:
+                should_create = True
+                reason = f"Content updated for {state.upper()} release"
+                updated_count += 1
+            else:
+                # Already scraped and no changes
+                skipped_count += 1
+                continue
+            
+            if should_create:
+                print(f"      → {reason}")
+                
+                # Add source info to data for markdown generation
+                data['source_name'] = source_name
+                data['source_categories'] = source_categories
+                
+                # Create markdown
+                try:
+                    filename = self.create_markdown(data)
+                    created_files.append(filename)
+                    
+                    # Add to existing posts
+                    self.existing_posts.add(full_id)
+                    
+                    # Update tracking data
+                    self.release_tracking[tracking_key] = {
+                        'last_state': state,
+                        'content_hash': content_hash,
+                        'last_scraped': datetime.now().isoformat(),
+                        'version': release['version']
+                    }
+                    
+                except Exception as e:
+                    print(f"   ✗ Error creating markdown for {full_id}: {e}")
         
+        # Save updated tracking data
+        if created_files:
+            self.save_release_tracking(self.release_tracking)
+        
+        print(f"   ✅ Created {len(created_files)} posts")
+        if skipped_count > 0:
+            print(f"   ℹ️  Skipped {skipped_count} unchanged releases")
+        if updated_count > 0:
+            print(f"   🔄 Detected {updated_count} content updates")
+        
+        return created_files
         return created_files
