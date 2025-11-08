@@ -4,23 +4,31 @@
 sources:
   # Adobe HelpX Security Bulletins
   - type: adobe-helpx
+    display_name: Adobe Commerce Security Bulletins
+    description: Latest security bulletins for Adobe Commerce (Magento) from Adobe HelpX
     name: adobe-commerce
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: magento
   
   - type: adobe-helpx
     name: adobe-experience-manager
+    display_name: Adobe Experience Manager Security Bulletins
+    description: Latest security bulletins for Adobe Experience Manager from Adobe HelpX
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: experience-manager
   
   - type: adobe-helpx
     name: adobe-aem-forms
+    display_name: Adobe AEM Forms Security Bulletins
+    description: Latest security bulletins for Adobe AEM Forms from Adobe HelpX 
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: aem-forms
   
   # Sansec.io Security Research
   - type: atom-feed
     name: sansec-research
+    display_name: Sansec.io Security Research
+    description: Recent security research articles from Sansec.io
     url: https://sansec.io/atom.xml
     limit: 20  # Only fetch the 20 most recent articles
     categories:
@@ -29,6 +37,7 @@ sources:
   # Akamai Security Blog (filtered for Adobe Commerce/AEM content)
   - type: atom-feed
     name: akamai-blog
+    description: Security-related blog posts from Akamai, filtered for Adobe Commerce and AEM topics
     url: https://feeds.feedburner.com/akamai/blog
     display_name: Akamai Blog
     limit: 50
