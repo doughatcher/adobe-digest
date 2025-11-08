@@ -18,6 +18,8 @@ on:
 jobs:
   scrape-and-post:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow pushing tracking file updates
     
     steps:
       - name: Checkout repository
