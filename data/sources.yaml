@@ -34,16 +34,6 @@ sources:
     categories:
       - releases
   
-  # Magento Open Source Release Notes
-  - type: adobe-release-notes
-    name: magento-open-source-releases
-    display_name: Magento Open Source Release Notes
-    description: Official release notes for Magento Open Source versions
-    url: https://experienceleague.adobe.com/en/docs/commerce-operations/release/notes/magento-open-source/overview
-    product: magento-open-source
-    categories:
-      - releases
-  
   # Sansec.io Security Research
   - type: atom-feed
     name: sansec-research
