@@ -665,20 +665,12 @@
             <div class="main-card">
                 <div class="card-title">Data Sources</div>
                 <div class="source-list">
-                    {{ $sources := slice }}
-                    {{ if .Site.Data.sources }}
-                        {{ $sources = .Site.Data.sources.sources }}
-                    {{ end }}
-                    {{ $helpxSources := where $sources "type" "adobe-helpx" }}
-                    {{ $feedSources := where $sources "type" "atom-feed" }}
-                    
                     <!-- Adobe HelpX consolidated -->
-                    {{ if $helpxSources }}
                     <div class="source-item">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                             <div>
                                 <div class="source-name">Adobe Security</div>
-                                <div class="source-desc">Official security bulletins ({{ len $helpxSources }} products)</div>
+                                <div class="source-desc">Official security bulletins (3 products)</div>
                             </div>
                             <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
                                 <a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="source-link">Web</a>
@@ -686,24 +678,32 @@
                             </div>
                         </div>
                     </div>
-                    {{ end }}
                     
-                    <!-- Individual feed sources -->
-                    {{ range $feedSources }}
+                    <!-- Sansec Research -->
                     <div class="source-item">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                             <div>
-                                <div class="source-name">{{ .display_name | default (.name | humanize | title) }}</div>
-                                <div class="source-desc">{{ if .includes }}{{ delimit .includes ", " | truncate 50 }}{{ else }}Security research{{ end }}</div>
+                                <div class="source-name">Sansec.io Security Research</div>
+                                <div class="source-desc">Security research articles</div>
                             </div>
                             <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
-                                {{ with .url }}
-                                <a href="{{ . }}" target="_blank" rel="noopener" class="source-link">RSS</a>
-                                {{ end }}
+                                <a href="https://sansec.io/atom.xml" target="_blank" rel="noopener" class="source-link">RSS</a>
                             </div>
                         </div>
                     </div>
-                    {{ end }}
+                    
+                    <!-- Akamai Blog -->
+                    <div class="source-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                            <div>
+                                <div class="source-name">Akamai Blog</div>
+                                <div class="source-desc">Filtered for Adobe Commerce and AEM topics</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                <a href="https://feeds.feedburner.com/akamai/blog" target="_blank" rel="noopener" class="source-link">RSS</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div style="margin-top: 1rem; padding: 0.75rem; background: #0f0f0f; border-radius: 8px; text-align: center;">
                     <div style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Updates Every</div>
