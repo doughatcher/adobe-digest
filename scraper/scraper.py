@@ -8,7 +8,7 @@ import re
 import yaml
 import requests
 from pathlib import Path
-from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper
+from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper, AdobeReleasesScraper
 
 
 class ScraperCoordinator:
@@ -32,6 +32,7 @@ class ScraperCoordinator:
         self.adobe_scraper = AdobeHelpxScraper(self.output_dir, self.existing_posts)
         self.sansec_scraper = SansecScraper(self.output_dir, self.existing_posts)
         self.atom_scraper = AtomFeedScraper(self.output_dir, self.existing_posts)
+        self.releases_scraper = AdobeReleasesScraper(self.output_dir, self.existing_posts)
     
     def load_from_tracking_file(self):
         """Load tracked IDs from scraped_posts.json"""
@@ -197,6 +198,13 @@ class ScraperCoordinator:
                         match = re.search(r'apsb\d{2}-\d{2}', filename, re.IGNORECASE)
                         if match:
                             new_ids.add(match.group(0).upper())
+                elif source_type == 'adobe-release-notes':
+                    files = self.releases_scraper.scrape(source)
+                    all_files.extend(files)
+                    # Extract IDs from created files
+                    for file_path in files:
+                        filename = Path(file_path).stem
+                        new_ids.add(filename)
                 elif source_type == 'atom-feed':
                     # Use generic atom scraper if source has 'includes' filter
                     if source.get('includes'):

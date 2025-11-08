@@ -24,6 +24,26 @@ sources:
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: aem-forms
   
+  # Adobe Commerce Release Notes
+  - type: adobe-release-notes
+    name: adobe-commerce-releases
+    display_name: Adobe Commerce Release Notes
+    description: Official release notes for Adobe Commerce versions
+    url: https://experienceleague.adobe.com/en/docs/commerce-operations/release/versions
+    product: adobe-commerce
+    categories:
+      - releases
+  
+  # Magento Open Source Release Notes
+  - type: adobe-release-notes
+    name: magento-open-source-releases
+    display_name: Magento Open Source Release Notes
+    description: Official release notes for Magento Open Source versions
+    url: https://experienceleague.adobe.com/en/docs/commerce-operations/release/notes/magento-open-source/overview
+    product: magento-open-source
+    categories:
+      - releases
+  
   # Sansec.io Security Research
   - type: atom-feed
     name: sansec-research
