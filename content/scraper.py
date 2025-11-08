@@ -8,7 +8,7 @@ import re
 import yaml
 import requests
 from pathlib import Path
-from scrapers import AdobeHelpxScraper, SansecScraper
+from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper
 
 
 class ScraperCoordinator:
@@ -31,6 +31,7 @@ class ScraperCoordinator:
         # Initialize scrapers
         self.adobe_scraper = AdobeHelpxScraper(self.output_dir, self.existing_posts)
         self.sansec_scraper = SansecScraper(self.output_dir, self.existing_posts)
+        self.atom_scraper = AtomFeedScraper(self.output_dir, self.existing_posts)
     
     def load_from_tracking_file(self):
         """Load tracked IDs from scraped_posts.json"""
@@ -197,13 +198,17 @@ class ScraperCoordinator:
                         if match:
                             new_ids.add(match.group(0).upper())
                 elif source_type == 'atom-feed':
-                    files = self.sansec_scraper.scrape(source)
+                    # Use generic atom scraper if source has 'includes' filter
+                    if source.get('includes'):
+                        files = self.atom_scraper.scrape(source)
+                    else:
+                        # Use Sansec scraper for backward compatibility
+                        files = self.sansec_scraper.scrape(source)
                     all_files.extend(files)
                     # Extract IDs from created files
                     for file_path in files:
                         filename = Path(file_path).stem
-                        if filename.startswith('sansec-'):
-                            new_ids.add(filename)
+                        new_ids.add(filename)
                 else:
                     print(f"⚠️  Unknown source type: {source_type} for {source.get('name', 'unknown')}")
             except Exception as e:

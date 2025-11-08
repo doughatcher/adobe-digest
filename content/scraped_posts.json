@@ -68,6 +68,8 @@
     "APSB25-88",
     "APSB25-90",
     "APSB25-94",
+    "akamai-blog-grim-sessionreaper-cve-2025-54236-comes-collect-halloween",
+    "akamai-blog-new-sophisticated-magento-campaign-xurum-webshell",
     "and-europol-counter-online",
     "client-side-security",
     "cosmicsting",
@@ -179,11 +181,14 @@
     "sansec-skimmer-dynamic-exfiltration-shopify-bigcommerce",
     "sansec-skimming-google-defeats-csp",
     "sansec-svg-malware",
+    "sansec-triggered-malware",
     "sansec-trojanorder-magento",
     "sansec-vendors-defeat-magento-security-patch-simple-check",
     "sansec-virustotal-sansec",
+    "sansec-visbot-malware-on-6691-stores-analysis",
     "sansec-warring-magecart-factions",
     "sansec-webgility-backdoor",
+    "sansec-widespread-credit-card-hijacking-discovered",
     "sessionreaper",
     "sessionreaper-exploitation",
     "skimmer-dynamic-exfiltration-shopify-bigcommerce",
@@ -191,6 +196,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-08T17:16:01.421916",
-  "total_count": 190
+  "last_updated": "2025-11-08T18:05:20.771784",
+  "total_count": 195
 }

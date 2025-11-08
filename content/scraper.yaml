@@ -25,3 +25,20 @@ sources:
     limit: 20  # Only fetch the 20 most recent articles
     categories:
       - news
+  
+  # Akamai Security Blog (filtered for Adobe Commerce/AEM content)
+  - type: atom-feed
+    name: akamai-blog
+    url: https://feeds.feedburner.com/akamai/blog
+    display_name: Akamai Blog
+    limit: 50
+    includes:
+      - magento
+      - adobe commerce
+      - AEM
+      - adobe experience manager
+      - sessionreaper
+      - cosmicstring
+    categories:
+      - news
+      - akamai
