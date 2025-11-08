@@ -538,13 +538,23 @@ class AdobeReleasesScraper:
             f.write(content)
             f.write('\n')
         
-        # Log creation with details
+        # Log creation with details and full content
         print(f"   ✓ Created: {filename}")
         print(f"      ID: {data['id']}")
         print(f"      Title: {data['title']}")
         print(f"      State: {data['state'].upper()}")
         if data.get('highlights'):
             print(f"      Highlights: {len(data['highlights'])} items")
+        
+        # Show the complete markdown file content
+        print(f"\n   📄 Complete file content:")
+        print("   " + "="*76)
+        with open(filename, 'r', encoding='utf-8') as f:
+            file_content = f.read()
+            # Indent each line for better readability in logs
+            for line in file_content.split('\n'):
+                print(f"   {line}")
+        print("   " + "="*76)
         
         return filename
     
