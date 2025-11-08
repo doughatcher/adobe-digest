@@ -64,31 +64,26 @@
         }
         
         .tagline {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #94a3b8;
-            margin-bottom: 2.5rem;
-            font-weight: 500;
-        }
-        
-        .description {
-            font-size: 1rem;
-            line-height: 1.7;
             margin-bottom: 3rem;
-            color: #94a3b8;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-weight: 400;
         }
         
-        .stats {
+        .main-cards {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin: 3rem auto;
-            max-width: 500px;
+            margin: 3rem 0;
         }
         
-        .stat-card {
+        @media (max-width: 768px) {
+            .main-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .main-card {
             background: #141414;
             padding: 2rem;
             border-radius: 16px;
@@ -99,46 +94,147 @@
             overflow: hidden;
         }
         
-        .stat-card::before {
+        .main-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, #ef4444, #f97316);
         }
         
-        .stat-card:hover {
-            transform: translateY(-4px) scale(1.02);
+        .main-card:hover {
+            transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             border-color: #ef4444;
         }
         
-        .stat-card:hover .stat-number {
-            color: #f97316;
-            transform: scale(1.1);
-            text-shadow: 0 0 20px rgba(249,115,22,0.5);
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         
-        .stat-number {
-            font-size: 2.5rem;
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .mini-stat {
+            text-align: center;
+            padding: 1rem;
+            background: #0f0f0f;
+            border-radius: 8px;
+        }
+        
+        .mini-stat-number {
+            font-size: 1.8rem;
             font-weight: 800;
             color: #ef4444;
-            transition: all 0.3s ease;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
         
-        .stat-label {
+        .mini-stat-label {
             color: #94a3b8;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+        
+        .product-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem;
+            background: #0f0f0f;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .product-item-name {
+            color: #e2e8f0;
             font-weight: 500;
         }
         
+        .product-item-link {
+            color: #f97316;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .product-item-link:hover {
+            color: #ef4444;
+        }
+        
+        .source-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .source-item {
+            padding: 1rem;
+            background: #0f0f0f;
+            border-radius: 8px;
+        }
+        
+        .source-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
+        }
+        
+        .source-desc {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .source-link {
+            color: #f97316;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .source-link:hover {
+            color: #ef4444;
+        }
+        
+        .card-action {
+            display: block;
+            text-align: center;
+            padding: 0.75rem;
+            background: #0f0f0f;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .card-action:hover {
+            background: #2a2a2a;
+            border-color: #ef4444;
+            color: #f97316;
+        }
+        
         .links {
-            margin-top: 3rem;
+            margin-top: 2.5rem;
             display: flex;
             gap: 1rem;
             justify-content: center;
@@ -193,6 +289,109 @@
             border-color: #3a3a3a;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid #2a2a2a;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        .footer-content {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+        
+        .footer-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .footer-links a {
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #f97316;
+        }
+        
+        .subscribe-section {
+            background: #141414;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            margin-bottom: 2.5rem;
+        }
+        
+        .subscribe-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .subscribe-desc {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .subscribe-form {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .subscribe-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.875rem 1rem;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        
+        .subscribe-input:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+        
+        .subscribe-button {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .subscribe-button:hover {
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            transform: translateY(-2px);
         }
         
         .products-section {
@@ -274,87 +473,71 @@
             color: #f97316;
         }
         
-        .news-section {
-            margin: 3rem 0;
-            text-align: left;
-        }
-        
-        .news-header {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .content-wrapper h2 {
             color: #ef4444;
-            margin-bottom: 1.5rem;
-            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #2a2a2a;
         }
         
-        .news-items {
-            display: grid;
-            gap: 1rem;
-        }
-        
-        .news-item {
-            background: #141414;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
-            transition: all 0.3s ease;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-        }
-        
-        .news-item:hover {
-            border-color: #ef4444;
-            transform: translateX(4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-        
-        .news-date {
-            flex-shrink: 0;
-            color: #94a3b8;
-            font-size: 0.875rem;
-            width: 80px;
-        }
-        
-        .news-content {
-            flex-grow: 1;
-        }
-        
-        .news-title {
-            color: #e2e8f0;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            font-size: 1rem;
-            line-height: 1.4;
-        }
-        
-        .news-title a {
-            color: #e2e8f0;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        .news-title a:hover {
+        .content-wrapper h3 {
             color: #f97316;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.75rem 0;
         }
         
-        .news-source {
+        .content-wrapper ul {
+            list-style: none;
+            display: grid;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+        }
+        
+        .content-wrapper ul li {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            background: #0f0f0f;
+            border-radius: 6px;
+            align-items: baseline;
+        }
+        
+        .content-wrapper ul li strong {
             color: #64748b;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            min-width: 120px;
+            flex-shrink: 0;
         }
         
-        .footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
+        .content-wrapper ul li strong:after {
+            content: '';
+            margin-left: -0.25rem;
+        }
+        
+        .content-wrapper p {
+            margin: 0.75rem 0;
+            line-height: 1.6;
+        }
+        
+        .content-wrapper hr {
+            border: none;
             border-top: 1px solid #2a2a2a;
-            color: #94a3b8;
-            font-size: 0.9rem;
+            margin: 1.5rem 0;
         }
         
-        .footer p {
-            margin-bottom: 1rem;
+        .content-wrapper a {
+            color: #f97316;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .content-wrapper a:hover {
+            color: #ef4444;
         }
         
         @media (max-width: 768px) {
@@ -401,43 +584,32 @@
             </svg>
             Adobe Digest
         </div>
-        <div class="tagline">Security intelligence platform for Adobe products</div>
+        <div class="tagline">Automated security intelligence for Adobe Commerce and Experience Manager</div>
         
-        <div class="description">
-            <p>Automated tracking of Adobe security bulletins and vulnerability research.</p>
-        </div>
-        
-        <div class="stats">
+        <div class="main-cards" style="grid-template-columns: repeat(2, 1fr);">
             {{ $allPages := .Site.RegularPages }}
             {{ $allBulletins := where $allPages "Type" "in" (slice "post" "posts") }}
             {{ if eq (len $allBulletins) 0 }}
                 {{ $allBulletins = where $allPages ".Title" "!=" "" }}
                 {{ $allBulletins = where $allBulletins ".Title" "match" "APSB" }}
             {{ end }}
-            <div class="stat-card">
-                <div class="stat-number">{{ len $allBulletins }}</div>
-                <div class="stat-label">Security Bulletins</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ with $allBulletins.ByDate.Reverse }}{{ (index . 0).Date.Format "Jan 2" }}{{ end }}</div>
-                <div class="stat-label">Last Updated</div>
-            </div>
-        </div>
-        
-        <div class="links">
-            <a href="/bulletins/" class="btn">Browse All Bulletins</a>
-            <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
-        </div>
-        
-        <div class="products-section">
-            <h2 class="section-header">🔒 Monitored Products</h2>
-            <div class="product-cards">
+            <!-- Card 1: Monitored Products -->
+            <div class="main-card">
+                <div class="card-title">Monitored Products</div>
+                <div class="card-stats">
+                    <div class="mini-stat">
+                        <div class="mini-stat-number">{{ len $allBulletins }}</div>
+                        <div class="mini-stat-label">Bulletins</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-number">{{ with $allBulletins.ByDate.Reverse }}{{ (index . 0).Date.Format "Jan 2" }}{{ end }}</div>
+                        <div class="mini-stat-label">Updated</div>
+                    </div>
+                </div>
                 {{ $allPosts := .Site.RegularPages }}
-                
                 {{ $commercePosts := slice }}
                 {{ $aemPosts := slice }}
                 {{ $formsPosts := slice }}
-                
                 {{ range $allPosts }}
                     {{ if or (in .Title "Adobe Commerce") (in .RelPermalink "commerce") (in .Title "Magento") }}
                         {{ $commercePosts = $commercePosts | append . }}
@@ -449,95 +621,115 @@
                         {{ $formsPosts = $formsPosts | append . }}
                     {{ end }}
                 {{ end }}
-                
-                <div class="product-card">
-                    <div class="product-name">Adobe Commerce</div>
-                    <div class="product-meta">
-                        {{ $latestCommerce := first 1 (sort $commercePosts ".Date" "desc") }}
-                        {{ with $latestCommerce }}
-                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
-                        {{ else }}
-                            No bulletins yet
-                        {{ end }}
+                <div class="product-list">
+                    <div class="product-item">
+                        <span class="product-item-name">Adobe Commerce</span>
+                        <a href="/categories/adobe-commerce/" class="product-item-link">View →</a>
                     </div>
-                    <div class="product-links">
-                        <a href="/feeds/adobe-commerce.xml" class="product-link">📡 RSS</a>
-                        <a href="/categories/adobe-commerce/" class="product-link">View All →</a>
+                    <div class="product-item">
+                        <span class="product-item-name">Experience Manager</span>
+                        <a href="/categories/adobe-experience-manager/" class="product-item-link">View →</a>
                     </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-name">Experience Manager</div>
-                    <div class="product-meta">
-                        {{ $latestAEM := first 1 (sort $aemPosts ".Date" "desc") }}
-                        {{ with $latestAEM }}
-                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
-                        {{ else }}
-                            No bulletins yet
-                        {{ end }}
-                    </div>
-                    <div class="product-links">
-                        <a href="/feeds/adobe-experience-manager.xml" class="product-link">📡 RSS</a>
-                        <a href="/categories/adobe-experience-manager/" class="product-link">View All →</a>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-name">AEM Forms</div>
-                    <div class="product-meta">
-                        {{ $latestForms := first 1 (sort $formsPosts ".Date" "desc") }}
-                        {{ with $latestForms }}
-                            {{ with index . 0 }}Latest: {{ .Date.Format "Jan 2, 2006" }}{{ end }}
-                        {{ else }}
-                            No bulletins yet
-                        {{ end }}
-                    </div>
-                    <div class="product-links">
-                        <a href="/feeds/adobe-aem-forms.xml" class="product-link">📡 RSS</a>
-                        <a href="/categories/adobe-aem-forms/" class="product-link">View All →</a>
+                    <div class="product-item">
+                        <span class="product-item-name">AEM Forms</span>
+                        <a href="/categories/adobe-aem-forms/" class="product-item-link">View →</a>
                     </div>
                 </div>
             </div>
+            <!-- Card 2: Data Sources -->
+            <div class="main-card">
+                <div class="card-title">Data Sources</div>
+                <div class="source-list">
+                    <div class="source-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                            <div>
+                                <div class="source-name">Adobe Security</div>
+                                <div class="source-desc">Official advisories</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                <a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="source-link">Web</a>
+                                <a href="/adobe-security.xml" class="source-link">RSS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="source-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                            <div>
+                                <div class="source-name">Sansec Research</div>
+                                <div class="source-desc">E-commerce threats</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                <a href="https://sansec.io/research" target="_blank" rel="noopener" class="source-link">Web</a>
+                                <a href="https://sansec.io/atom.xml" target="_blank" rel="noopener" class="source-link">RSS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 0.75rem; background: #0f0f0f; border-radius: 8px; text-align: center;">
+                    <div style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Updates Every</div>
+                    <div style="color: #f97316; font-weight: 700; font-size: 0.875rem; margin-top: 0.25rem;">6 Hours</div>
+                </div>
+            </div>
         </div>
-        
-        {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
-        {{ if gt (len $recentPosts) 0 }}
-        <div class="news-section">
-            <h2 class="news-header">📰 Latest Updates</h2>
-            <div class="news-items">
+
+        <!-- Latest Updates full width -->
+        <div style="margin: 3rem 0 2rem 0;">
+            <div class="card-title" style="font-size:1.3rem; text-align:left; margin-bottom:1.25rem; color:#ef4444;">Latest Updates</div>
+            <div class="news-items" style="display:grid; gap:1rem;">
+                {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
                 {{ range $recentPosts }}
-                <div class="news-item">
-                    <div class="news-date">{{ .Date.Format "Jan 2, 2006" }}</div>
-                    <div class="news-content">
-                        <div class="news-title">
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                <div class="news-item" style="background:#141414; padding:1.5rem; border-radius:12px; border:1px solid #2a2a2a; transition:all 0.3s ease;">
+                    <div style="display:flex; gap:1rem; align-items:flex-start; margin-bottom:1rem;">
+                        <div class="news-date" style="flex-shrink:0; color:#94a3b8; font-size:0.875rem; width:80px;">{{ .Date.Format "Jan 2, 2006" }}</div>
+                        <div class="news-content" style="flex-grow:1;">
+                            <div class="news-title" style="color:#e2e8f0; font-weight:600; margin-bottom:0.5rem; font-size:1rem; line-height:1.4;">
+                                <a href="{{ .RelPermalink }}" style="color:#e2e8f0; text-decoration:none; transition:color 0.2s ease;">{{ .Title }}</a>
+                            </div>
+                            <div class="news-source" style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
+                                {{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Security Research{{ end }}
+                            </div>
                         </div>
-                        <div class="news-source">
-                            {{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin
-                            {{ else }}Security Research{{ end }}
-                        </div>
+                    </div>
+                    <div style="margin-left:96px;" class="content-wrapper">
+                        {{ .Content }}
                     </div>
                 </div>
                 {{ end }}
             </div>
-        </div>
-        {{ end }}
-        
-        <div class="footer">
-            <div style="background: #141414; padding: 2rem; border-radius: 12px; border: 1px solid #2a2a2a; margin-bottom: 2rem;">
-                <h3 style="font-size: 1.3rem; font-weight: 700; color: #ef4444; margin-bottom: 0.75rem;">📧 Subscribe to Updates</h3>
-                <p style="color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.95rem;">Get the latest Adobe security bulletins and research delivered to your inbox.</p>
-                <form method="POST" action="https://micro.blog/users/subscribe/267908" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
-                    <input type="text" name="email" size="30" placeholder="Your email address" style="flex: 1; min-width: 250px; padding: 0.875rem 1rem; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; transition: all 0.2s ease;" /> 
-                    <input type="submit" value="Subscribe" style="padding: 0.875rem 2rem; background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-size: 0.95rem;" />
-                </form>
+            <div style="text-align:right; margin-top:1rem;">
+                <a href="/archive/" class="card-action" style="display:inline-block;">View All Bulletins</a>
             </div>
-            
-            <p style="font-size: 0.85rem;"><em>This is an unofficial community resource. Data sourced from Adobe's official security advisories.</em></p>
-            <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.7;">
-                Brought to you by <a href="https://doughatcher.com" style="color: #ef4444; text-decoration: none; font-weight: 600;">Doug Hatcher</a> & 
-                <a href="https://blueacornici.com" style="color: #ef4444; text-decoration: none; font-weight: 600;">Blue Acorn iCi</a>
-            </p>
+        </div>
+        
+        <div class="links">
+            <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
+            <a href="https://github.com/doughatcher/adobe-digest" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+        
+        <div class="footer" style="margin-top:3rem; padding-top:2.5rem; border-top:1px solid #2a2a2a; color:#94a3b8; font-size:0.95rem;">
+            <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:flex-start; max-width:900px; margin:0 auto;">
+                <div style="flex:2; min-width:220px;">
+                    <div class="subscribe-section" style="background:#141414; padding:1.5rem 2rem; border-radius:12px; border:1px solid #2a2a2a; margin-bottom:1.5rem;">
+                        <h3 class="subscribe-title" style="font-size:1.1rem; color:#ef4444; margin-bottom:0.5rem; text-align:left;">Subscribe to Updates</h3>
+                        <form method="POST" action="https://micro.blog/users/subscribe/267908" class="subscribe-form" style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                            <input type="text" name="email" size="30" placeholder="Your email address" class="subscribe-input" style="flex:1; min-width:180px; padding:0.7rem 1rem; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:8px; color:#e2e8f0; font-size:0.95rem;" />
+                            <input type="submit" value="Subscribe" class="subscribe-button" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem;" />
+                        </form>
+                    </div>
+                    <div class="footer-content" style="line-height:1.7;">
+                        <p style="margin-bottom:0.7rem;">Adobe Digest is an automated security intelligence platform for Adobe Commerce and Experience Manager. It aggregates official Adobe security bulletins and curated e-commerce research every six hours, providing a centralized resource for vulnerability tracking.</p>
+                        <p style="margin-bottom:0.7rem;">This is an independent community resource, not affiliated with Adobe. Data sourced from <a href='https://helpx.adobe.com/security/security-bulletin.html' style='color:#f97316; text-decoration:none;' target='_blank'>Adobe Security</a> and <a href='https://sansec.io/research' style='color:#f97316; text-decoration:none;' target='_blank'>Sansec Research</a>.</p>
+                    </div>
+                </div>
+                <div style="flex:1; min-width:180px; display:flex; flex-direction:column; gap:1.2rem; align-items:flex-end;">
+                    <div class="footer-links" style="display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end;">
+                        <span style="color:#64748b; font-size:0.9rem;">Built by</span>
+                        <a href="https://doughatcher.com" target="_blank" rel="noopener" style="color:#ef4444; text-decoration:none; font-weight:600;">Doug Hatcher</a>
+                        <a href="https://blueacornici.com" target="_blank" rel="noopener" style="color:#ef4444; text-decoration:none; font-weight:600;">Blue Acorn iCi</a>
+                        <a href="https://github.com/doughatcher/adobe-digest" target="_blank" rel="noopener" style="color:#f97316; text-decoration:none; font-weight:600;">GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
