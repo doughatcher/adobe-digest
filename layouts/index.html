@@ -665,7 +665,10 @@
             <div class="main-card">
                 <div class="card-title">Data Sources</div>
                 <div class="source-list">
-                    {{ $sources := .Site.Data.sources.sources }}
+                    {{ $sources := slice }}
+                    {{ if .Site.Data.sources }}
+                        {{ $sources = .Site.Data.sources.sources }}
+                    {{ end }}
                     {{ $helpxSources := where $sources "type" "adobe-helpx" }}
                     {{ $feedSources := where $sources "type" "atom-feed" }}
                     
