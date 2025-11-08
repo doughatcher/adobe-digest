@@ -12,10 +12,10 @@ from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper
 
 
 class ScraperCoordinator:
-    def __init__(self, config_file='scraper.yaml', output_dir='.', force=False):
+    def __init__(self, config_file='sources.yaml', output_dir='../content', force=False):
         """Initialize coordinator with config file and output directory"""
-        self.config_file = config_file
-        # Output directly to content directory (current directory)
+        self.config_file = Path(__file__).parent / config_file
+        # Output to content directory
         self.output_dir = Path(__file__).parent / output_dir
         self.output_dir.mkdir(exist_ok=True)
         self.feed_url = 'https://adobedigest.com/feed.json'

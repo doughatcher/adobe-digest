@@ -35,7 +35,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd content
+          cd scraper
           pip install -r requirements.txt
       
       - name: Scrape and post to Micro.blog
@@ -44,13 +44,13 @@ jobs:
           MICROBLOG_MP_DESTINATION: ${{ secrets.MICROBLOG_MP_DESTINATION }}
           MICROBLOG_API_URL: https://micro.blog/micropub
         run: |
-          cd content
+          cd scraper
           echo "🔍 Running scraper..."
           python3 scraper.py
           
           echo ""
           echo "📊 Counting generated posts..."
-          total_posts=$(find [0-9][0-9][0-9][0-9] -name "*.md" 2>/dev/null | wc -l)
+          total_posts=$(find ../content/[0-9][0-9][0-9][0-9] -name "*.md" 2>/dev/null | wc -l)
           echo "Total posts: $total_posts"
           
           echo ""

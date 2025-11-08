@@ -665,13 +665,33 @@
             <div class="main-card">
                 <div class="card-title">Data Sources</div>
                 <div class="source-list">
-                    {{ range .Site.Data.sources.sources }}
-                        {{ if eq .type "atom-feed" }}
+                    {{ $sources := .Site.Data.sources.sources }}
+                    {{ $helpxSources := where $sources "type" "adobe-helpx" }}
+                    {{ $feedSources := where $sources "type" "atom-feed" }}
+                    
+                    <!-- Adobe HelpX consolidated -->
+                    {{ if $helpxSources }}
+                    <div class="source-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                            <div>
+                                <div class="source-name">Adobe Security</div>
+                                <div class="source-desc">Official security bulletins ({{ len $helpxSources }} products)</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                <a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="source-link">Web</a>
+                                <a href="/adobe-security.xml" class="source-link">RSS</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{ end }}
+                    
+                    <!-- Individual feed sources -->
+                    {{ range $feedSources }}
                     <div class="source-item">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                             <div>
                                 <div class="source-name">{{ .display_name | default (.name | humanize | title) }}</div>
-                                <div class="source-desc">{{ if .includes }}Filtered: {{ delimit .includes ", " }}{{ else }}Security research{{ end }}</div>
+                                <div class="source-desc">{{ if .includes }}{{ delimit .includes ", " | truncate 50 }}{{ else }}Security research{{ end }}</div>
                             </div>
                             <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
                                 {{ with .url }}
@@ -680,20 +700,6 @@
                             </div>
                         </div>
                     </div>
-                        {{ else if eq .type "adobe-helpx" }}
-                    <div class="source-item">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                            <div>
-                                <div class="source-name">{{ .name | humanize | title }}</div>
-                                <div class="source-desc">Official security bulletins</div>
-                            </div>
-                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
-                                <a href="{{ .url }}" target="_blank" rel="noopener" class="source-link">Web</a>
-                                <a href="/adobe-security.xml" class="source-link">RSS</a>
-                            </div>
-                        </div>
-                    </div>
-                        {{ end }}
                     {{ end }}
                 </div>
                 <div style="margin-top: 1rem; padding: 0.75rem; background: #0f0f0f; border-radius: 8px; text-align: center;">
