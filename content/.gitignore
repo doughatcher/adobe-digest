@@ -1,5 +1,2 @@
-# Ignore generated markdown posts (tracked in scraped_posts.json)
+# Ignore generated markdown posts
 [0-9][0-9][0-9][0-9]/
-
-# Keep tracking file
-!scraped_posts.json

@@ -35,7 +35,7 @@ class ScraperCoordinator:
     
     def load_from_tracking_file(self):
         """Load tracked IDs from scraped_posts.json"""
-        tracking_file = self.output_dir / 'scraped_posts.json'
+        tracking_file = Path(__file__).parent / 'scraped_posts.json'
         if tracking_file.exists():
             try:
                 import json
@@ -133,7 +133,7 @@ class ScraperCoordinator:
     
     def save_tracking_file(self, new_ids):
         """Update tracking file with newly scraped IDs"""
-        tracking_file = self.output_dir / 'scraped_posts.json'
+        tracking_file = Path(__file__).parent / 'scraped_posts.json'
         
         # Load existing data
         data = {'ids': [], 'last_updated': None}

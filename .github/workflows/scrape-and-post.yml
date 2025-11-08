@@ -63,8 +63,8 @@ jobs:
           git config --local user.name "github-actions[bot]"
           
           # Add tracking file if it exists
-          if [ -f content/scraped_posts.json ]; then
-            git add content/scraped_posts.json
+          if [ -f scraper/scraped_posts.json ]; then
+            git add scraper/scraped_posts.json
           fi
           
           # Commit if there are changes
