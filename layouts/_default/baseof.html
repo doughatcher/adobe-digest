@@ -12,6 +12,15 @@
     <title>{{ $title }}</title>
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGNDLTX9R3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MGNDLTX9R3');
+    </script>
+    
     <style>
         * {
             margin: 0;
