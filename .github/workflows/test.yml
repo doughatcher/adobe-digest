@@ -78,7 +78,7 @@ jobs:
           from pathlib import Path
           import yaml
           
-          config_file = Path(__file__).parent / '../data/sources.yaml'
+          config_file = Path('../data/sources.yaml')
           
           if not config_file.exists():
               print(f'❌ Config file not found at {config_file}')
