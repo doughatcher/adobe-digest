@@ -665,30 +665,36 @@
             <div class="main-card">
                 <div class="card-title">Data Sources</div>
                 <div class="source-list">
+                    {{ range .Site.Data.sources.sources }}
+                        {{ if eq .type "atom-feed" }}
                     <div class="source-item">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                             <div>
-                                <div class="source-name">Adobe Security</div>
-                                <div class="source-desc">Official advisories</div>
+                                <div class="source-name">{{ .display_name | default (.name | humanize | title) }}</div>
+                                <div class="source-desc">{{ if .includes }}Filtered: {{ delimit .includes ", " }}{{ else }}Security research{{ end }}</div>
                             </div>
                             <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
-                                <a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="source-link">Web</a>
+                                {{ with .url }}
+                                <a href="{{ . }}" target="_blank" rel="noopener" class="source-link">RSS</a>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                        {{ else if eq .type "adobe-helpx" }}
+                    <div class="source-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                            <div>
+                                <div class="source-name">{{ .name | humanize | title }}</div>
+                                <div class="source-desc">Official security bulletins</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                <a href="{{ .url }}" target="_blank" rel="noopener" class="source-link">Web</a>
                                 <a href="/adobe-security.xml" class="source-link">RSS</a>
                             </div>
                         </div>
                     </div>
-                    <div class="source-item">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                            <div>
-                                <div class="source-name">Sansec Research</div>
-                                <div class="source-desc">E-commerce threats</div>
-                            </div>
-                            <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
-                                <a href="https://sansec.io/research" target="_blank" rel="noopener" class="source-link">Web</a>
-                                <a href="https://sansec.io/atom.xml" target="_blank" rel="noopener" class="source-link">RSS</a>
-                            </div>
-                        </div>
-                    </div>
+                        {{ end }}
+                    {{ end }}
                 </div>
                 <div style="margin-top: 1rem; padding: 0.75rem; background: #0f0f0f; border-radius: 8px; text-align: center;">
                     <div style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Updates Every</div>

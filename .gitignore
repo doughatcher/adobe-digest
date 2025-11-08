@@ -1,6 +1,5 @@
 .hugo_build.lock
 public/
-data/
 .DS_Store
 .env
 __pycache__/
