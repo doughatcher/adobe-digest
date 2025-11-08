@@ -61,22 +61,50 @@ class AdobeReleasesScraper:
     def detect_release_state(self, soup, version):
         """
         Detect if release is alpha, beta, or GA (general availability)
-        Returns: 'alpha', 'beta', 'ga', or None
+        Returns: 'alpha', 'beta', or 'ga'
+        
+        Strategy:
+        1. Check title and first few paragraphs for clear indicators
+        2. Be conservative - only mark as alpha/beta if explicitly stated
+        3. Security patches (-pX) are always GA
         """
-        page_text = soup.get_text().lower()
+        # Security patches are always GA
+        if re.search(r'-p\d+', version):
+            return 'ga'
+        
+        # Check title first (most reliable indicator)
         title = soup.find('h1')
-        title_text = title.get_text().lower() if title else ''
+        if title:
+            title_text = title.get_text()
+            # Look for clear pre-release indicators in title
+            if re.search(r'\b(alpha|ALPHA|Alpha)\b', title_text):
+                return 'alpha'
+            if re.search(r'\b(beta|BETA|Beta)\b', title_text):
+                return 'beta'
         
-        # Check for alpha/beta indicators
-        # Look for "alpha", "beta", "pre-release", "preview" etc.
-        if re.search(r'\balpha\b', page_text) or re.search(r'\balpha\b', title_text):
-            return 'alpha'
-        if re.search(r'\bbeta\b', page_text) or re.search(r'\bbeta\b', title_text):
-            return 'beta'
-        if re.search(r'\bpre-release\b', page_text) or re.search(r'\bpreview\b', page_text):
-            return 'beta'
+        # Check first few paragraphs and any prominent notices
+        # Look for strong indicators like badges, notices, or explicit statements
+        for tag in ['div', 'p', 'span']:
+            for element in soup.find_all(tag, class_=re.compile(r'(alert|notice|badge|warning)', re.IGNORECASE)):
+                text = element.get_text()
+                if re.search(r'\b(alpha|ALPHA|Alpha)\s+(release|version)', text):
+                    return 'alpha'
+                if re.search(r'\b(beta|BETA|Beta)\s+(release|version)', text):
+                    return 'beta'
         
-        # Default to GA (general availability) if no pre-release indicators
+        # Check first 3 paragraphs for explicit pre-release statements
+        paragraphs = soup.find_all('p')[:3]
+        for p in paragraphs:
+            text = p.get_text()
+            # Look for phrases like "This is an alpha release" or "Beta version"
+            if re.search(r'(this is|currently in)\s+(an?\s+)?(alpha|ALPHA)', text, re.IGNORECASE):
+                return 'alpha'
+            if re.search(r'(this is|currently in)\s+(an?\s+)?(beta|BETA)', text, re.IGNORECASE):
+                return 'beta'
+            if re.search(r'(pre-release|preview)\s+(version|release)', text, re.IGNORECASE):
+                return 'beta'
+        
+        # Default to GA - be conservative, don't mark as pre-release unless clearly indicated
         return 'ga'
     
     def create_content_hash(self, soup):
@@ -225,9 +253,18 @@ class AdobeReleasesScraper:
         if title_tag:
             data['title'] = title_tag.get_text(strip=True)
         else:
+            # Generate title from version info
             product_display = release_info['product'].replace('-', ' ').title()
-            state_label = state.upper() if state != 'ga' else ''
-            data['title'] = f"{product_display} {release_info['version']} {state_label} Release Notes".strip()
+            version_display = release_info['version'].replace('-', '.')  # 2-4-7 -> 2.4.7
+            
+            # For pre-release versions, add state label
+            if state == 'alpha':
+                data['title'] = f"{product_display} {version_display} Alpha Release Notes"
+            elif state == 'beta':
+                data['title'] = f"{product_display} {version_display} Beta Release Notes"
+            else:
+                # For GA releases, just use version (which includes -pX if present)
+                data['title'] = f"{product_display} {version_display} Release Notes"
         
         # Try to extract date from various sources
         # 1. Check meta tags first (most reliable)
