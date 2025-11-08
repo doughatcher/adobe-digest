@@ -132,28 +132,85 @@ class AdobeReleasesScraper:
             data['title'] = f"{product_display} {release_info['version']} Release Notes"
         
         # Try to extract date from various sources
-        # 1. Look for "Release date" or "Published" in the page
-        date_patterns = [
-            r'Release date[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})',
-            r'Published[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})',
-            r'Released[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})',
-        ]
+        # 1. Check meta tags first (most reliable)
+        meta_date = soup.find('meta', attrs={'name': 'date'})
+        if meta_date and meta_date.get('content'):
+            try:
+                # Try ISO format first
+                date_str = meta_date.get('content')
+                if 'T' in date_str:
+                    data['published_date'] = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                else:
+                    data['published_date'] = datetime.strptime(date_str, '%Y-%m-%d')
+            except:
+                pass
         
-        page_text = soup.get_text()
-        for pattern in date_patterns:
-            match = re.search(pattern, page_text, re.IGNORECASE)
-            if match:
-                try:
-                    date_str = match.group(1)
-                    data['published_date'] = datetime.strptime(date_str, '%B %d, %Y')
-                    break
-                except:
-                    pass
-        
-        # Fallback: extract year from version (e.g., 2.4.7 -> 2024, 2.4.6 -> 2024)
+        # 2. Look for "Release date" or "Published" in the page content
         if not data['published_date']:
-            # Use current date as fallback
-            data['published_date'] = datetime.now()
+            page_text = soup.get_text()
+            # Try various date patterns
+            date_patterns = [
+                (r'Release date[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})', '%B %d, %Y'),
+                (r'Released[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})', '%B %d, %Y'),
+                (r'Published[:\s]+([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})', '%B %d, %Y'),
+                (r'Release date[:\s]+(\d{4}-\d{2}-\d{2})', '%Y-%m-%d'),
+                (r'(\d{1,2}\s+[A-Z][a-z]+\s+\d{4})', '%d %B %Y'),  # e.g., "9 April 2024"
+                (r'([A-Z][a-z]+\s+\d{4})', '%B %Y'),  # e.g., "April 2024" (fallback to first of month)
+            ]
+            
+            for pattern, date_format in date_patterns:
+                match = re.search(pattern, page_text, re.IGNORECASE)
+                if match:
+                    try:
+                        date_str = match.group(1)
+                        data['published_date'] = datetime.strptime(date_str, date_format)
+                        break
+                    except:
+                        continue
+        
+        # 3. Look in tables (Adobe often uses tables for release info)
+        if not data['published_date']:
+            tables = soup.find_all('table')
+            for table in tables[:3]:  # Check first 3 tables
+                rows = table.find_all('tr')
+                for row in rows:
+                    cells = row.find_all(['td', 'th'])
+                    for i, cell in enumerate(cells):
+                        cell_text = cell.get_text(strip=True)
+                        # Check if this cell mentions a date-related term
+                        if re.search(r'release|published|date', cell_text, re.IGNORECASE):
+                            # Check next cell or same cell for date
+                            date_cell = cells[i + 1] if i + 1 < len(cells) else cell
+                            date_text = date_cell.get_text(strip=True)
+                            # Try to parse as date
+                            for date_format in ['%B %d, %Y', '%B %Y', '%Y-%m-%d', '%d %B %Y']:
+                                try:
+                                    data['published_date'] = datetime.strptime(date_text, date_format)
+                                    break
+                                except:
+                                    continue
+                            if data['published_date']:
+                                break
+                if data['published_date']:
+                    break
+        
+        # 4. Fallback: Try to infer from version and current knowledge
+        # Security patches (pX) are usually released quarterly
+        if not data['published_date']:
+            version = release_info.get('version', '')
+            # Try to extract year from context or make educated guess based on version
+            # For 2.4.x versions, these were released starting in 2020
+            version_match = re.match(r'(\d+)[-\.](\d+)[-\.](\d+)(?:[-\.]p(\d+))?', version)
+            if version_match:
+                major, minor, patch, security_patch = version_match.groups()
+                # Rough estimation: 2.4.x started in 2020, increment year with minor version
+                base_year = 2020 + int(minor) if int(major) == 2 else 2024
+                base_month = (int(patch) * 3) % 12 or 12  # Rough quarterly estimate
+                data['published_date'] = datetime(base_year, base_month, 1)
+            else:
+                # Last resort: use a date in the past (not today) to avoid sorting issues
+                # Use January 1st of current year as a neutral fallback
+                data['published_date'] = datetime(datetime.now().year, 1, 1)
         
         # Extract highlights section
         highlights_section = soup.find(['h2', 'h3'], string=re.compile(r'Highlights?|What\'s New', re.IGNORECASE))
