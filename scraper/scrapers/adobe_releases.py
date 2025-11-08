@@ -40,24 +40,44 @@ class AdobeReleasesScraper:
         releases = []
         
         # Find all links that point to release notes
-        # Pattern: /en/docs/commerce-operations/release/notes/{product}/{version}
-        pattern = r'/en/docs/commerce-operations/release/notes/(adobe-commerce|magento-open-source)/[\d\-p]+'
-        links = soup.find_all('a', href=re.compile(pattern))
+        # Look for links containing /release/notes/ and version patterns
+        # This handles both /adobe-commerce/ and /magento-open-source/ paths
+        all_links = soup.find_all('a', href=True)
         
         total_found = 0
         skipped = 0
+        seen_versions = set()
         
-        for link in links:
-            href = link.get('href')
+        for link in all_links:
+            href = link.get('href', '')
+            
+            # Skip empty hrefs
             if not href:
                 continue
-                
-            # Extract version from URL
-            match = re.search(r'/([\d\-p]+)$', href)
-            if not match:
+            
+            # Must contain /release/notes/ to be a release notes link
+            if '/release/notes/' not in href:
                 continue
-                
-            version = match.group(1)
+            
+            # Must contain adobe-commerce or magento-open-source
+            if not ('adobe-commerce' in href or 'magento-open-source' in href):
+                continue
+            
+            # Extract version from URL - looking for patterns like:
+            # /2-4-7, /2-4-6-p3, /2.4.7, etc.
+            version_match = re.search(r'/(\d+[-\.]\d+[-\.]\d+(?:[-\.]p\d+)?)(?:/|$|\?|#)', href)
+            if not version_match:
+                continue
+            
+            version_raw = version_match.group(1)
+            # Normalize version format to use hyphens (2.4.7 -> 2-4-7)
+            version = version_raw.replace('.', '-')
+            
+            # Avoid duplicates from the same page
+            if version in seen_versions:
+                continue
+            seen_versions.add(version)
+            
             total_found += 1
             
             # Create a unique ID for this release
