@@ -1,0 +1,20 @@
+{
+  "name": "adobe-digest",
+  "version": "1.0.0",
+  "description": "Automated security bulletin and research aggregator for Adobe Commerce and Experience Manager",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "test": "npm run test:yaml && npm run test:python",
+    "test:yaml": "python3 -c \"import yaml; yaml.safe_load(open('data/sources.yaml'))\" && echo '✅ YAML valid'",
+    "test:python": "cd scraper && python3 -m py_compile scraper.py scrapers/*.py && echo '✅ Python syntax valid'",
+    "test:hugo": "hugo --minify --quiet && echo '✅ Hugo build successful'"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doughatcher/adobe-digest.git"
+  }
+}

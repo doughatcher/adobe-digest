@@ -1,0 +1,76 @@
+#!/bin/sh
+# Pre-commit hook for Adobe Digest
+# Validates configuration and code before committing
+
+echo "🔍 Running pre-commit checks..."
+
+# 1. Validate YAML configuration
+echo "📋 Validating sources.yaml..."
+if [ -f data/sources.yaml ]; then
+    python3 -c "
+import yaml
+import sys
+try:
+    with open('data/sources.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+    if 'sources' not in config:
+        print('❌ Missing sources key in config')
+        sys.exit(1)
+    print(f\"✅ YAML valid ({len(config['sources'])} sources)\")
+except Exception as e:
+    print(f'❌ YAML error: {e}')
+    sys.exit(1)
+" || exit 1
+else
+    echo "❌ data/sources.yaml not found"
+    exit 1
+fi
+
+# 2. Validate Python syntax
+echo "🐍 Checking Python syntax..."
+if [ -d scraper ]; then
+    python3 -m py_compile scraper/scraper.py 2>/dev/null || {
+        echo "❌ scraper.py has syntax errors"
+        exit 1
+    }
+    
+    # Check scraper modules if they exist
+    if [ -d scraper/scrapers ]; then
+        for file in scraper/scrapers/*.py; do
+            if [ -f "$file" ] && [ "$(basename "$file")" != "__init__.py" ]; then
+                python3 -m py_compile "$file" 2>/dev/null || {
+                    echo "❌ $(basename "$file") has syntax errors"
+                    exit 1
+                }
+            fi
+        done
+    fi
+    echo "✅ Python syntax valid"
+fi
+
+# 3. Check for common issues
+echo "🔍 Checking for common issues..."
+
+# Ensure no duplicate source names
+python3 -c "
+import yaml
+import sys
+with open('data/sources.yaml', 'r') as f:
+    config = yaml.safe_load(f)
+names = [s.get('name') for s in config.get('sources', [])]
+if len(names) != len(set(names)):
+    print('❌ Duplicate source names found')
+    sys.exit(1)
+print('✅ No duplicate source names')
+" || exit 1
+
+# 4. Ensure scraper reads from correct location
+echo "🔗 Verifying scraper config path..."
+if grep -q "config_file='../data/sources.yaml'" scraper/scraper.py; then
+    echo "✅ Scraper points to data/sources.yaml"
+else
+    echo "❌ Scraper not configured to read from data/sources.yaml"
+    exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"
