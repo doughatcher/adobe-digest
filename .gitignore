@@ -8,3 +8,8 @@ __pycache__/
 
 # Node modules (Husky)
 node_modules/
+
+# Hugo binary and archives
+hugo
+hugo_*
+*.tar.gz
