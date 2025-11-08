@@ -214,9 +214,8 @@ class ScraperCoordinator:
             except Exception as e:
                 print(f"✗ Error scraping {source.get('name', 'unknown')}: {e}")
         
-        # Update tracking file with newly scraped IDs
-        if new_ids:
-            self.save_tracking_file(new_ids)
+        # DON'T update tracking file here - let post_to_microblog.py do it after publishing
+        # This prevents marking posts as "already scraped" before they're actually published
         
         print("\n" + "=" * 50)
         print(f"✅ Complete! Created {len(all_files)} new posts")

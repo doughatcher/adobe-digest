@@ -300,6 +300,39 @@ class MicroblogPoster:
                 'error': str(e)
             }
     
+    def save_to_tracking_file(self, post_ids):
+        """Save successfully posted IDs to tracking file"""
+        tracking_file = Path(__file__).parent / 'scraped_posts.json'
+        
+        # Load existing data
+        data = {'ids': [], 'last_updated': None}
+        if tracking_file.exists():
+            try:
+                with open(tracking_file, 'r') as f:
+                    data = json.load(f)
+            except Exception as e:
+                print(f"⚠️  Error loading tracking file: {e}")
+        
+        # Add new IDs
+        current_ids = set(data.get('ids', []))
+        original_count = len(current_ids)
+        current_ids.update(post_ids)
+        
+        # Save updated data
+        data = {
+            'ids': sorted(list(current_ids)),
+            'last_updated': datetime.now().isoformat(),
+            'total_count': len(current_ids)
+        }
+        
+        try:
+            with open(tracking_file, 'w') as f:
+                json.dump(data, f, indent=2)
+            new_count = len(current_ids) - original_count
+            print(f"💾 Updated tracking file: {new_count} new IDs added, {len(current_ids)} total")
+        except Exception as e:
+            print(f"⚠️  Error saving tracking file: {e}")
+    
     def run(self, limit=5, update_mode=False):
         """Post new bulletins to Micro.blog or update existing ones"""
         print("🚀 Micro.blog Poster")
@@ -347,6 +380,7 @@ class MicroblogPoster:
         # Process each post
         successful = 0
         failed = 0
+        posted_ids = []
         
         for post in posts_to_process:
             if update_mode:
@@ -384,6 +418,7 @@ class MicroblogPoster:
                 if result.get('url'):
                     print(f"   🔗 {result['url']}")
                 successful += 1
+                posted_ids.append(post['id'])  # Track successful posts
             else:
                 print(f"   ❌ Failed to {mode_name}")
                 error_msg = result.get('error', 'Unknown error')
@@ -391,6 +426,10 @@ class MicroblogPoster:
                 print(f"   Error: {error_msg}")
                 print(f"   Status: {status}")
                 failed += 1
+        
+        # Save successfully posted IDs to tracking file
+        if posted_ids:
+            self.save_to_tracking_file(posted_ids)
         
         print("\n" + "=" * 50)
         if update_mode:
