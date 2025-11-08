@@ -584,7 +584,32 @@
             </svg>
             Adobe Digest
         </div>
-        <div class="tagline">Automated security intelligence for Adobe Commerce and Experience Manager</div>
+        <div class="tagline" style="font-size: 0.95rem; color: #64748b; margin-bottom: 2.5rem; font-weight: 400; max-width: 600px; margin-left: auto; margin-right: auto;">Automated security intelligence for Adobe Commerce and Experience Manager</div>
+        
+        <!-- Latest Updates without header -->
+        <div style="margin: 2rem 0 3rem 0; text-align: left;">
+            <div class="news-items" style="display:grid; gap:1rem;">
+                {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
+                {{ range $recentPosts }}
+                <div class="news-item" style="background:#141414; padding:1.5rem; border-radius:12px; border:1px solid #2a2a2a; transition:all 0.3s ease;">
+                    <div style="display:flex; gap:1rem; align-items:flex-start;">
+                        <div class="news-date" style="flex-shrink:0; color:#94a3b8; font-size:0.875rem; width:80px;">{{ .Date.Format "Jan 2, 2006" }}</div>
+                        <div class="news-content" style="flex-grow:1;">
+                            <div class="news-title" style="color:#e2e8f0; font-weight:600; margin-bottom:0.5rem; font-size:1rem; line-height:1.4;">
+                                <a href="{{ .RelPermalink }}" style="color:#e2e8f0; text-decoration:none; transition:color 0.2s ease;">{{ .Title }}</a>
+                            </div>
+                            <div class="news-source" style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
+                                {{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Security Research{{ end }}
+                            </div>
+                            <div class="content-wrapper">
+                                {{ .Content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
         
         <div class="main-cards" style="grid-template-columns: repeat(2, 1fr);">
             {{ $allPages := .Site.RegularPages }}
@@ -671,64 +696,30 @@
                 </div>
             </div>
         </div>
-
-        <!-- Latest Updates full width -->
-        <div style="margin: 3rem 0 2rem 0;">
-            <div class="card-title" style="font-size:1.3rem; text-align:left; margin-bottom:1.25rem; color:#ef4444;">Latest Updates</div>
-            <div class="news-items" style="display:grid; gap:1rem;">
-                {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
-                {{ range $recentPosts }}
-                <div class="news-item" style="background:#141414; padding:1.5rem; border-radius:12px; border:1px solid #2a2a2a; transition:all 0.3s ease;">
-                    <div style="display:flex; gap:1rem; align-items:flex-start; margin-bottom:1rem;">
-                        <div class="news-date" style="flex-shrink:0; color:#94a3b8; font-size:0.875rem; width:80px;">{{ .Date.Format "Jan 2, 2006" }}</div>
-                        <div class="news-content" style="flex-grow:1;">
-                            <div class="news-title" style="color:#e2e8f0; font-weight:600; margin-bottom:0.5rem; font-size:1rem; line-height:1.4;">
-                                <a href="{{ .RelPermalink }}" style="color:#e2e8f0; text-decoration:none; transition:color 0.2s ease;">{{ .Title }}</a>
-                            </div>
-                            <div class="news-source" style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
-                                {{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Security Research{{ end }}
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin-left:96px;" class="content-wrapper">
-                        {{ .Content }}
-                    </div>
-                </div>
-                {{ end }}
-            </div>
-            <div style="text-align:right; margin-top:1rem;">
-                <a href="/archive/" class="card-action" style="display:inline-block;">View All Bulletins</a>
-            </div>
-        </div>
         
         <div class="links">
+            <a href="/archive/" class="btn">Browse Archive</a>
             <a href="/adobe-security.xml" class="btn btn-secondary">RSS Feed</a>
             <a href="https://github.com/doughatcher/adobe-digest" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
         </div>
         
-        <div class="footer" style="margin-top:3rem; padding-top:2.5rem; border-top:1px solid #2a2a2a; color:#94a3b8; font-size:0.95rem;">
-            <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:flex-start; max-width:900px; margin:0 auto;">
-                <div style="flex:2; min-width:220px;">
-                    <div class="subscribe-section" style="background:#141414; padding:1.5rem 2rem; border-radius:12px; border:1px solid #2a2a2a; margin-bottom:1.5rem;">
-                        <h3 class="subscribe-title" style="font-size:1.1rem; color:#ef4444; margin-bottom:0.5rem; text-align:left;">Subscribe to Updates</h3>
-                        <form method="POST" action="https://micro.blog/users/subscribe/267908" class="subscribe-form" style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-                            <input type="text" name="email" size="30" placeholder="Your email address" class="subscribe-input" style="flex:1; min-width:180px; padding:0.7rem 1rem; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:8px; color:#e2e8f0; font-size:0.95rem;" />
-                            <input type="submit" value="Subscribe" class="subscribe-button" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem;" />
-                        </form>
-                    </div>
-                    <div class="footer-content" style="line-height:1.7;">
-                        <p style="margin-bottom:0.7rem;">Adobe Digest is an automated security intelligence platform for Adobe Commerce and Experience Manager. It aggregates official Adobe security bulletins and curated e-commerce research every six hours, providing a centralized resource for vulnerability tracking.</p>
-                        <p style="margin-bottom:0.7rem;">This is an independent community resource, not affiliated with Adobe. Data sourced from <a href='https://helpx.adobe.com/security/security-bulletin.html' style='color:#f97316; text-decoration:none;' target='_blank'>Adobe Security</a> and <a href='https://sansec.io/research' style='color:#f97316; text-decoration:none;' target='_blank'>Sansec Research</a>.</p>
-                    </div>
+        <div class="footer" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #2a2a2a;">
+            <div class="subscribe-section" style="background:#141414; padding:1.5rem 2rem; border-radius:12px; border:1px solid #2a2a2a; margin-bottom:1.5rem;">
+                <h3 style="font-size:1.1rem; color:#ef4444; margin-bottom:0.25rem; text-align:center;">Stay Ahead of Security Threats</h3>
+                <p style="text-align:center; color:#94a3b8; font-size:0.875rem; margin-bottom:1rem;">Get bulletins and research updates delivered to your inbox</p>
+                <form method="POST" action="https://micro.blog/users/subscribe/267908" style="display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.75rem;">
+                    <input type="text" name="email" size="30" placeholder="Your email address" style="flex:1; min-width:250px; padding:0.7rem 1rem; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:8px; color:#e2e8f0; font-size:0.95rem;" />
+                    <input type="submit" value="Subscribe" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem;" />
+                </form>
+                <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; font-size:0.8rem; color:#64748b;">
+                    <span>✓ Official security bulletins</span>
+                    <span>✓ Industry research</span>
+                    <span>✓ Zero spam</span>
                 </div>
-                <div style="flex:1; min-width:180px; display:flex; flex-direction:column; gap:1.2rem; align-items:flex-end;">
-                    <div class="footer-links" style="display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end;">
-                        <span style="color:#64748b; font-size:0.9rem;">Built by</span>
-                        <a href="https://doughatcher.com" target="_blank" rel="noopener" style="color:#ef4444; text-decoration:none; font-weight:600;">Doug Hatcher</a>
-                        <a href="https://blueacornici.com" target="_blank" rel="noopener" style="color:#ef4444; text-decoration:none; font-weight:600;">Blue Acorn iCi</a>
-                        <a href="https://github.com/doughatcher/adobe-digest" target="_blank" rel="noopener" style="color:#f97316; text-decoration:none; font-weight:600;">GitHub Repo</a>
-                    </div>
-                </div>
+            </div>
+            
+            <div style="text-align:center; color:#64748b; font-size:0.8rem;">
+                <p>Independent community resource, not affiliated with Adobe</p>
             </div>
         </div>
     </div>
