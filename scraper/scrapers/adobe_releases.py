@@ -231,9 +231,18 @@ class AdobeReleasesScraper:
         # Create content hash to detect updates
         content_hash = self.create_content_hash(soup)
         
+        # Create ID based on state and version
+        # For pre-release: append state (adobe-commerce-2-4-9-alpha)
+        # For GA: use version as-is (adobe-commerce-2-4-7 or adobe-commerce-2-4-7-p3)
+        if state in ['alpha', 'beta']:
+            post_id = f"{release_info['base_id']}-{state}"
+        else:
+            # For GA, just use the base_id which already includes version (and -pX if present)
+            post_id = release_info['base_id']
+        
         data = {
             'base_id': release_info['base_id'],
-            'id': f"{release_info['base_id']}-{state}",  # Include state in ID
+            'id': post_id,
             'url': release_info['url'],
             'version': release_info['version'],
             'product': release_info['product'],
@@ -529,7 +538,14 @@ class AdobeReleasesScraper:
             f.write(content)
             f.write('\n')
         
+        # Log creation with details
         print(f"   ✓ Created: {filename}")
+        print(f"      ID: {data['id']}")
+        print(f"      Title: {data['title']}")
+        print(f"      State: {data['state'].upper()}")
+        if data.get('highlights'):
+            print(f"      Highlights: {len(data['highlights'])} items")
+        
         return filename
     
     def scrape(self, config):
