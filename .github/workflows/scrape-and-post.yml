@@ -76,10 +76,49 @@ jobs:
             echo "ℹ️  No changes to commit"
           fi
       
+      - name: Wait for Micro.blog to publish
+        run: |
+          echo "⏳ Waiting 5 minutes for Micro.blog to rebuild site..."
+          sleep 300
+      
+      - name: Validate RSS feed
+        id: validate_feed
+        continue-on-error: true
+        run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          FEED_URL="https://adobedigest.com/feed.xml?v=${COMMIT_SHA}"
+          VALIDATOR_URL="https://validator.w3.org/feed/check.cgi?url=$(echo -n "$FEED_URL" | jq -sRr @uri)"
+          
+          echo "🔍 Validating RSS feed..."
+          echo "Feed URL: $FEED_URL"
+          echo "Validator: $VALIDATOR_URL"
+          
+          # Fetch the feed and check if it's valid XML
+          if curl -sSf "$FEED_URL" | xmllint --noout - 2>/dev/null; then
+            echo "✅ Feed is valid XML"
+            echo "valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Feed has XML errors"
+            echo "valid=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
       - name: Create summary
+        if: always()
         run: |
           echo "## Scraper Results" >> $GITHUB_STEP_SUMMARY
           NEW_COUNT=$(find content/20*/ -name "*.md" -type f 2>/dev/null | wc -l)
           echo "- New posts found: $NEW_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "- Posted to Micro.blog: Yes" >> $GITHUB_STEP_SUMMARY
           echo "- Scraper completed at: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## RSS Feed Validation" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.validate_feed.outputs.valid }}" = "true" ]; then
+            echo "- ✅ Feed is valid" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ❌ Feed validation failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          FEED_URL="https://adobedigest.com/feed.xml?v=${COMMIT_SHA}"
+          VALIDATOR_URL="https://validator.w3.org/feed/check.cgi?url=$(echo -n "$FEED_URL" | jq -sRr @uri)"
+          echo "- [Check W3C Validator]($VALIDATOR_URL)" >> $GITHUB_STEP_SUMMARY
