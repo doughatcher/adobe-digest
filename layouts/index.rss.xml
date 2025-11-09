@@ -3,11 +3,12 @@
 {{- if ge $limit 1 -}}
 {{- $pages = $pages | first $limit -}}
 {{- end -}}
+{{- $baseURL := "https://adobedigest.com/" -}}
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>{{ .Site.Title }} - All Security Bulletins</title>
-    <link>{{ .Permalink }}</link>
+    <link>{{ $baseURL }}</link>
     <description>Complete feed of all Adobe security bulletins and advisories</description>
     <generator>Hugo -- gohugo.io</generator>{{ with .Site.LanguageCode }}
     <language>{{.}}</language>{{end}}
@@ -15,18 +16,16 @@
     <webMaster>noreply@adobedigest.com (Adobe Digest)</webMaster>{{ with .Site.Copyright }}
     <copyright>{{.}}</copyright>{{end}}{{ if not .Date.IsZero }}
     <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
-    {{- with .OutputFormats.Get "RSS" -}}
-    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
-    {{- end -}}
+    <atom:link href="{{ $baseURL }}feed.xml" rel="self" type="application/rss+xml" />
     {{ range $pages }}
     <item>
       <title>{{ .Title | default (truncate 50 .Summary) }}</title>
-      <link>{{ .Permalink }}</link>
+      <link>{{ $baseURL | strings.TrimSuffix "/" }}{{ .RelPermalink }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       <author>noreply@adobedigest.com (Adobe Digest)</author>
-      <guid>{{ .Permalink }}</guid>
+      <guid>{{ $baseURL | strings.TrimSuffix "/" }}{{ .RelPermalink }}</guid>
       <description>{{ .Summary | html }}</description>
-      <content:encoded><![CDATA[{{ .Content | replaceRE "<hr>" "<hr />" | replaceRE "<br>" "<br />" }}]]></content:encoded>
+      <content:encoded>{{ printf "<![CDATA[%s]]>" (.Content | replaceRE "<hr>" "<hr />" | replaceRE "<br>" "<br />") | safeHTML }}</content:encoded>
       {{ range .Params.categories }}
       <category>{{ . }}</category>
       {{ end }}
