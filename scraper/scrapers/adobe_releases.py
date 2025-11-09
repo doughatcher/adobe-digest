@@ -158,68 +158,62 @@ class AdobeReleasesScraper:
     
     def extract_releases_from_versions_page(self, soup, product_name):
         """
-        Extract release links from the versions page
-        Returns list of releases with version and link to release notes
+        Extract ALL discrete releases from the versions page.
+        The page lists all versions (base, patches, alphas) with their release dates.
+        
+        Links have patterns like:
+        - Base: <a href="/adobe-commerce/2-4-8">2.4.8</a>
+        - Patches: <a href="/security-patches/2-4-8-patches#p1">2.4.8-p1</a>
+        - Alphas: <a href="/adobe-commerce/2-4-9#alpha1">2.4.9-alpha1</a>
         """
         releases = []
-        
-        # Find all links that point to release notes
-        # Look for links containing /release/notes/ and version patterns
-        # This handles both /adobe-commerce/ and /magento-open-source/ paths
-        all_links = soup.find_all('a', href=True)
-        
-        total_found = 0
-        skipped = 0
         seen_versions = set()
+        
+        # Find all links
+        all_links = soup.find_all('a', href=True)
         
         for link in all_links:
             href = link.get('href', '')
+            text = link.get_text().strip()
             
-            # Skip empty hrefs
-            if not href:
-                continue
-            
-            # Must contain /release/notes/ to be a release notes link
-            if '/release/notes/' not in href:
-                continue
-            
-            # Must contain adobe-commerce or magento-open-source
-            if not ('adobe-commerce' in href or 'magento-open-source' in href):
-                continue
-            
-            # Extract version from URL - looking for patterns like:
-            # /2-4-7, /2-4-6-p3, /2.4.7, etc.
-            version_match = re.search(r'/(\d+[-\.]\d+[-\.]\d+(?:[-\.]p\d+)?)(?:/|$|\?|#)', href)
+            # Look for version pattern in link text: 2.4.8, 2.4.8-p1, 2.4.9-alpha1, etc.
+            version_match = re.match(r'^(\d+\.\d+\.\d+(?:-(?:p\d+|alpha\d*|beta\d*))?)$', text)
             if not version_match:
                 continue
             
-            version_raw = version_match.group(1)
-            # Normalize version format to use hyphens (2.4.7 -> 2-4-7)
-            version = version_raw.replace('.', '-')
+            version_text = version_match.group(1)
+            # Normalize to use hyphens
+            version = version_text.replace('.', '-')
             
-            # Avoid duplicates from the same page
+            # Skip duplicates
             if version in seen_versions:
                 continue
             seen_versions.add(version)
             
-            total_found += 1
-            
             # Build full URL
             full_url = urljoin(self.base_url, href)
             
-            # Create base ID (will be extended with state later)
-            base_id = f"{product_name}-{version}"
-            
-            # Always add to releases list - we'll determine if we need to scrape
-            # after we fetch the page and can detect state/content changes
+            # Create release entry
             releases.append({
-                'base_id': base_id,
+                'base_id': f"{product_name}-{version}",
                 'version': version,
                 'url': full_url,
-                'product': product_name
+                'product': product_name,
+                'link_text': text
             })
         
-        print(f"   📥 Found {len(releases)} release versions to check")
+        print(f"   📥 Found {len(releases)} discrete release versions")
+        
+        # Show summary by type
+        base_versions = [r for r in releases if not re.search(r'-(p\d+|alpha|beta)', r['version'])]
+        patch_versions = [r for r in releases if re.search(r'-p\d+', r['version'])]
+        alpha_versions = [r for r in releases if 'alpha' in r['version']]
+        beta_versions = [r for r in releases if 'beta' in r['version']]
+        
+        print(f"      • Base versions: {len(base_versions)}")
+        print(f"      • Patch versions: {len(patch_versions)}")
+        print(f"      • Alpha versions: {len(alpha_versions)}")
+        print(f"      • Beta versions: {len(beta_versions)}")
         
         return releases
     
