@@ -13,6 +13,15 @@ Adobe Digest is an automated system that scrapes, aggregates, and publishes secu
 - ⏰ **Scheduled Updates**: Runs every 6 hours via GitHub Actions
 - 🔄 **Deduplication**: Tracks posted content to avoid duplicates
 - 📊 **Hugo Static Site**: Fast, modern website built with Hugo
+- 📡 **RSS Feeds**: Multiple feeds for all bulletins and per-product updates
+
+## RSS Feeds
+
+Subscribe to stay updated on Adobe security bulletins:
+
+- **[All Bulletins](https://adobedigest.com/feed.xml)** - Complete firehose of all security bulletins and advisories
+- **[Per-Product Feeds](https://adobedigest.com/products/)** - Individual RSS feeds for specific Adobe products
+- **[JSON Feed](https://adobedigest.com/feed.json)** - JSON Feed format for developers
 
 ## Data Sources
 
