@@ -91,7 +91,7 @@ class MicroblogPoster:
     def get_local_posts(self):
         """Get all local markdown posts"""
         posts = []
-        content_dir = Path(__file__).parent
+        content_dir = Path(__file__).parent.parent / 'content'
         
         # Look in year directories (2023, 2024, 2025, etc.)
         for year_dir in sorted(content_dir.glob('[0-9][0-9][0-9][0-9]'), reverse=True):
