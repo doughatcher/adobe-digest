@@ -13,3 +13,5 @@ One major purpose is to provide RSS feeds to help people keep up to date with wh
 It's important to not break the URL structure and make sure we're properly linking out. We want to be good citizens and try not game pagerank, we should be repsectful that we aren't the canonitcal URL for any of this content.
 
 In the future I will likley use POSSE and this platform to publish updates for my own, so the work you do needs to consider the future-state too. 
+
+When you open PRs and change any PRs, be sure to submit screenshots of all major pages in both mobile and desktop viewports.
