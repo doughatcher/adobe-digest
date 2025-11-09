@@ -169,10 +169,12 @@ Required secrets for GitHub Actions:
 - **Schedule**: Every 6 hours
 - **Manual**: Via workflow_dispatch
 - **Actions**: Scrape sources → Post to Micro.blog → Commit tracking file
+- **Note**: Commits use `[skip ci]` to prevent triggering the test workflow
 
 ### Test (`test.yml`)
 - **Trigger**: Push to main, PRs
-- **Actions**: Validate YAML, test scraper, verify Hugo build
+- **Actions**: Validate YAML, test scraper imports and initialization, verify Hugo build
+- **Note**: Does NOT run the actual scraper to avoid duplicate work
 
 ## Project Structure
 

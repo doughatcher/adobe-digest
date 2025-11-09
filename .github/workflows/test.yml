@@ -106,12 +106,15 @@ jobs:
               sys.exit(1)
           "
       
-      - name: Dry run scraper (no actual scraping)
+      - name: Validate scraper can initialize
         run: |
           cd scraper
-          # Just test that scraper.py runs without errors (will skip existing posts)
-          python3 scraper.py || true
-          echo "✅ Scraper executed without critical errors"
+          # Test that the scraper coordinator can initialize without running
+          python3 -c "
+          from scraper import ScraperCoordinator
+          coordinator = ScraperCoordinator()
+          print('✅ Scraper coordinator initialized successfully')
+          "
       
       - name: Validate Hugo can read data file
         run: |
