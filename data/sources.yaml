@@ -24,6 +24,16 @@ sources:
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: aem-forms
   
+  # Adobe Commerce Release Notes
+  - type: adobe-release-notes
+    name: adobe-commerce-releases
+    display_name: Adobe Commerce Release Notes
+    description: Official release notes for Adobe Commerce versions
+    url: https://experienceleague.adobe.com/en/docs/commerce-operations/release/versions
+    product: adobe-commerce
+    categories:
+      - releases
+  
   # Sansec.io Security Research
   - type: atom-feed
     name: sansec-research

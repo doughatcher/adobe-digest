@@ -21,11 +21,19 @@ Adobe Digest is an automated system that scrapes, aggregates, and publishes secu
    - Adobe Experience Manager
    - Adobe AEM Forms
 
-2. **Sansec.io Security Research**
+2. **Adobe Commerce Release Notes**
+   - Official release notes for Adobe Commerce versions
+   - Feature updates, security patches, and platform changes
+
+3. **Magento Open Source Release Notes**
+   - Official release notes for Magento Open Source versions
+   - Community edition updates and releases
+
+4. **Sansec.io Security Research**
    - Magento/Adobe Commerce security research
    - Threat intelligence and malware analysis
 
-3. **Akamai Security Blog** (filtered)
+5. **Akamai Security Blog** (filtered)
    - Posts mentioning Adobe Commerce, AEM, or related vulnerabilities
    - SessionReaper, CosmicString, and other Adobe-related threats
 
@@ -38,6 +46,8 @@ Adobe Digest is an automated system that scrapes, aggregates, and publishes secu
 └────────┬────────┘
          │
          ├──> Scrape Adobe HelpX
+         ├──> Scrape Adobe Commerce Releases
+         ├──> Scrape Magento Open Source Releases
          ├──> Scrape Sansec.io 
          ├──> Scrape Akamai Blog (filtered)
          │
@@ -126,6 +136,14 @@ sources:
     display_name: "Display Name"
     url: https://helpx.adobe.com/security/security-bulletin.html
     section_id: product-section
+  
+  - type: adobe-release-notes
+    name: source-identifier
+    display_name: "Display Name"
+    url: https://experienceleague.adobe.com/en/docs/commerce-operations/release/versions
+    product: adobe-commerce  # or magento-open-source
+    categories:
+      - releases
     
   - type: atom-feed
     name: source-identifier
