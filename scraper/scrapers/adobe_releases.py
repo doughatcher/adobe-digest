@@ -253,12 +253,30 @@ class AdobeReleasesScraper:
         
         # Extract title
         title_tag = soup.find('h1')
+        version_display = release_info['version'].replace('-', '.')  # 2-4-7 -> 2.4.7
+        
         if title_tag:
             data['title'] = title_tag.get_text(strip=True)
+            
+            # Append version to title if it's a patch version or alpha/beta and not already in title
+            # This handles cases like "Release notes for Adobe Commerce 2.4.8 security patches"
+            # which should become "... 2.4.8 security patches (2.4.8-p3)"
+            if 'p' in release_info['version'] or state in ['alpha', 'beta']:
+                # Check if the specific version is already in the title
+                # Create both possible formats: 2.4.8-p3 (dotted-mixed) and 2.4.8.p3 (all dots)
+                parts = release_info['version'].split('-')
+                if len(parts) >= 3:
+                    version_dotted_mixed = f"{parts[0]}.{parts[1]}.{'-'.join(parts[2:])}"  # 2.4.8-p3
+                else:
+                    version_dotted_mixed = version_display
+                
+                # Check if either format is in the title
+                if version_display not in data['title'] and version_dotted_mixed not in data['title']:
+                    # Append the specific version in parentheses
+                    data['title'] = f"{data['title']} ({version_display})"
         else:
             # Generate title from version info
             product_display = release_info['product'].replace('-', ' ').title()
-            version_display = release_info['version'].replace('-', '.')  # 2-4-7 -> 2.4.7
             
             # For pre-release versions, add state label
             if state == 'alpha':
