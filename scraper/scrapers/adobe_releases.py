@@ -225,14 +225,14 @@ class AdobeReleasesScraper:
         # Create content hash to detect updates
         content_hash = self.create_content_hash(soup)
         
-        # Create ID based on state and version
-        # For pre-release: append state (adobe-commerce-2-4-9-alpha)
-        # For GA: use version as-is (adobe-commerce-2-4-7 or adobe-commerce-2-4-7-p3)
-        if state in ['alpha', 'beta']:
-            post_id = f"{release_info['base_id']}-{state}"
-        else:
-            # For GA, just use the base_id which already includes version (and -pX if present)
-            post_id = release_info['base_id']
+        # Create ID based on version
+        # The version already includes alpha/beta/patch info (e.g., 2-4-9-alpha2, 2-4-8-p3)
+        # So we just use the base_id which is product-version
+        # Examples:
+        #   - adobe-commerce-2-4-7 (base version)
+        #   - adobe-commerce-2-4-7-p3 (patch version)
+        #   - adobe-commerce-2-4-9-alpha2 (alpha version)
+        post_id = release_info['base_id']
         
         data = {
             'base_id': release_info['base_id'],
