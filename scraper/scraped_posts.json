@@ -68,15 +68,20 @@
     "APSB25-88",
     "APSB25-90",
     "APSB25-94",
+    "adobe-commerce-2-4-4-p6",
     "adobe-commerce-2-4-4-p9",
     "adobe-commerce-2-4-5-p4",
     "adobe-commerce-2-4-5-p6",
     "adobe-commerce-2-4-5-p7",
     "adobe-commerce-2-4-5-p8",
+    "adobe-commerce-2-4-6-p13",
+    "adobe-commerce-2-4-6-p9",
     "adobe-commerce-2-4-7",
     "adobe-commerce-2-4-7-p2",
+    "adobe-commerce-2-4-7-p7",
     "adobe-commerce-2-4-8",
     "adobe-commerce-2-4-8-p1",
+    "adobe-commerce-2-4-8-p2",
     "akamai-blog-new-sophisticated-magento-campaign-xurum-webshell",
     "and-europol-counter-online",
     "client-side-security",
@@ -201,6 +206,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-10T01:42:11.855431",
-  "total_count": 200
+  "last_updated": "2025-11-10T06:32:32.745628",
+  "total_count": 205
 }
