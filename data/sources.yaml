@@ -61,3 +61,17 @@ sources:
     categories:
       - news
       - akamai
+  
+  # NIST NVD CVE Database (filtered for Adobe Commerce/Magento/AEM)
+  - type: nist-nvd
+    name: nist-nvd
+    display_name: NIST NVD
+    description: CVE vulnerability updates from NIST National Vulnerability Database for Adobe Commerce, Magento, and AEM
+    keywords:
+      - Adobe Commerce
+      - Magento
+      - Adobe Experience Manager
+    lookback_days: 30
+    categories:
+      - cve
+      - vulnerability
