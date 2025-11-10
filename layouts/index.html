@@ -756,6 +756,105 @@
                 </div>
             </div>
             
+            <!-- Browser Notifications Section -->
+            <div class="notification-section" style="background:#141414; padding:1.5rem 2rem; border-radius:12px; border:1px solid #2a2a2a; margin-bottom:1.5rem;">
+                <h3 style="font-size:1.1rem; color:#ef4444; margin-bottom:0.25rem; text-align:center;">Browser Notifications</h3>
+                <p style="text-align:center; color:#94a3b8; font-size:0.875rem; margin-bottom:1rem;">Get instant alerts for new security bulletins right in your browser</p>
+                <div style="text-align:center;">
+                    <button id="notificationToggle" onclick="handleNotificationToggle()" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem; transition:all 0.2s ease;">
+                        <span id="notificationToggleText">Enable Notifications</span>
+                    </button>
+                    <p id="notificationStatus" style="margin-top:0.75rem; font-size:0.8rem; color:#64748b;"></p>
+                </div>
+            </div>
+            
+            <script>
+                // Initialize notification toggle button state
+                document.addEventListener('DOMContentLoaded', function() {
+                    updateNotificationButton();
+                });
+
+                async function handleNotificationToggle() {
+                    const button = document.getElementById('notificationToggle');
+                    const buttonText = document.getElementById('notificationToggleText');
+                    const status = document.getElementById('notificationStatus');
+                    
+                    if (!window.adobeDigestNotifications) {
+                        status.textContent = 'Notification system not loaded. Please refresh the page.';
+                        status.style.color = '#ef4444';
+                        return;
+                    }
+                    
+                    const manager = window.adobeDigestNotifications;
+                    
+                    if (!manager.isSupported()) {
+                        status.textContent = 'Browser notifications are not supported in your browser.';
+                        status.style.color = '#ef4444';
+                        button.disabled = true;
+                        button.style.opacity = '0.5';
+                        button.style.cursor = 'not-allowed';
+                        return;
+                    }
+                    
+                    if (manager.enabled) {
+                        manager.disable();
+                        buttonText.textContent = 'Enable Notifications';
+                        status.textContent = 'Notifications disabled. You won\'t receive browser alerts.';
+                        status.style.color = '#94a3b8';
+                    } else {
+                        const granted = await manager.requestPermission();
+                        if (granted) {
+                            buttonText.textContent = 'Disable Notifications';
+                            status.textContent = 'Notifications enabled! You\'ll be alerted when new bulletins are posted.';
+                            status.style.color = '#10b981';
+                            manager.startPeriodicChecks();
+                        } else {
+                            status.textContent = 'Permission denied. Enable notifications in your browser settings.';
+                            status.style.color = '#ef4444';
+                        }
+                    }
+                }
+
+                function updateNotificationButton() {
+                    const buttonText = document.getElementById('notificationToggleText');
+                    const status = document.getElementById('notificationStatus');
+                    const button = document.getElementById('notificationToggle');
+                    
+                    if (!window.adobeDigestNotifications) {
+                        return;
+                    }
+                    
+                    const manager = window.adobeDigestNotifications;
+                    
+                    if (!manager.isSupported()) {
+                        buttonText.textContent = 'Not Supported';
+                        status.textContent = 'Browser notifications are not supported in your browser.';
+                        status.style.color = '#ef4444';
+                        button.disabled = true;
+                        button.style.opacity = '0.5';
+                        button.style.cursor = 'not-allowed';
+                        return;
+                    }
+                    
+                    if (manager.enabled && manager.getPermission() === 'granted') {
+                        buttonText.textContent = 'Disable Notifications';
+                        status.textContent = 'Notifications enabled. You\'ll be alerted when new bulletins are posted.';
+                        status.style.color = '#10b981';
+                    } else if (manager.getPermission() === 'denied') {
+                        buttonText.textContent = 'Permission Denied';
+                        status.textContent = 'Notification permission denied. Enable in browser settings.';
+                        status.style.color = '#ef4444';
+                        button.disabled = true;
+                        button.style.opacity = '0.5';
+                        button.style.cursor = 'not-allowed';
+                    } else {
+                        buttonText.textContent = 'Enable Notifications';
+                        status.textContent = 'Click to enable browser notifications for security updates.';
+                        status.style.color = '#94a3b8';
+                    }
+                }
+            </script>
+            
             <div style="text-align:center; color:#64748b; font-size:0.8rem;">
                 <p>Independent community resource, not affiliated with Adobe</p>
             </div>
