@@ -14,6 +14,17 @@ Adobe Digest is an automated system that scrapes, aggregates, and publishes secu
 - 🔄 **Deduplication**: Tracks posted content to avoid duplicates
 - 📊 **Hugo Static Site**: Fast, modern website built with Hugo
 - 📡 **RSS Feeds**: Multiple feeds for all bulletins and per-product updates
+- 🔔 **Browser Notifications**: Real-time alerts for new security bulletins via browser notifications
+
+## Staying Updated
+
+Get security bulletin updates through your preferred channel:
+
+### Browser Notifications
+
+Enable browser notifications on [adobedigest.com](https://adobedigest.com) to receive instant alerts when new security bulletins are posted. Works with Chrome, Firefox, Safari, and Edge.
+
+See [Browser Notifications Documentation](docs/BROWSER_NOTIFICATIONS.md) for details.
 
 ## RSS Feeds
 
