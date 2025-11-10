@@ -222,10 +222,18 @@ adobe-digest/
 │   ├── scraped_posts.json  # Tracking file
 │   └── scrapers/           # Individual scrapers
 │       ├── adobe_helpx.py
+│       ├── adobe_releases.py
+│       ├── atom_feed.py
 │       ├── sansec_io.py
-│       └── atom_feed.py
+│       └── nist_nvd.py
 └── static/                 # Static assets
 ```
+
+## Documentation
+
+- **[NIST NVD Integration](docs/NIST_NVD_INTEGRATION.md)** - How CVE tracking from NIST works
+- **[Deployment Guide](DEPLOYMENT.md)** - Deployment and hosting information
+- **[Micro.blog Multi-Blog Setup](docs/MICROBLOG_MULTI_BLOG_SETUP.md)** - Multi-blog configuration
 
 ## Credits
 
