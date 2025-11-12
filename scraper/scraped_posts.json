@@ -242,8 +242,10 @@
     "sansec-trojanorder-magento",
     "sansec-vendors-defeat-magento-security-patch-simple-check",
     "sansec-virustotal-sansec",
+    "sansec-visbot-malware-on-6691-stores-analysis",
     "sansec-warring-magecart-factions",
     "sansec-webgility-backdoor",
+    "sansec-widespread-credit-card-hijacking-discovered",
     "sessionreaper",
     "sessionreaper-exploitation",
     "skimmer-dynamic-exfiltration-shopify-bigcommerce",
@@ -251,6 +253,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-12T12:42:36.073416",
-  "total_count": 250
+  "last_updated": "2025-11-12T18:29:03.527474",
+  "total_count": 252
 }
