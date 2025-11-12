@@ -69,13 +69,16 @@
     "APSB25-90",
     "APSB25-94",
     "adobe-commerce-2-4-4-p4",
+    "adobe-commerce-2-4-4-p5",
     "adobe-commerce-2-4-4-p6",
     "adobe-commerce-2-4-4-p7",
     "adobe-commerce-2-4-4-p8",
     "adobe-commerce-2-4-4-p9",
+    "adobe-commerce-2-4-5",
     "adobe-commerce-2-4-5-p1",
     "adobe-commerce-2-4-5-p10",
     "adobe-commerce-2-4-5-p11",
+    "adobe-commerce-2-4-5-p12",
     "adobe-commerce-2-4-5-p13",
     "adobe-commerce-2-4-5-p14",
     "adobe-commerce-2-4-5-p15",
@@ -87,6 +90,7 @@
     "adobe-commerce-2-4-5-p7",
     "adobe-commerce-2-4-5-p8",
     "adobe-commerce-2-4-5-p9",
+    "adobe-commerce-2-4-6",
     "adobe-commerce-2-4-6-p1",
     "adobe-commerce-2-4-6-p10",
     "adobe-commerce-2-4-6-p11",
@@ -108,6 +112,7 @@
     "adobe-commerce-2-4-7-p5",
     "adobe-commerce-2-4-7-p6",
     "adobe-commerce-2-4-7-p7",
+    "adobe-commerce-2-4-7-p8",
     "adobe-commerce-2-4-8",
     "adobe-commerce-2-4-8-p1",
     "adobe-commerce-2-4-8-p2",
@@ -236,6 +241,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-11T18:29:06.595835",
-  "total_count": 235
+  "last_updated": "2025-11-12T01:38:34.080442",
+  "total_count": 240
 }
