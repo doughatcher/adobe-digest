@@ -68,6 +68,11 @@
     "APSB25-88",
     "APSB25-90",
     "APSB25-94",
+    "adobe-commerce-2-4-0",
+    "adobe-commerce-2-4-3-p1",
+    "adobe-commerce-2-4-3-p2",
+    "adobe-commerce-2-4-3-p3",
+    "adobe-commerce-2-4-4",
     "adobe-commerce-2-4-4-p4",
     "adobe-commerce-2-4-4-p5",
     "adobe-commerce-2-4-4-p6",
@@ -241,6 +246,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-12T01:38:34.080442",
-  "total_count": 240
+  "last_updated": "2025-11-12T06:31:36.873910",
+  "total_count": 245
 }
