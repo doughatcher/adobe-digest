@@ -69,6 +69,10 @@
     "APSB25-90",
     "APSB25-94",
     "adobe-commerce-2-4-0",
+    "adobe-commerce-2-4-1",
+    "adobe-commerce-2-4-2",
+    "adobe-commerce-2-4-2-p2",
+    "adobe-commerce-2-4-3",
     "adobe-commerce-2-4-3-p1",
     "adobe-commerce-2-4-3-p2",
     "adobe-commerce-2-4-3-p3",
@@ -234,6 +238,7 @@
     "sansec-skimmer-dynamic-exfiltration-shopify-bigcommerce",
     "sansec-skimming-google-defeats-csp",
     "sansec-svg-malware",
+    "sansec-triggered-malware",
     "sansec-trojanorder-magento",
     "sansec-vendors-defeat-magento-security-patch-simple-check",
     "sansec-virustotal-sansec",
@@ -246,6 +251,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-12T06:31:36.873910",
-  "total_count": 245
+  "last_updated": "2025-11-12T12:42:36.073416",
+  "total_count": 250
 }
