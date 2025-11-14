@@ -253,25 +253,25 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-14T06:31:04.214745",
+  "last_updated": "2025-11-14T12:41:18.395958",
   "total_count": 252,
   "release_tracking": {
     "adobe-commerce-2-4-9-alpha3": {
       "last_state": "alpha",
       "content_hash": "5c6ffb9bc55485ac843aa5b04bc35d26",
-      "last_scraped": "2025-11-14T06:30:43.206999",
+      "last_scraped": "2025-11-14T12:41:07.312088",
       "version": "2-4-9-alpha3"
     },
     "adobe-commerce-2-4-9-alpha2": {
       "last_state": "alpha",
       "content_hash": "5c6ffb9bc55485ac843aa5b04bc35d26",
-      "last_scraped": "2025-11-14T06:30:43.348119",
+      "last_scraped": "2025-11-14T12:41:07.500018",
       "version": "2-4-9-alpha2"
     },
     "adobe-commerce-2-4-9-alpha1": {
       "last_state": "alpha",
       "content_hash": "5c6ffb9bc55485ac843aa5b04bc35d26",
-      "last_scraped": "2025-11-14T06:30:43.491319",
+      "last_scraped": "2025-11-14T12:41:07.662726",
       "version": "2-4-9-alpha1"
     },
     "adobe-commerce-2-4-8-p3": {
@@ -535,43 +535,43 @@
     "adobe-commerce-2-4-4-p16": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:53.662217",
+      "last_scraped": "2025-11-14T12:41:13.911874",
       "version": "2-4-4-p16"
     },
     "adobe-commerce-2-4-4-p15": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:53.754242",
+      "last_scraped": "2025-11-14T12:41:14.022212",
       "version": "2-4-4-p15"
     },
     "adobe-commerce-2-4-4-p14": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:53.833682",
+      "last_scraped": "2025-11-14T12:41:14.118922",
       "version": "2-4-4-p14"
     },
     "adobe-commerce-2-4-4-p13": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:53.921380",
+      "last_scraped": "2025-11-14T12:41:14.215593",
       "version": "2-4-4-p13"
     },
     "adobe-commerce-2-4-4-p12": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.008274",
+      "last_scraped": "2025-11-14T12:41:14.346647",
       "version": "2-4-4-p12"
     },
     "adobe-commerce-2-4-4-p11": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.084409",
+      "last_scraped": "2025-11-14T12:41:14.437397",
       "version": "2-4-4-p11"
     },
     "adobe-commerce-2-4-4-p10": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.175523",
+      "last_scraped": "2025-11-14T12:41:14.517155",
       "version": "2-4-4-p10"
     },
     "adobe-commerce-2-4-4-p9": {
@@ -613,19 +613,19 @@
     "adobe-commerce-2-4-4-p3": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.753007",
+      "last_scraped": "2025-11-14T12:41:15.141278",
       "version": "2-4-4-p3"
     },
     "adobe-commerce-2-4-4-p2": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.836965",
+      "last_scraped": "2025-11-14T12:41:15.227244",
       "version": "2-4-4-p2"
     },
     "adobe-commerce-2-4-4-p1": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-14T06:30:54.923077",
+      "last_scraped": "2025-11-14T12:41:15.327310",
       "version": "2-4-4-p1"
     },
     "adobe-commerce-2-4-4": {
