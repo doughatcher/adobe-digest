@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <h2>Favicon Generator</h2>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <br>
+    <button onclick="download(32, 'favicon-32x32.png')">Download 32x32</button>
+    <button onclick="download(192, 'android-chrome-192x192.png')">Download 192x192</button>
+    <button onclick="download(512, 'android-chrome-512x512.png')">Download 512x512</button>
+    <button onclick="download(180, 'apple-touch-icon.png')">Download Apple Touch Icon</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Adobe logo in red
+        ctx.fillStyle = '#EF4444';
+        
+        // Scale factor for 512x512 canvas
+        const scale = 512 / 240;
+        
+        ctx.save();
+        ctx.scale(scale, scale);
+        
+        // Draw Adobe logo paths
+        const path = new Path2D('M42.5 0h155L147 233.85 42.5 0z M90 0H0l90 163.6V0z M150 0h90L150 163.6V0z M106 176.1l18.5-48.8h32.7L132.5 234 106 176.1z');
+        ctx.fill(path);
+        
+        ctx.restore();
+        
+        function download(size, filename) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = size;
+            tempCanvas.height = size;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0, size, size);
+            
+            tempCanvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body>
+</html>
