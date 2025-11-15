@@ -41,3 +41,6 @@ clean-all: clean-build clean-posts
 # Scrape and build in one command
 refresh: scrape build
     @echo "Scraped new content and rebuilt site"
+
+deps:
+    pip3 install pyyaml
