@@ -8,7 +8,7 @@ import re
 import yaml
 import requests
 from pathlib import Path
-from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper, AdobeReleasesScraper
+from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper, AdobeReleasesScraper, NistNvdScraper
 
 
 class ScraperCoordinator:
@@ -33,6 +33,7 @@ class ScraperCoordinator:
         self.sansec_scraper = SansecScraper(self.output_dir, self.existing_posts)
         self.atom_scraper = AtomFeedScraper(self.output_dir, self.existing_posts)
         self.releases_scraper = AdobeReleasesScraper(self.output_dir, self.existing_posts)
+        self.nist_scraper = NistNvdScraper(self.output_dir, self.existing_posts)
     
     def load_from_tracking_file(self):
         """Load tracked IDs from scraped_posts.json"""
@@ -217,6 +218,16 @@ class ScraperCoordinator:
                     for file_path in files:
                         filename = Path(file_path).stem
                         new_ids.add(filename)
+                elif source_type == 'nist-nvd':
+                    files = self.nist_scraper.scrape(source)
+                    all_files.extend(files)
+                    # Extract CVE IDs from created files
+                    for file_path in files:
+                        filename = Path(file_path).stem
+                        # Extract CVE ID from filename (format: nist-cve-YYYY-NNNNN)
+                        match = re.search(r'cve-\d{4}-\d+', filename, re.IGNORECASE)
+                        if match:
+                            new_ids.add(match.group(0).upper())
                 else:
                     print(f"⚠️  Unknown source type: {source_type} for {source.get('name', 'unknown')}")
             except Exception as e:
