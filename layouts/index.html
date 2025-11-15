@@ -21,6 +21,9 @@
         gtag('config', 'G-MGNDLTX9R3');
     </script>
     
+    <!-- Notifications System -->
+    <script src="/js/notifications.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
@@ -909,76 +912,102 @@
                     <input type="text" name="email" size="30" placeholder="Your email address" style="flex:1; min-width:250px; padding:0.7rem 1rem; background:#0f0f0f; border:1px solid #2a2a2a; border-radius:8px; color:#e2e8f0; font-size:0.95rem;" />
                     <input type="submit" value="Subscribe" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem;" />
                 </form>
-                <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; font-size:0.8rem; color:#64748b;">
+                <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; font-size:0.8rem; color:#64748b; margin-bottom:1rem;">
                     <span>✓ Official security bulletins</span>
                     <span>✓ Industry research</span>
                     <span>✓ Zero spam</span>
                 </div>
-            </div>
-            
-            <!-- Browser Notifications Section -->
-            <div class="notification-section" style="background:#141414; padding:1.5rem 2rem; border-radius:12px; border:1px solid #2a2a2a; margin-bottom:1.5rem;">
-                <h3 style="font-size:1.1rem; color:#ef4444; margin-bottom:0.25rem; text-align:center;">Browser Notifications</h3>
-                <p style="text-align:center; color:#94a3b8; font-size:0.875rem; margin-bottom:1rem;">Get instant alerts for new security bulletins right in your browser</p>
-                <div style="text-align:center;">
-                    <button id="notificationToggle" onclick="handleNotificationToggle()" style="padding:0.7rem 1.5rem; background:linear-gradient(135deg,#ef4444,#f97316); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.95rem; transition:all 0.2s ease;">
-                        <span id="notificationToggleText">Enable Notifications</span>
-                    </button>
-                    <p id="notificationStatus" style="margin-top:0.75rem; font-size:0.8rem; color:#64748b;"></p>
+                
+                <!-- Browser Notifications Toggle -->
+                <div style="border-top:1px solid #2a2a2a; padding-top:1rem; margin-top:0.5rem;">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
+                        <div style="display:flex; align-items:center; gap:0.75rem;">
+                            <label class="toggle-switch" style="position:relative; display:inline-block; width:44px; height:22px;">
+                                <input type="checkbox" id="notificationToggle" onclick="handleNotificationToggle()" style="opacity:0; width:0; height:0;">
+                                <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#2a2a2a; border-radius:22px; transition:0.3s;"></span>
+                            </label>
+                            <span style="font-size:0.8rem; color:#94a3b8;">Browser notifications</span>
+                        </div>
+                        <span id="notificationStatus" style="font-size:0.75rem; color:#64748b;"></span>
+                    </div>
                 </div>
             </div>
             
+            <style>
+                .toggle-switch input:checked + .toggle-slider {
+                    background: linear-gradient(135deg, #ef4444, #f97316);
+                }
+                .toggle-slider:before {
+                    content: "";
+                    position: absolute;
+                    height: 16px;
+                    width: 16px;
+                    left: 3px;
+                    bottom: 3px;
+                    background-color: white;
+                    border-radius: 50%;
+                    transition: 0.3s;
+                }
+                .toggle-switch input:checked + .toggle-slider:before {
+                    transform: translateX(22px);
+                }
+                .toggle-switch input:disabled + .toggle-slider {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            </style>
+            
             <script>
-                // Initialize notification toggle button state
+                // Initialize notification toggle state
                 document.addEventListener('DOMContentLoaded', function() {
-                    updateNotificationButton();
+                    updateNotificationToggle();
                 });
 
                 async function handleNotificationToggle() {
-                    const button = document.getElementById('notificationToggle');
-                    const buttonText = document.getElementById('notificationToggleText');
+                    const toggle = document.getElementById('notificationToggle');
                     const status = document.getElementById('notificationStatus');
                     
                     if (!window.adobeDigestNotifications) {
-                        status.textContent = 'Notification system not loaded. Please refresh the page.';
+                        status.textContent = 'Error loading';
                         status.style.color = '#ef4444';
+                        toggle.checked = false;
                         return;
                     }
                     
                     const manager = window.adobeDigestNotifications;
                     
                     if (!manager.isSupported()) {
-                        status.textContent = 'Browser notifications are not supported in your browser.';
+                        status.textContent = 'Not supported';
                         status.style.color = '#ef4444';
-                        button.disabled = true;
-                        button.style.opacity = '0.5';
-                        button.style.cursor = 'not-allowed';
+                        toggle.disabled = true;
+                        toggle.checked = false;
                         return;
                     }
                     
-                    if (manager.enabled) {
-                        manager.disable();
-                        buttonText.textContent = 'Enable Notifications';
-                        status.textContent = 'Notifications disabled. You won\'t receive browser alerts.';
-                        status.style.color = '#94a3b8';
-                    } else {
+                    if (toggle.checked) {
+                        // Enabling
                         const granted = await manager.requestPermission();
                         if (granted) {
-                            buttonText.textContent = 'Disable Notifications';
-                            status.textContent = 'Notifications enabled! You\'ll be alerted when new bulletins are posted.';
+                            status.textContent = 'Enabled';
                             status.style.color = '#10b981';
                             manager.startPeriodicChecks();
                         } else {
-                            status.textContent = 'Permission denied. Enable notifications in your browser settings.';
+                            status.textContent = 'Denied';
                             status.style.color = '#ef4444';
+                            toggle.checked = false;
+                            toggle.disabled = true;
                         }
+                    } else {
+                        // Disabling
+                        manager.disable();
+                        status.textContent = 'Disabled';
+                        status.style.color = '#64748b';
                     }
                 }
 
-                function updateNotificationButton() {
-                    const buttonText = document.getElementById('notificationToggleText');
+                function updateNotificationToggle() {
+                    const toggle = document.getElementById('notificationToggle');
                     const status = document.getElementById('notificationStatus');
-                    const button = document.getElementById('notificationToggle');
                     
                     if (!window.adobeDigestNotifications) {
                         return;
@@ -987,30 +1016,26 @@
                     const manager = window.adobeDigestNotifications;
                     
                     if (!manager.isSupported()) {
-                        buttonText.textContent = 'Not Supported';
-                        status.textContent = 'Browser notifications are not supported in your browser.';
+                        status.textContent = 'Not supported';
                         status.style.color = '#ef4444';
-                        button.disabled = true;
-                        button.style.opacity = '0.5';
-                        button.style.cursor = 'not-allowed';
+                        toggle.disabled = true;
+                        toggle.checked = false;
                         return;
                     }
                     
                     if (manager.enabled && manager.getPermission() === 'granted') {
-                        buttonText.textContent = 'Disable Notifications';
-                        status.textContent = 'Notifications enabled. You\'ll be alerted when new bulletins are posted.';
+                        toggle.checked = true;
+                        status.textContent = 'Enabled';
                         status.style.color = '#10b981';
                     } else if (manager.getPermission() === 'denied') {
-                        buttonText.textContent = 'Permission Denied';
-                        status.textContent = 'Notification permission denied. Enable in browser settings.';
+                        status.textContent = 'Denied';
                         status.style.color = '#ef4444';
-                        button.disabled = true;
-                        button.style.opacity = '0.5';
-                        button.style.cursor = 'not-allowed';
+                        toggle.disabled = true;
+                        toggle.checked = false;
                     } else {
-                        buttonText.textContent = 'Enable Notifications';
-                        status.textContent = 'Click to enable browser notifications for security updates.';
-                        status.style.color = '#94a3b8';
+                        toggle.checked = false;
+                        status.textContent = 'Disabled';
+                        status.style.color = '#64748b';
                     }
                 }
             </script>
