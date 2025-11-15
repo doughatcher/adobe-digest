@@ -574,9 +574,10 @@
             <span class="stat-number">{{ $importantCount }}</span>
             <span class="stat-label">Important</span>
         </div>
-        <a href="/feeds/{{ $productSlug }}.xml" class="stat-card stat-card-link">
-            <span class="stat-number">📡</span>
-            <span class="stat-label">RSS Feed</span>
+                <a href="{{ .RelPermalink }}feed.xml" class="stat-card stat-card-link">
+            <div class="stat-icon">📡</div>
+            <span class="stat-number">RSS</span>
+            <span class="stat-label">Subscribe to Feed</span>
         </a>
     </div>
 
@@ -640,8 +641,7 @@
             </svg>
         </a>
         
-        {{ $productSlug := .File.BaseFileName }}
-        <a href="/feeds/{{ $productSlug }}.xml" class="btn btn-secondary">
+        <a href="{{ .RelPermalink }}feed.xml" class="btn btn-secondary">
             <svg fill="currentColor" viewBox="0 0 20 20">
                 <path d="M3.429 2.063c8.944 0 16.2 7.256 16.2 16.2h-3.464c0-7.027-5.709-12.736-12.736-12.736v-3.464zm0 6.93c3.658 0 6.626 2.967 6.626 6.625h-3.464c0-1.746-1.417-3.163-3.162-3.163v-3.462zm-1.12 6.929c1.075 0 1.947.872 1.947 1.947s-.872 1.948-1.947 1.948-1.948-.873-1.948-1.948.873-1.947 1.948-1.947z"/>
             </svg>
