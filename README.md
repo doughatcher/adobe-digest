@@ -57,6 +57,12 @@ Subscribe to stay updated on Adobe security bulletins:
    - Posts mentioning Adobe Commerce, AEM, or related vulnerabilities
    - SessionReaper, CosmicString, and other Adobe-related threats
 
+6. **NIST National Vulnerability Database (NVD)**
+   - CVE vulnerability updates for Adobe Commerce, Magento, and AEM
+   - Tracks newly published and recently modified CVEs
+   - Checks for updates daily across 30-day rolling window
+   - Includes CVSS severity scores and reference links
+
 ## Architecture
 
 ```
@@ -70,6 +76,7 @@ Subscribe to stay updated on Adobe security bulletins:
          ├──> Scrape Magento Open Source Releases
          ├──> Scrape Sansec.io 
          ├──> Scrape Akamai Blog (filtered)
+         ├──> Scrape NIST NVD CVEs (filtered)
          │
          v
 ┌─────────────────┐
@@ -175,6 +182,17 @@ sources:
       - keyword2
     categories:
       - category1
+  
+  - type: nist-nvd
+    name: source-identifier
+    display_name: "Display Name"
+    keywords:
+      - Adobe Commerce
+      - Magento
+    lookback_days: 30
+    categories:
+      - cve
+      - vulnerability
 ```
 
 ### GitHub Secrets
@@ -215,10 +233,18 @@ adobe-digest/
 │   ├── scraped_posts.json  # Tracking file
 │   └── scrapers/           # Individual scrapers
 │       ├── adobe_helpx.py
+│       ├── adobe_releases.py
+│       ├── atom_feed.py
 │       ├── sansec_io.py
-│       └── atom_feed.py
+│       └── nist_nvd.py
 └── static/                 # Static assets
 ```
+
+## Documentation
+
+- **[NIST NVD Integration](docs/NIST_NVD_INTEGRATION.md)** - How CVE tracking from NIST works
+- **[Deployment Guide](DEPLOYMENT.md)** - Deployment and hosting information
+- **[Micro.blog Multi-Blog Setup](docs/MICROBLOG_MULTI_BLOG_SETUP.md)** - Multi-blog configuration
 
 ## Credits
 

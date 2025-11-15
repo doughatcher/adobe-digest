@@ -59,7 +59,8 @@ jobs:
                   if 'name' not in source:
                       print(f'❌ Source {idx} missing name')
                       sys.exit(1)
-                  if 'url' not in source:
+                  # nist-nvd doesn't require url field
+                  if source.get('type') != 'nist-nvd' and 'url' not in source:
                       print(f'❌ Source {idx} missing url')
                       sys.exit(1)
                   print(f'✅ Source {source[\"name\"]}: {source[\"type\"]}')
@@ -99,7 +100,7 @@ jobs:
           python3 -c "
           import sys
           try:
-              from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper
+              from scrapers import AdobeHelpxScraper, SansecScraper, AtomFeedScraper, NistNvdScraper
               print('✅ All scraper modules import successfully')
           except ImportError as e:
               print(f'❌ Import error: {e}')
