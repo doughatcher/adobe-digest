@@ -919,7 +919,7 @@
                 </div>
                 
                 <!-- Browser Notifications Toggle -->
-                <div style="border-top:1px solid #2a2a2a; padding-top:1rem; margin-top:0.5rem;">
+                <div id="notificationSection" style="border-top:1px solid #2a2a2a; padding-top:1rem; margin-top:0.5rem; display:none;">
                     <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
                         <div style="display:flex; align-items:center; gap:0.75rem;">
                             <label class="toggle-switch" style="position:relative; display:inline-block; width:44px; height:22px;">
@@ -1008,6 +1008,7 @@
                 function updateNotificationToggle() {
                     const toggle = document.getElementById('notificationToggle');
                     const status = document.getElementById('notificationStatus');
+                    const section = document.getElementById('notificationSection');
                     
                     if (!window.adobeDigestNotifications) {
                         return;
@@ -1016,12 +1017,13 @@
                     const manager = window.adobeDigestNotifications;
                     
                     if (!manager.isSupported()) {
-                        status.textContent = 'Not supported';
-                        status.style.color = '#ef4444';
-                        toggle.disabled = true;
-                        toggle.checked = false;
+                        // Hide the entire notification section if not supported
+                        section.style.display = 'none';
                         return;
                     }
+                    
+                    // Show the section since notifications are supported
+                    section.style.display = 'block';
                     
                     if (manager.enabled && manager.getPermission() === 'granted') {
                         toggle.checked = true;
