@@ -19,6 +19,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/main.css">
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MGNDLTX9R3"></script>
     <script>
@@ -27,42 +30,6 @@
         gtag('js', new Date());
         gtag('config', 'G-MGNDLTX9R3');
     </script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #e2e8f0;
-            background: #0f0f0f;
-            min-height: 100vh;
-        }
-        
-        :root {
-            --hx-color-dark: #0f0f0f;
-            --hx-color-darker: #1a1a1a;
-            --hx-color-border: #2a2a2a;
-            --hx-color-text: #e2e8f0;
-            --hx-color-text-muted: #94a3b8;
-            --hx-color-primary: #ef4444;
-            --hx-color-secondary: #f97316;
-        }
-        
-        a {
-            color: var(--hx-color-primary);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        a:hover {
-            color: var(--hx-color-secondary);
-        }
-    </style>
 </head>
 <body>
     {{ block "main" . }}{{ end }}

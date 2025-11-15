@@ -13,3 +13,5 @@ node_modules/
 hugo
 hugo_*
 *.tar.gz
+
+content/

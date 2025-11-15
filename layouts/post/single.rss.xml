@@ -1,0 +1,2 @@
+{{- /* Disable RSS output for individual post pages */ -}}
+{{- /* Individual posts should only output HTML */ -}}
