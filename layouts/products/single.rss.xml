@@ -1,0 +1,33 @@
+{{- $productSlug := .Title | lower | replaceRE "[^a-z0-9]+" "-" -}}
+{{- $allPages := .Site.RegularPages -}}
+{{- $allBulletins := where $allPages "Type" "in" (slice "post" "posts") -}}
+{{- if eq (len $allBulletins) 0 -}}
+  {{- $allBulletins = where $allPages ".Title" "!=" "" -}}
+  {{- $allBulletins = where $allBulletins ".Title" "match" "APSB" -}}
+{{- end -}}
+{{- $productBulletins := where $allBulletins "Params.categories" "intersect" (slice $productSlug) -}}
+{{- $productBulletins = $productBulletins.ByDate.Reverse -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Adobe {{ .Title }} Security Bulletins</title>
+    <link>{{ .Permalink }}</link>
+    <description>Security bulletins and advisories for {{ .Title }}</description>
+    <copyright>Adobe Inc. - Republished for community awareness</copyright>
+    <managingEditor> (Adobe Security Digest)</managingEditor>
+    {{- if $productBulletins }}
+    <pubDate>{{ (index $productBulletins 0).Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+    {{- end }}
+    {{- range $productBulletins }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <description>Adobe has released security updates. More details in the security bulletin.&#xA;&#xA;{{- if .Params.categories }}Products: {{ delimit (after 1 .Params.categories) ", " }}&#xA;{{ end -}}
+      {{- if .Params.tags }}Severity: {{ index .Params.tags 0 }}&#xA;{{ end -}}
+      &#xA;View full advisory: {{ .Permalink }}</description>
+      <author>Adobe Security Team</author>
+      <guid>{{ .Title }}</guid>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+    </item>
+    {{- end }}
+  </channel>
+</rss>
