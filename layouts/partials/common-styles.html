@@ -1,0 +1,224 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #e2e8f0;
+        background: #0f0f0f;
+        min-height: 100vh;
+        padding: 3rem 0;
+    }
+    
+    .page-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem;
+        background: #1a1a1a;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        border: 1px solid #2a2a2a;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .page-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+    
+    .site-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .logo {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #ef4444;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 20px rgba(239,68,68,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+    
+    .logo a {
+        color: #ef4444;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .logo svg {
+        width: 40px;
+        height: 40px;
+        fill: #ef4444;
+        filter: drop-shadow(0 0 20px rgba(239,68,68,0.3));
+    }
+    
+    .site-footer {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #2a2a2a;
+    }
+    
+    .subscribe-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .subscribe-section h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 0.75rem;
+        text-align: center;
+    }
+    
+    .subscribe-section p {
+        color: #94a3b8;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .subscribe-form {
+        display: flex;
+        gap: 1rem;
+        max-width: 500px;
+        margin: 0 auto 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .subscribe-input {
+        flex: 1;
+        min-width: 250px;
+        padding: 0.875rem 1.25rem;
+        border-radius: 8px;
+        border: 1px solid #2a2a2a;
+        background: #0f0f0f;
+        color: #e2e8f0;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+    
+    .subscribe-input:focus {
+        outline: none;
+        border-color: #ef4444;
+    }
+    
+    .subscribe-button {
+        padding: 0.875rem 2rem;
+        background: linear-gradient(135deg, #ef4444, #f97316);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+        transition: all 0.2s ease;
+    }
+    
+    .subscribe-button:hover {
+        background: linear-gradient(135deg, #dc2626, #ea580c);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(239,68,68,0.4);
+    }
+    
+    .subscribe-features {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 0.875rem;
+        color: #94a3b8;
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer-content {
+        text-align: center;
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+    
+    .footer-content p {
+        margin: 0;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .social-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        font-size: 0.875rem;
+    }
+    
+    .social-links a:hover {
+        color: #ef4444;
+    }
+    
+    @media (max-width: 768px) {
+        body {
+            padding: 1rem 0;
+        }
+        
+        .page-wrapper {
+            margin: 0 0.5rem;
+            padding: 2rem 1.5rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+        }
+        
+        .logo svg {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .subscribe-section {
+            padding: 1.5rem;
+        }
+        
+        .subscribe-section h3 {
+            font-size: 1.25rem;
+        }
+        
+        .subscribe-section p {
+            font-size: 0.875rem;
+        }
+        
+        .subscribe-form {
+            flex-direction: column;
+        }
+        
+        .subscribe-input {
+            min-width: 100%;
+        }
+        
+        .subscribe-features {
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: center;
+        }
+    }
+</style>

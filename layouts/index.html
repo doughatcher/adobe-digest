@@ -511,53 +511,150 @@
         
         .content-wrapper ul {
             list-style: none;
-            display: grid;
-            gap: 0.5rem;
-            margin: 0.75rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.875rem;
+            margin: 1rem 0;
         }
         
         .content-wrapper ul li {
-            display: flex;
-            gap: 0.75rem;
-            padding: 0.625rem 1rem;
-            background: #0f0f0f;
-            border-radius: 6px;
-            align-items: baseline;
+            display: block;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            width: auto;
         }
         
-        .content-wrapper ul li strong {
-            color: #64748b;
-            font-size: 0.75rem;
+        .content-wrapper ul li a {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.125rem 1.5rem;
+            background: linear-gradient(135deg, #1a1a1a, #1f1f1f);
+            border: 1px solid #2a2a2a;
+            border-left: 4px solid #f97316;
+            border-radius: 10px;
+            color: #fb923c;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            word-break: normal;
+            white-space: nowrap;
+        }
+        
+        .content-wrapper ul li a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(249,115,22,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .content-wrapper ul li a:hover::after {
+            left: 100%;
+        }
+        
+        .content-wrapper ul li a:hover {
+            background: linear-gradient(135deg, #1f1f1f, #252525);
+            border-left-color: #ef4444;
+            border-left-width: 5px;
+            color: #fbbf24;
+            transform: translateX(6px);
+            box-shadow: 0 6px 16px rgba(249,115,22,0.25);
+        }
+        
+        .content-wrapper ul li a::before {
+            content: '\u2192';
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #f97316;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .content-wrapper ul li a:hover::before {
+            transform: translateX(4px);
+            color: #ef4444;
+        }        .content-wrapper p {
+            margin: 1rem 0;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+        
+        .content-wrapper p strong {
+            color: #94a3b8;
+            font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            min-width: 120px;
-            flex-shrink: 0;
+            font-weight: 600;
         }
         
-        .content-wrapper ul li strong:after {
+        .content-wrapper p strong::after {
             content: '';
-            margin-left: -0.25rem;
-        }
-        
-        .content-wrapper p {
-            margin: 0.75rem 0;
-            line-height: 1.6;
+            margin-right: 0.5rem;
         }
         
         .content-wrapper hr {
             border: none;
-            border-top: 1px solid #2a2a2a;
-            margin: 1.5rem 0;
+            border-top: 2px solid #2a2a2a;
+            margin: 2rem 0;
         }
         
         .content-wrapper a {
             color: #f97316;
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.2s ease;
         }
         
         .content-wrapper a:hover {
             color: #ef4444;
+        }
+        
+        .content-wrapper > p:last-child a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(249,115,22,0.1));
+            border: 2px solid transparent;
+            border-image: linear-gradient(135deg, #ef4444, #f97316) 1;
+            border-radius: 10px;
+            color: #f97316 !important;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(239,68,68,0.3), 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-wrapper > p:last-child a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .content-wrapper > p:last-child a:hover::before {
+            left: 100%;
+        }
+        
+        .content-wrapper > p:last-child a:hover {
+            background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(249,115,22,0.2));
+            color: #ef4444 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(239,68,68,0.5), 0 8px 20px rgba(239,68,68,0.3);
         }
         
         @media (max-width: 768px) {
@@ -761,17 +858,17 @@
         
         <!-- Latest Updates without header -->
         <div style="margin: 2rem 0 3rem 0; text-align: left;">
-            <div class="news-items" style="display:grid; gap:1rem;">
+            <div class="news-items" style="display:grid; gap:1.5rem;">
                 {{ $recentPosts := first 5 .Site.RegularPages.ByDate.Reverse }}
                 {{ range $recentPosts }}
-                <div class="news-item" style="background:#141414; padding:1.5rem; border-radius:12px; border:1px solid #2a2a2a; transition:all 0.3s ease;">
+                <div class="news-item" style="background:#1f1f1f; padding:2rem; border-radius:16px; border:1px solid #2a2a2a; transition:all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
                     <div style="display:flex; gap:1rem; align-items:flex-start;">
-                        <div class="news-date" style="flex-shrink:0; color:#94a3b8; font-size:0.875rem; width:80px;">{{ .Date.Format "Jan 2, 2006" }}</div>
+                        <div class="news-date" style="flex-shrink:0; color:#94a3b8; font-size:0.875rem; width:90px; font-weight:500;">{{ .Date.Format "Jan 2, 2006" }}</div>
                         <div class="news-content" style="flex-grow:1;">
-                            <div class="news-title" style="color:#e2e8f0; font-weight:600; margin-bottom:0.5rem; font-size:1rem; line-height:1.4;">
-                                <a href="{{ .RelPermalink }}" style="color:#e2e8f0; text-decoration:none; transition:color 0.2s ease;">{{ .Title }}</a>
+                            <div class="news-title" style="color:#f1f5f9; font-weight:700; margin-bottom:0.75rem; font-size:1.15rem; line-height:1.4;">
+                                <a href="{{ .RelPermalink }}" style="color:#f1f5f9; text-decoration:none; transition:color 0.2s ease;">{{ .Title }}</a>
                             </div>
-                            <div class="news-source" style="color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
+                            <div class="news-source" style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; font-weight:600;">
                                 {{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Security Research{{ end }}
                             </div>
                             <div class="content-wrapper">
