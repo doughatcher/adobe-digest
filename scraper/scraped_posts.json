@@ -273,13 +273,13 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2025-11-17T06:32:20.557952",
+  "last_updated": "2025-11-17T12:42:15.359408",
   "total_count": 272,
   "release_tracking": {
     "adobe-commerce-2-4-9-alpha3": {
       "last_state": "alpha",
       "content_hash": "5c6ffb9bc55485ac843aa5b04bc35d26",
-      "last_scraped": "2025-11-17T06:31:55.654303",
+      "last_scraped": "2025-11-17T12:42:03.995210",
       "version": "2-4-9-alpha3"
     },
     "adobe-commerce-2-4-9-alpha2": {
@@ -291,7 +291,7 @@
     "adobe-commerce-2-4-9-alpha1": {
       "last_state": "alpha",
       "content_hash": "5c6ffb9bc55485ac843aa5b04bc35d26",
-      "last_scraped": "2025-11-17T06:31:55.939749",
+      "last_scraped": "2025-11-17T12:42:04.394335",
       "version": "2-4-9-alpha1"
     },
     "adobe-commerce-2-4-8-p3": {
@@ -645,7 +645,7 @@
     "adobe-commerce-2-4-4-p1": {
       "last_state": "ga",
       "content_hash": "2a1ddce1429dbb481a237486cd1e09a1",
-      "last_scraped": "2025-11-17T06:32:07.996188",
+      "last_scraped": "2025-11-17T12:42:12.322837",
       "version": "2-4-4-p1"
     },
     "adobe-commerce-2-4-4": {
