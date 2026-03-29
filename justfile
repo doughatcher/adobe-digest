@@ -4,9 +4,36 @@
 # Load environment variables from .env file
 set dotenv-load
 
+# Bazzite /var/home fix (see devcontainer skill)
+project := replace(justfile_directory(), "/var/home/", "/home/")
+
+# devcontainer-ctl.sh lives in the skill
+ctl := home_directory() / ".agents/skills/devcontainer/scripts/devcontainer-ctl.sh"
+
 # Default recipe (list available recipes)
 default:
     @just --list
+
+# Start the devcontainer + tunnel, write state to vault
+up port="1313":
+    {{ctl}} up {{project}} {{port}}
+
+# Stop the devcontainer + tunnel, remove state from vault
+down:
+    {{ctl}} down {{project}}
+
+# Show all active devcontainers across machines
+status:
+    {{ctl}} status
+
+# Get a shell inside the devcontainer
+shell:
+    devcontainer exec --workspace-folder {{project}} bash
+
+# Rebuild the devcontainer from scratch
+rebuild:
+    {{ctl}} down {{project}} || true
+    devcontainer up --workspace-folder {{project}} --remove-existing-container
 
 # Install Python dependencies
 install: git-config

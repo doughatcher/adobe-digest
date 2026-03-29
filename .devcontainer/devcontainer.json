@@ -22,6 +22,6 @@
 
 	},
 	"postCreateCommand": "just deps",
-	"postAttachCommand": "just serve",
+	"postStartCommand": "fuser -k 1313/tcp 2>/dev/null || true; just serve-all > /tmp/hugo.log 2>&1 &",
 	"forwardPorts": [1313]
 }
