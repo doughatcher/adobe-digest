@@ -181,6 +181,8 @@
     "nginrat",
     "nist-cve-2022-24086",
     "nist-cve-2024-34102",
+    "nist-cve-2025-49534",
+    "nist-cve-2025-49547",
     "nist-cve-2025-54236",
     "nist-cve-2025-54253",
     "nist-cve-2025-54263",
@@ -366,6 +368,7 @@
     "nist-cve-2026-27264",
     "nist-cve-2026-27265",
     "nist-cve-2026-27266",
+    "nist-cve-2026-27288",
     "nist-cve-2026-5603",
     "pci-dss-update-2025",
     "polyfill-supply-chain-attack",
@@ -476,6 +479,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-04-14T13:28:14.833069",
-  "total_count": 475
+  "last_updated": "2026-04-14T19:17:33.512008",
+  "total_count": 478
 }
