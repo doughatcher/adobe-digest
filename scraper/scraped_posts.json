@@ -369,6 +369,9 @@
     "nist-cve-2026-27265",
     "nist-cve-2026-27266",
     "nist-cve-2026-27288",
+    "nist-cve-2026-34623",
+    "nist-cve-2026-34624",
+    "nist-cve-2026-34625",
     "nist-cve-2026-5603",
     "pci-dss-update-2025",
     "polyfill-supply-chain-attack",
@@ -401,6 +404,7 @@
     "sansec-fake-google-analytics-malware",
     "sansec-fake-klaviyo-accounts-added-to-magento",
     "sansec-fake-magento-patch-9789-is-virus",
+    "sansec-fake-magento-repos-github-malware",
     "sansec-fbi-urges-malware-protection",
     "sansec-global-retailer-prestashop-hacked",
     "sansec-google-apps-script",
@@ -479,6 +483,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-04-14T19:17:33.512008",
-  "total_count": 478
+  "last_updated": "2026-04-15T02:35:43.456577",
+  "total_count": 482
 }
