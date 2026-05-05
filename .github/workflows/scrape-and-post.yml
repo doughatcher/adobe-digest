@@ -2,8 +2,8 @@ name: Scrape and Post to Micro.blog
 
 on:
   schedule:
-    # Run every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
-    - cron: '0 */6 * * *'
+    # Run every 6 hours, offset off :00 to avoid runner-pool contention
+    - cron: '37 */6 * * *'
   workflow_dispatch:
     inputs:
       limit:
