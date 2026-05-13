@@ -414,6 +414,10 @@
     "nist-cve-2026-34623",
     "nist-cve-2026-34624",
     "nist-cve-2026-34625",
+    "nist-cve-2026-34652",
+    "nist-cve-2026-34653",
+    "nist-cve-2026-34685",
+    "nist-cve-2026-34686",
     "nist-cve-2026-40098",
     "nist-cve-2026-40488",
     "nist-cve-2026-5603",
@@ -431,6 +435,7 @@
     "sansec-claude-finds-353-zero-days-packagist",
     "sansec-clickfix-clipboard-hijacker",
     "sansec-client-side-security",
+    "sansec-composer-github-token-leak",
     "sansec-connectpos-github-token-exposure",
     "sansec-cosmicsting",
     "sansec-cosmicsting-cnext-persistent-backdoor",
@@ -527,6 +532,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-05-13T09:27:58.650802",
-  "total_count": 526
+  "last_updated": "2026-05-13T15:30:08.951112",
+  "total_count": 531
 }
