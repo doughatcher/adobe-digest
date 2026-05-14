@@ -121,6 +121,7 @@
     "adobe-commerce-2-4-6-p12",
     "adobe-commerce-2-4-6-p13",
     "adobe-commerce-2-4-6-p14",
+    "adobe-commerce-2-4-6-p15",
     "adobe-commerce-2-4-6-p2",
     "adobe-commerce-2-4-6-p3",
     "adobe-commerce-2-4-6-p4",
@@ -184,6 +185,7 @@
     "nist-cve-2011-5240",
     "nist-cve-2012-3243",
     "nist-cve-2014-8770",
+    "nist-cve-2014-9758",
     "nist-cve-2015-1397",
     "nist-cve-2015-1398",
     "nist-cve-2015-1399",
@@ -210,6 +212,8 @@
     "nist-cve-2016-7883",
     "nist-cve-2016-7884",
     "nist-cve-2016-7885",
+    "nist-cve-2017-11296",
+    "nist-cve-2017-13761",
     "nist-cve-2017-3067",
     "nist-cve-2017-3107",
     "nist-cve-2017-3108",
@@ -423,6 +427,7 @@
     "nist-cve-2026-34651",
     "nist-cve-2026-34652",
     "nist-cve-2026-34653",
+    "nist-cve-2026-34654",
     "nist-cve-2026-34655",
     "nist-cve-2026-34656",
     "nist-cve-2026-34658",
@@ -542,6 +547,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-05-14T04:31:48.929804",
-  "total_count": 541
+  "last_updated": "2026-05-14T09:18:03.147793",
+  "total_count": 546
 }
