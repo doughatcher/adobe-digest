@@ -475,6 +475,7 @@
     "sansec-fake-magento-patch-9789-is-virus",
     "sansec-fake-magento-repos-github-malware",
     "sansec-fbi-urges-malware-protection",
+    "sansec-funnelkit-woocommerce-vulnerability-exploited",
     "sansec-global-retailer-prestashop-hacked",
     "sansec-google-apps-script",
     "sansec-google-services-abused-skimming-campaigns",
@@ -552,6 +553,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-05-14T15:09:40.852766",
-  "total_count": 551
+  "last_updated": "2026-05-14T20:18:17.466689",
+  "total_count": 552
 }
