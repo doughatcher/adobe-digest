@@ -70,11 +70,14 @@ class MicroblogDeployer:
             print(f"❌ Error validating session: {e}")
             return False
     
-    def reload_theme(self):
-        """Reload theme templates from GitHub"""
+    def reload_theme(self, max_attempts=3, backoff_base=2):
+        """Reload theme templates from GitHub.
+
+        Retries on 5xx and network errors with exponential backoff, then fails
+        hard so a broken theme reload can't silently produce a green deploy.
+        """
         print(f"🎨 Reloading theme from GitHub (ID: {self.theme_id})...")
-        
-        # POST to /account/themes/reload (which redirects to templates?reloading=1)
+
         url = 'https://micro.blog/account/themes/reload'
         headers = {
             **self.base_headers,
@@ -89,47 +92,51 @@ class MicroblogDeployer:
             'Sec-Fetch-Site': 'same-origin',
             'X-Requested-With': 'XMLHttpRequest'
         }
-        
-        # Send theme_id as form data
-        form_data = {
-            'theme_id': self.theme_id
-        }
-        
-        try:
-            # POST with theme_id, DON'T follow redirects - let it return 302
-            response = requests.post(url, headers=headers, timeout=30, data=form_data, allow_redirects=False)
-            
-            # Should get a 302 redirect
-            if response.status_code == 302:
-                redirect_url = response.headers.get('Location', '')
-                print(f"✅ Theme reload triggered (redirected to {redirect_url})")
-                
-                # Now follow the redirect manually to see the 404
-                if redirect_url:
-                    # Make it absolute if needed
-                    if redirect_url.startswith('/'):
-                        redirect_url = f'https://micro.blog{redirect_url}'
-                    
-                    # Follow the redirect
-                    redirect_response = requests.get(redirect_url, headers={**self.base_headers}, timeout=30, allow_redirects=False)
-                    if redirect_response.status_code == 404:
-                        print("   (Redirect endpoint returns 404 as expected - reload is working)")
-                    else:
-                        print(f"   (Redirect returned {redirect_response.status_code})")
-                
-                return True
-            elif response.status_code in [200, 404]:
-                print("✅ Theme reload from GitHub triggered successfully")
-                return True
-            else:
-                print(f"⚠️  Theme reload returned unexpected status {response.status_code}")
-                if response.text:
-                    print(f"   Response: {response.text[:200]}")
-                return True  # Non-fatal
-                
-        except Exception as e:
-            print(f"⚠️  Error reloading theme: {e}")
-            return True  # Non-fatal
+        form_data = {'theme_id': self.theme_id}
+
+        last_error = None
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = requests.post(url, headers=headers, timeout=30, data=form_data, allow_redirects=False)
+
+                if response.status_code == 302:
+                    redirect_url = response.headers.get('Location', '')
+                    print(f"✅ Theme reload triggered (redirected to {redirect_url})")
+
+                    if redirect_url:
+                        if redirect_url.startswith('/'):
+                            redirect_url = f'https://micro.blog{redirect_url}'
+                        redirect_response = requests.get(redirect_url, headers={**self.base_headers}, timeout=30, allow_redirects=False)
+                        if redirect_response.status_code == 404:
+                            print("   (Redirect endpoint returns 404 as expected - reload is working)")
+                        else:
+                            print(f"   (Redirect returned {redirect_response.status_code})")
+                    return True
+
+                if response.status_code in (200, 404):
+                    print("✅ Theme reload from GitHub triggered successfully")
+                    return True
+
+                last_error = f"HTTP {response.status_code}"
+                snippet = response.text[:200] if response.text else ''
+                print(f"⚠️  Theme reload returned status {response.status_code} (attempt {attempt}/{max_attempts})")
+                if snippet:
+                    print(f"   Response: {snippet}")
+
+            except Exception as e:
+                last_error = str(e)
+                print(f"⚠️  Error reloading theme (attempt {attempt}/{max_attempts}): {e}")
+
+            if attempt < max_attempts:
+                sleep_for = backoff_base ** attempt
+                print(f"   Retrying in {sleep_for}s...")
+                time.sleep(sleep_for)
+
+        msg = f"Theme reload failed after {max_attempts} attempts: {last_error}"
+        print(f"❌ {msg}")
+        # GitHub Actions annotation; harmless outside CI.
+        print(f"::error title=Theme reload failed::{msg}")
+        return False
     
     def trigger_rebuild(self):
         """Trigger full site rebuild by visiting the logs page which starts the build"""
