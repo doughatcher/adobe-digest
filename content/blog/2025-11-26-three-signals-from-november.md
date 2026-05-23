@@ -1,6 +1,6 @@
 ---
 title: "Three Signals from November: What the Bulletins Don't Say"
-date: 2026-05-23T10:00:00-05:00
+date: 2025-11-26T09:00:00-05:00
 draft: false
 tags: [magento, adobe-commerce, cve, attack-analysis]
 category: "Attack Analysis"
