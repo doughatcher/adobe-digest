@@ -12,13 +12,29 @@
     <title>{{ $title }}</title>
     <meta name="description" content="{{ if .IsHome }}An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe.{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
     <meta name="author" content="Doug Hatcher">
+    {{ $homeDescription := "An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe." }}
+    {{ $description := "" }}
+    {{ if .IsHome }}
+        {{ $description = $homeDescription }}
+    {{ else if .Params.description }}
+        {{ $description = .Params.description }}
+    {{ else if .Description }}
+        {{ $description = .Description }}
+    {{ else }}
+        {{ $description = .Content | plainify | truncate 280 }}
+    {{ end }}
+    {{ $ogImage := "/android-chrome-512x512.png" | absURL }}
     <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
     <meta property="og:site_name" content="Experience Digest — Independent Community Resource">
     <meta property="og:title" content="{{ $title }}">
-    <meta property="og:description" content="{{ if .IsHome }}An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe.{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:alt" content="Experience Digest">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{{ $title }}">
-    <meta name="twitter:description" content="{{ if .IsHome }}An independent community digest. Not affiliated with Adobe.{{ else }}{{ .Summary | truncate 100 }}{{ end }}">
+    <meta name="twitter:description" content="{{ $description | truncate 200 }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
     
     <!-- Micro.blog Discovery & IndieWeb -->
     {{ partial "microblog_head.html" . }}
@@ -41,13 +57,14 @@
         <div class="xd-header-container">
             <a href="/" class="xd-logo">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="#f97316" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    <path fill="#14b8a6" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
                     <path fill="#0f0f0f" d="M12 3.19l7 3.11v5.7c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3l7-3.11z"/>
-                    <path fill="#f97316" d="M12 7v10m-5-5h10" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+                    <path fill="#14b8a6" d="M12 7v10m-5-5h10" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
                 <span class="xd-logo-text">Experience Digest</span>
             </a>
             <nav class="xd-nav">
+                <a href="/blog/" class="xd-nav-link">Blog</a>
                 <a href="/archive/" class="xd-nav-link">Archive</a>
                 <a href="https://experiencedigest.org/feed.json" class="xd-nav-link">RSS</a>
                 <a href="https://github.com/doughatcher/experience-digest" class="xd-nav-link" target="_blank" rel="noopener">GitHub</a>

@@ -44,7 +44,9 @@
         </div>
         {{ end }}
     </article>
-    
+
+    {{ partial "social-share.html" . }}
+
     <div class="action-group">
         {{ if or .NextInSection .PrevInSection }}
             {{ if .PrevInSection }}
