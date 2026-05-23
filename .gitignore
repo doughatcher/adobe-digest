@@ -1,7 +1,13 @@
 .hugo_build.lock
 public/
 .DS_Store
+._*
 .env
+.env.*
+!.env.example
+.session-cookie
+*.pem
+*.key
 __pycache__/
 *.pyc
 *.pyo
