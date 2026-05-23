@@ -1,0 +1,52 @@
+{{/* Returns the canonical og:image URL for the page.
+
+     - Per-post auto-generated card for regular pages (uses images.Filter +
+       images.Text to overlay the title on a brand template).
+     - Frontmatter `image:` override wins if set.
+     - Site-wide brand card (`/og-card.png`) as fallback for the home page,
+       section list pages, taxonomies — anywhere without a meaningful title
+       to render onto a card.
+*/}}
+{{- $default := "/og-card.png" | absURL -}}
+
+{{- if .Params.image -}}
+    {{- .Params.image | absURL -}}
+{{- else if and (eq .Kind "page") .Title -}}
+    {{- $template := resources.Get "og/template.png" -}}
+    {{- $font := resources.Get "fonts/Inter-Bold.ttf" -}}
+    {{- if and $template $font -}}
+        {{- /* Wrap long titles by inserting newlines around ~28 chars per line,
+               breaking on word boundaries. */ -}}
+        {{- $wrapped := "" -}}
+        {{- $lineLen := 0 -}}
+        {{- $maxLine := 28 -}}
+        {{- range $i, $w := split .Title " " -}}
+            {{- $wlen := len . -}}
+            {{- if and (gt $lineLen 0) (gt (add $lineLen (add $wlen 1)) $maxLine) -}}
+                {{- $wrapped = printf "%s\n%s" $wrapped . -}}
+                {{- $lineLen = $wlen -}}
+            {{- else if eq $lineLen 0 -}}
+                {{- $wrapped = . -}}
+                {{- $lineLen = $wlen -}}
+            {{- else -}}
+                {{- $wrapped = printf "%s %s" $wrapped . -}}
+                {{- $lineLen = add (add $lineLen 1) $wlen -}}
+            {{- end -}}
+        {{- end -}}
+
+        {{- $opts := dict
+            "color" "#f5f5f5"
+            "size" 54
+            "linespacing" 12
+            "x" 80
+            "y" 220
+            "font" $font
+        -}}
+        {{- $card := $template | images.Filter (images.Text $wrapped $opts) -}}
+        {{- $card.Permalink -}}
+    {{- else -}}
+        {{- $default -}}
+    {{- end -}}
+{{- else -}}
+    {{- $default -}}
+{{- end -}}

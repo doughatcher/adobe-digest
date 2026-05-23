@@ -6,14 +6,20 @@
     <title>Experience Digest — Independent Adobe Security Monitoring</title>
     <meta name="description" content="An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Community-maintained, not affiliated with Adobe.">
     <meta name="author" content="Doug Hatcher">
+    {{ $ogImage := partial "og-image.html" . }}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Experience Digest">
     <meta property="og:title" content="Experience Digest — Independent Adobe Security Monitoring">
     <meta property="og:description" content="An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe.">
     <meta property="og:url" content="https://experiencedigest.org">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Experience Digest — Security intelligence for Adobe Commerce">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Experience Digest — Independent Adobe Security Monitoring">
     <meta name="twitter:description" content="An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe.">
+    <meta name="twitter:image" content="{{ $ogImage }}">
 
     <!-- Micro.blog Discovery & IndieWeb -->
     {{ partial "microblog_head.html" . }}
