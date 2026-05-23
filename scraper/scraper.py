@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Adobe Digest Scraper Coordinator
+Experience Digest Scraper Coordinator
 Coordinates multiple scrapers (Adobe HelpX, Sansec, etc.) to fetch security content
 """
 
@@ -18,7 +18,7 @@ class ScraperCoordinator:
         # Output to content directory
         self.output_dir = Path(__file__).parent / output_dir
         self.output_dir.mkdir(exist_ok=True)
-        self.feed_url = 'https://adobedigest.com/feed.json'
+        self.feed_url = 'https://experiencedigest.org/feed.json'
         self.force = force
         
         # Load existing posts to avoid duplicates (unless force mode)
@@ -175,7 +175,7 @@ class ScraperCoordinator:
     
     def run(self):
         """Main coordinator execution"""
-        print("🚀 Adobe Digest Security Scraper")
+        print("🚀 Experience Digest Security Scraper")
         print("=" * 50)
         
         # Load config

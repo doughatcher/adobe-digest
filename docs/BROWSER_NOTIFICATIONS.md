@@ -1,6 +1,6 @@
 # Browser Notifications
 
-Adobe Digest supports browser-based push notifications to alert users when new security bulletins are posted. This feature uses the standard Web Notifications API available in modern browsers.
+Experience Digest supports browser-based push notifications to alert users when new security bulletins are posted. This feature uses the standard Web Notifications API available in modern browsers.
 
 ## Features
 
@@ -14,7 +14,7 @@ Adobe Digest supports browser-based push notifications to alert users when new s
 
 ### Enabling Notifications
 
-1. Visit [adobedigest.com](https://adobedigest.com)
+1. Visit [experiencedigest.org](https://experiencedigest.org)
 2. Scroll to the "Browser Notifications" section in the footer
 3. Click "Enable Notifications"
 4. Grant permission when prompted by your browser
@@ -22,7 +22,7 @@ Adobe Digest supports browser-based push notifications to alert users when new s
 
 ### Disabling Notifications
 
-1. Visit [adobedigest.com](https://adobedigest.com)
+1. Visit [experiencedigest.org](https://experiencedigest.org)
 2. Scroll to the "Browser Notifications" section
 3. Click "Disable Notifications"
 
@@ -41,20 +41,20 @@ Browser notifications are supported in:
 
 ### Architecture
 
-```
-User enables notifications
-    ↓
-Permission granted
-    ↓
-System starts periodic checks (every 6 hours)
-    ↓
-Fetches /feed.json
-    ↓
-Compares latest bulletin timestamp with last check
-    ↓
-If new bulletin found → Display notification
-    ↓
-Update last check timestamp
+```mermaid
+flowchart TD
+    A[User enables notifications]
+    B[Permission granted]
+    C[System starts periodic checks every 6 hours]
+    D[Fetch /feed.json]
+    E[Compare latest bulletin timestamp with last check]
+    F{New bulletin?}
+    G[Display notification]
+    H[Update last check timestamp]
+    A --> B --> C --> D --> E --> F
+    F -- yes --> G --> H
+    F -- no --> H
+    H --> C
 ```
 
 ### Data Storage
@@ -106,7 +106,7 @@ When a new bulletin is detected, the notification displays:
 
 - **Title**: "New Adobe Security Bulletin"
 - **Body**: The bulletin title (e.g., "APSB25-01 Security update for Adobe Commerce")
-- **Icon**: Adobe Digest favicon
+- **Icon**: Experience Digest favicon
 - **Click Action**: Opens the bulletin page in a new tab
 
 ### Check Interval
@@ -205,4 +205,4 @@ To contribute improvements to the notification system:
 
 ## License
 
-The notification system is part of Adobe Digest and is released under the MIT License. See [LICENSE](../LICENSE) for details.
+The notification system is part of Experience Digest and is released under the MIT License. See [LICENSE](../LICENSE) for details.

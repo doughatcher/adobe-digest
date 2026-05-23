@@ -114,7 +114,7 @@ scraper/scrapers/nist_nvd.py | 341 ++++++++++ # New scraper module
 
 After this PR is merged:
 1. The scraper will run automatically every 6 hours
-2. New/updated CVEs will be posted to adobedigest.com
+2. New/updated CVEs will be posted to experiencedigest.org
 3. RSS feeds will include CVE updates
 4. Community can subscribe to CVE-specific updates
 

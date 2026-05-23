@@ -3,12 +3,12 @@
 ## Production vs Development URLs
 
 ### Production (Micro.blog)
-The site is hosted on Micro.blog at `https://adobedigest.com/`
+The site is hosted on Micro.blog at `https://experiencedigest.org/`
 
 When deploying to production, the `config.json` should have:
 ```json
 {
-  "baseURL": "https://adobedigest.com/"
+  "baseURL": "https://experiencedigest.org/"
 }
 ```
 
@@ -27,7 +27,7 @@ For local development with Hugo server, use:
 hugo server --baseURL=/
 
 # Production build
-hugo --baseURL=https://adobedigest.com/
+hugo --baseURL=https://experiencedigest.org/
 ```
 
 Or use Hugo environment configuration files:
@@ -173,7 +173,7 @@ Previous GitHub Pages configuration:
 1. Go to repository Settings → Pages
 2. Source: Deploy from a branch
 3. Branch: `gh-pages` / `/ (root)`
-4. Custom domain: `adobedigest.com`
+4. Custom domain: `experiencedigest.org`
 
 ## DNS Configuration
 

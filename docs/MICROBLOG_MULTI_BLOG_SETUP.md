@@ -2,7 +2,7 @@
 
 ## Summary
 
-Successfully configured the Adobe Digest scraper to post to the correct Micro.blog blog when you have multiple blogs on your account. The system now uses the `mp-destination` parameter to ensure posts go to `adobedigest.com` instead of potentially defaulting to another blog.
+Successfully configured the Experience Digest scraper to post to the correct Micro.blog blog when you have multiple blogs on your account. The system now uses the `mp-destination` parameter to ensure posts go to `experiencedigest.org` instead of potentially defaulting to another blog.
 
 ## What Changed
 
@@ -73,7 +73,7 @@ You get a list of available destinations:
     },
     {
       "uid": "https://adobedigest.micro.blog/",
-      "name": "adobedigest.com",
+      "name": "experiencedigest.org",
       "microblog-default": true
     },
     {
@@ -86,7 +86,7 @@ You get a list of available destinations:
 ```
 
 ### Routing Logic
-- **Without mp-destination**: Micro.blog uses the token's default blog (which may not be Adobe Digest)
+- **Without mp-destination**: Micro.blog uses the token's default blog (which may not be Experience Digest)
 - **With mp-destination**: Posts explicitly go to the specified blog URL
 
 ## Testing
@@ -94,7 +94,7 @@ You get a list of available destinations:
 ### Local Testing
 ```bash
 cd content
-/workspaces/adobe-digest/.venv/bin/python post_to_microblog.py 0
+/workspaces/experience-digest/.venv/bin/python post_to_microblog.py 0
 ```
 
 Expected output:
@@ -112,7 +112,7 @@ After adding the GitHub secret, the next workflow run will use the mp-destinatio
 
 ## Benefits
 
-1. **Explicit Routing**: Posts always go to Adobe Digest, not another blog
+1. **Explicit Routing**: Posts always go to Experience Digest, not another blog
 2. **Multi-Account Support**: Works correctly with multi-blog Micro.blog accounts
 3. **Backward Compatible**: If `MICROBLOG_MP_DESTINATION` is not set, the script still works (uses default)
 4. **Transparent**: Shows destination on every run for verification

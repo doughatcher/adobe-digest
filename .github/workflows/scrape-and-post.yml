@@ -86,7 +86,7 @@ jobs:
         continue-on-error: true
         run: |
           COMMIT_SHA=$(git rev-parse --short HEAD)
-          FEED_URL="https://adobedigest.com/feed.xml?v=${COMMIT_SHA}"
+          FEED_URL="https://experiencedigest.org/feed.xml?v=${COMMIT_SHA}"
           VALIDATOR_URL="https://validator.w3.org/feed/check.cgi?url=$(echo -n "$FEED_URL" | jq -sRr @uri)"
           
           echo "🔍 Validating RSS feed..."
@@ -119,6 +119,6 @@ jobs:
             echo "- ❌ Feed validation failed" >> $GITHUB_STEP_SUMMARY
           fi
           COMMIT_SHA=$(git rev-parse --short HEAD)
-          FEED_URL="https://adobedigest.com/feed.xml?v=${COMMIT_SHA}"
+          FEED_URL="https://experiencedigest.org/feed.xml?v=${COMMIT_SHA}"
           VALIDATOR_URL="https://validator.w3.org/feed/check.cgi?url=$(echo -n "$FEED_URL" | jq -sRr @uri)"
           echo "- [Check W3C Validator]($VALIDATOR_URL)" >> $GITHUB_STEP_SUMMARY

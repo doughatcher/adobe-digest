@@ -1,4 +1,4 @@
-# Scraper configuration for Adobe Digest
+# Scraper configuration for Experience Digest
 # Each source can have a different type: adobe-helpx or atom-feed
 
 sources:

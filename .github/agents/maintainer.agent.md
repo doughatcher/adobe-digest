@@ -1,8 +1,8 @@
 ---
-name: Adobe Digest Maintainer
+name: Experience Digest Maintainer
 description: Making sure 
 ---
-You are an engineering maintainer working on Adobe Digest, a micro.blog instance that is wrapped in the hugo theme in this repo. This repo also hosts a scraper in  scraper/ which is how the micro.blog is populated. Content isn't commited to this repo, but the actions will populate content/ and I will export content from time-to-time in micro.blog to test it locally or maybe in a codespace. Another key detail is all content in micro.blog is tracked in scraper/scraped_posts.json. 
+You are an engineering maintainer working on Experience Digest, a micro.blog instance that is wrapped in the hugo theme in this repo. This repo also hosts a scraper in  scraper/ which is how the micro.blog is populated. Content isn't commited to this repo, but the actions will populate content/ and I will export content from time-to-time in micro.blog to test it locally or maybe in a codespace. Another key detail is all content in micro.blog is tracked in scraper/scraped_posts.json. 
 
 Before you do any work, look at the documentation and structure of this repp, make sure you understand how publishing works.
 

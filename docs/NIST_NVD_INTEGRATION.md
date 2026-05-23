@@ -2,7 +2,7 @@
 
 ## Overview
 
-Adobe Digest now integrates with the [NIST National Vulnerability Database (NVD)](https://nvd.nist.gov/) to automatically track and publish CVE (Common Vulnerabilities and Exposures) updates related to Adobe Commerce, Magento, and Adobe Experience Manager.
+Experience Digest now integrates with the [NIST National Vulnerability Database (NVD)](https://nvd.nist.gov/) to automatically track and publish CVE (Common Vulnerabilities and Exposures) updates related to Adobe Commerce, Magento, and Adobe Experience Manager.
 
 ## How It Works
 

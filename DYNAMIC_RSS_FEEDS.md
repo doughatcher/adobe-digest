@@ -2,11 +2,11 @@
 
 ## Overview
 
-Adobe Digest uses micro.blog's canonical JSON feed as the single source of truth for RSS subscriptions. This simplifies feed management and ensures reliable delivery since micro.blog handles feed generation on its own schedule.
+Experience Digest uses micro.blog's canonical JSON feed as the single source of truth for RSS subscriptions. This simplifies feed management and ensures reliable delivery since micro.blog handles feed generation on its own schedule.
 
 ## Primary Feed
 
-**URL**: `https://adobedigest.com/feed.json`
+**URL**: `https://experiencedigest.org/feed.json`
 
 This is the only internal feed advertised to subscribers. It is automatically generated and maintained by micro.blog.
 
@@ -15,12 +15,12 @@ This is the only internal feed advertised to subscribers. It is automatically ge
 The following `<link>` tag is included in the HTML `<head>` for feed auto-discovery:
 
 ```html
-<link href="https://adobedigest.com/feed.json" rel="alternate" type="application/json" title="Adobe Digest" />
+<link href="https://experiencedigest.org/feed.json" rel="alternate" type="application/json" title="Experience Digest" />
 ```
 
 ## External Data Sources
 
-The homepage references these external feeds for transparency about data sourcing (these are **not** Adobe Digest feeds—they are third-party sources we monitor):
+The homepage references these external feeds for transparency about data sourcing (these are **not** Experience Digest feeds—they are third-party sources we monitor):
 
 | Source | Feed URL | Purpose |
 |--------|----------|---------|
@@ -29,22 +29,12 @@ The homepage references these external feeds for transparency about data sourcin
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    micro.blog                           │
-│  (automatically generates and hosts feed.json)          │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│           https://adobedigest.com/feed.json             │
-│                  (canonical feed URL)                   │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                RSS Readers / Subscribers                │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["micro.blog<br/>(automatically generates and hosts feed.json)"]
+    B["https://experiencedigest.org/feed.json<br/>(canonical feed URL)"]
+    C["RSS readers / subscribers"]
+    A --> B --> C
 ```
 
 ## Why Not Hugo-Generated Feeds?

@@ -25,56 +25,24 @@ Micro.blog's web interface polls the `/posts/check` endpoint to monitor build pr
 
 ### Authentication Flow
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. POST /account/signin (multipart form-data)               │
-│    - Triggers sign-in email                                 │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 2. Poll Gmail IMAP for sign-in email                        │
-│    - Search: FROM "help@micro.blog" SUBJECT "sign-in"       │
-│    - Extract magic link from quoted-printable HTML          │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 3. Follow magic link                                        │
-│    - Capture rack.session cookie                            │
-│    - Save to .session-cookie file                           │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. Switch to default blog (if multi-blog setup)             │
-│    - POST /account/sites/make_default                       │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["1. POST /account/signin (multipart form-data)<br/>triggers sign-in email"]
+    B["2. Poll Gmail IMAP for sign-in email<br/>FROM help@micro.blog · SUBJECT sign-in<br/>extract magic link from quoted-printable HTML"]
+    C["3. Follow magic link<br/>capture rack.session cookie<br/>save to .session-cookie"]
+    D["4. Switch to default blog (multi-blog setups)<br/>POST /account/sites/make_default"]
+    A --> B --> C --> D
 ```
 
 ### Deployment Flow
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Validate session cookie                                  │
-│    - GET /account/logs (check for redirect to /signin)      │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 2. Reload theme templates from GitHub                       │
-│    - POST /account/themes/reload (with theme_id)            │
-│    - Returns 302 → /account/themes/{id}/templates?reload=1  │
-│    - Redirected endpoint returns 404 (expected)             │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 3. Trigger site rebuild                                     │
-│    - GET /account/logs (initiates rebuild)                  │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. Poll /posts/check repeatedly (with redirect following)   │
-│    - Monitors publishing_status changes                     │
-│    - Completes when status goes idle after activity         │
-│    - Typical completion: 15-50 seconds (5-10 polls)         │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["1. Validate session cookie<br/>GET /account/logs<br/>(check for redirect to /signin)"]
+    B["2. Reload theme templates from GitHub<br/>POST /account/themes/reload (with theme_id)<br/>302 → /account/themes/{id}/templates?reload=1<br/>(redirected endpoint returns 404 — expected)"]
+    C["3. Trigger site rebuild<br/>GET /account/logs"]
+    D["4. Poll /posts/check repeatedly<br/>monitors publishing_status<br/>completes when status goes idle<br/>typical: 15–50 s (5–10 polls)"]
+    A --> B --> C --> D
 ```
 
 ## Files

@@ -9,7 +9,7 @@ This repository automatically posts Adobe security bulletins to Micro.blog using
 1. Log in to [Micro.blog](https://micro.blog/)
 2. Go to [Account → App tokens](https://micro.blog/account/apps)
 3. Click "Generate App Token"
-4. Give it a name like "Adobe Digest Scraper"
+4. Give it a name like "Experience Digest Scraper"
 5. Copy the token
 
 ### 2. Add GitHub Secret
@@ -26,7 +26,7 @@ Make sure your `config.json` has the correct `baseURL`:
 
 ```json
 {
-  "baseURL": "https://adobedigest.com/"
+  "baseURL": "https://experiencedigest.org/"
 }
 ```
 
@@ -40,7 +40,7 @@ The GitHub Action (`.github/workflows/scrape-and-post.yml`) runs every 6 hours (
 2. **Checks** if any new bulletins were found
 3. **Commits** new bulletins to the repository (if found)
 4. **Builds** the Hugo site with the new content (if needed)
-5. **Deploys** to GitHub Pages at adobedigest.com (if needed)
+5. **Deploys** to GitHub Pages at experiencedigest.org (if needed)
 6. **Waits** 30 seconds for deployment to complete
 7. **Posts** new bulletins to Micro.blog (max 5 per run by default)
 
@@ -48,7 +48,7 @@ The GitHub Action (`.github/workflows/scrape-and-post.yml`) runs every 6 hours (
 
 ### State Tracking
 
-The scraper uses your published `feed.json` at `https://adobedigest.com/feed.json` to track which bulletins have already been posted. This means:
+The scraper uses your published `feed.json` at `https://experiencedigest.org/feed.json` to track which bulletins have already been posted. This means:
 
 - ✅ No separate state file needed
 - ✅ Idempotent - safe to run multiple times
@@ -145,7 +145,7 @@ This shouldn't happen because the scraper checks the published feed, but if it d
 
 If posts were scraped but not posted to Micro.blog:
 - Check that GitHub Pages deployed successfully
-- Verify `adobedigest.com/feed.json` is accessible
+- Verify `experiencedigest.org/feed.json` is accessible
 - Manually trigger the workflow
 
 ## Configuration
