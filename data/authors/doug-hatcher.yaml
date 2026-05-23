@@ -1,0 +1,11 @@
+# One YAML file per contributor. The filename (slug) is what posts reference
+# via `author: <slug>` (single) or `authors: [<slug>, <slug>]` (multi).
+#
+# Required: name
+# Optional: title, url, avatar, bio
+
+name: Doug Hatcher
+title: Enterprise Architect at Blue Acorn iCI
+url: https://doughatcher.com
+# avatar: /images/authors/doug-hatcher.jpg
+# bio: Short one-or-two-sentence bio shown under the title.

@@ -2,9 +2,20 @@
 title: "Three Signals from November: What the Bulletins Don't Say"
 date: 2025-11-26T09:00:00-05:00
 draft: false
+author: doug-hatcher
 tags: [magento, adobe-commerce, cve, attack-analysis]
 category: "Attack Analysis"
 summary: "The November 2025 bulletin wave included a CVSS 9.1 session takeover, a stored XSS in Magento-lts, and an active Xurum webshell campaign. Read together, they describe something the individual advisories don't."
+related:
+  - title: "SessionReaper — unauthenticated RCE in Magento & Adobe Commerce (CVE-2025-54236)"
+    url: https://experiencedigest.org/2025/09/08/000000.html
+    date: "September 8, 2025"
+  - title: "Xurum: new Magento campaign discovered"
+    url: https://experiencedigest.org/2025/11/09/xurum-new-magento-campaign-discovered.html
+    date: "November 9, 2025"
+  - title: "CVE-2025-64174 — OpenMage stored XSS"
+    url: https://experiencedigest.org/2025/11/12/cve.html
+    date: "November 12, 2025"
 ---
 
 Three items from the November 2025 bulletin queue, taken individually, look like routine security hygiene. Together they tell a different story.

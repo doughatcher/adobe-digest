@@ -8,49 +8,57 @@
         <span class="current">{{ .Title }}</span>
     </nav>
 
-    <article class="content-card" style="margin-top: 2rem;">
-        <header class="page-header">
-            {{ if .Params.category }}
-            <div class="meta-item" style="margin-bottom: 0.5rem;">
-                <span style="font-size: 0.75rem; color: #f97316; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">{{ .Params.category }}</span>
-            </div>
-            {{ end }}
-            <h1 class="page-title">{{ .Title }}</h1>
-            <div class="page-meta">
-                <div class="meta-item">
-                    <span class="meta-icon">📅</span>
-                    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-icon">⏱</span>
-                    {{ .ReadingTime }} min read
-                </div>
-            </div>
-        </header>
+    <div class="blog-layout">
+        <div class="blog-main">
+            <article class="content-card" style="margin-top: 2rem;">
+                <header class="page-header">
+                    {{ if .Params.category }}
+                    <div class="meta-item" style="margin-bottom: 0.5rem;">
+                        <span style="font-size: 0.75rem; color: #14b8a6; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">{{ .Params.category }}</span>
+                    </div>
+                    {{ end }}
+                    <h1 class="page-title">{{ .Title }}</h1>
+                    <div class="page-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱</span>
+                            {{ .ReadingTime }} min read
+                        </div>
+                    </div>
+                </header>
 
-        <div class="content-wrapper e-content">
-            {{ .Content }}
-        </div>
+                <div class="content-wrapper e-content">
+                    {{ .Content }}
+                </div>
 
-        {{ if .Params.tags }}
-        <div class="tags-section" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #3e3e3e;">
-            <div class="tags-container">
-                {{ range .Params.tags }}
-                <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag p-category">{{ . }}</a>
+                {{ if .Params.tags }}
+                <div class="tags-section" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #3e3e3e;">
+                    <div class="tags-container">
+                        {{ range .Params.tags }}
+                        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag p-category">{{ . }}</a>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
+            </article>
+
+            {{ partial "social-share.html" . }}
+
+            <div class="action-group" style="margin-top: 1.5rem;">
+                {{ if .NextInSection }}
+                <a href="{{ .NextInSection.Permalink }}" class="spectrum-btn spectrum-btn-secondary">← {{ .NextInSection.Title | truncate 40 }}</a>
+                {{ end }}
+                <a href="{{ "/blog/" | relURL }}" class="spectrum-btn spectrum-btn-secondary">← All Posts</a>
+                {{ if .PrevInSection }}
+                <a href="{{ .PrevInSection.Permalink }}" class="spectrum-btn spectrum-btn-secondary">{{ .PrevInSection.Title | truncate 40 }} →</a>
                 {{ end }}
             </div>
         </div>
-        {{ end }}
-    </article>
 
-    <div class="action-group" style="margin-top: 1.5rem;">
-        {{ if .NextInSection }}
-        <a href="{{ .NextInSection.Permalink }}" class="spectrum-btn spectrum-btn-secondary">← {{ .NextInSection.Title | truncate 40 }}</a>
-        {{ end }}
-        <a href="{{ "/blog/" | relURL }}" class="spectrum-btn spectrum-btn-secondary">← All Posts</a>
-        {{ if .PrevInSection }}
-        <a href="{{ .PrevInSection.Permalink }}" class="spectrum-btn spectrum-btn-secondary">{{ .PrevInSection.Title | truncate 40 }} →</a>
-        {{ end }}
+        {{ partial "blog-sidebar.html" . }}
     </div>
 </div>
 {{ end }}

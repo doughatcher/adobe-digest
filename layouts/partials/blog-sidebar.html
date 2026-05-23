@@ -1,0 +1,70 @@
+{{/* Resolve author slugs from frontmatter — supports `author: slug` or `authors: [slug, slug]` */}}
+{{ $authorSlugs := slice }}
+{{ with .Params.author }}
+    {{ if reflect.IsSlice . }}
+        {{ $authorSlugs = . }}
+    {{ else }}
+        {{ $authorSlugs = $authorSlugs | append . }}
+    {{ end }}
+{{ end }}
+{{ with .Params.authors }}{{ $authorSlugs = $authorSlugs | append . }}{{ end }}
+
+{{ $toc := .TableOfContents }}
+{{ $hasToc := gt (len $toc) 50 }}
+{{ $related := .Params.related }}
+
+{{ if or $authorSlugs $hasToc $related }}
+<aside class="blog-sidebar">
+
+    {{ if $authorSlugs }}
+    <div class="blog-sidebar-block blog-author-block">
+        <h3 class="blog-sidebar-title">{{ if gt (len $authorSlugs) 1 }}Authors{{ else }}Author{{ end }}</h3>
+        {{ range $authorSlugs }}
+            {{ $a := index $.Site.Data.authors . }}
+            {{ if $a }}
+            <div class="blog-author h-card">
+                {{ with $a.avatar }}
+                <img class="blog-author-avatar u-photo" src="{{ . }}" alt="{{ $a.name }}">
+                {{ else }}
+                <div class="blog-author-avatar blog-author-avatar-fallback" aria-hidden="true">{{ substr $a.name 0 1 }}</div>
+                {{ end }}
+                <div class="blog-author-text">
+                    {{ if $a.url }}
+                    <a class="blog-author-name p-name u-url" href="{{ $a.url }}" rel="author">{{ $a.name }}</a>
+                    {{ else }}
+                    <span class="blog-author-name p-name">{{ $a.name }}</span>
+                    {{ end }}
+                    {{ with $a.title }}<div class="blog-author-title p-job-title">{{ . }}</div>{{ end }}
+                    {{ with $a.bio }}<p class="blog-author-bio p-note">{{ . }}</p>{{ end }}
+                </div>
+            </div>
+            {{ end }}
+        {{ end }}
+    </div>
+    {{ end }}
+
+    {{ if $hasToc }}
+    <div class="blog-sidebar-block">
+        <h3 class="blog-sidebar-title">On this page</h3>
+        <div class="blog-toc">
+            {{ $toc | safeHTML }}
+        </div>
+    </div>
+    {{ end }}
+
+    {{ if $related }}
+    <div class="blog-sidebar-block">
+        <h3 class="blog-sidebar-title">Related coverage</h3>
+        <ul class="blog-related-list">
+            {{ range $related }}
+            <li>
+                <a href="{{ .url }}"{{ if not (hasPrefix .url "/") }} target="_blank" rel="noopener"{{ end }}>{{ .title }}</a>
+                {{ with .date }}<span class="blog-related-date">{{ . }}</span>{{ end }}
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ end }}
+
+</aside>
+{{ end }}

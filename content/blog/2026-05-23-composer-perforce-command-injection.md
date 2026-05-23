@@ -2,6 +2,7 @@
 title: "The Perforce Driver You Never Knew You Had: Composer CVE-2026-40261 and CVE-2026-40176"
 date: 2026-05-23T10:00:00-05:00
 draft: false
+author: doug-hatcher
 tags: [composer, php, supply-chain, cve, magento, adobe-commerce, dependency-management]
 category: "Attack Analysis"
 summary: "Two command injection vulnerabilities in Composer's Perforce driver are exploitable even if you've never touched Perforce. For Magento shops running dev dependencies from source, CVE-2026-40261 is a supply-chain exposure hiding behind a feature most teams don't know is active."
