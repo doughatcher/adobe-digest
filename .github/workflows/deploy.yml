@@ -10,6 +10,7 @@ on:
       - 'theme.toml'
       - 'config.json'
       - 'data/**'
+      - 'content/blog/**'
   workflow_dispatch:
     inputs:
       theme_id:
