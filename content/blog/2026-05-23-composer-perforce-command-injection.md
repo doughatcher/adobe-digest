@@ -6,9 +6,15 @@ author: doug-hatcher
 tags: [composer, php, supply-chain, cve, magento, adobe-commerce, dependency-management]
 category: "Attack Analysis"
 summary: "Two command injection vulnerabilities in Composer's Perforce driver are exploitable even if you've never touched Perforce. For Magento shops running dev dependencies from source, CVE-2026-40261 is a supply-chain exposure hiding behind a feature most teams don't know is active."
+related:
+  - title: "Composer 2.9.6: Perforce driver command injection vulnerabilities"
+    url: https://blog.packagist.com/composer-2-9-6-perforce-driver-command-injection-vulnerabilities/
+    date: "May 21, 2026"
 ---
 
 Update Composer to 2.9.6 or 2.2.27 LTS now. If that sentence is enough, you're done. If you want to understand why this one is worth a closer look, keep reading.
+
+Background: the Composer maintainers published [their own writeup of these advisories](https://blog.packagist.com/composer-2-9-6-perforce-driver-command-injection-vulnerabilities/) on the Packagist blog. The technical details and the registry-level mitigations described below come from that post; this piece is the operator's read for commerce teams.
 
 ## Quick Refresher: Composer, Drivers, and Why Perforce Is in There
 

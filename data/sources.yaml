@@ -62,6 +62,19 @@ sources:
       - news
       - akamai
   
+  # Packagist Blog (Composer maintainers' announcements — releases, security advisories,
+  # ecosystem changes that affect every PHP/Magento composer install)
+  - type: atom-feed
+    name: packagist-blog
+    display_name: Packagist Blog
+    description: Composer and Packagist announcements, including security advisories that affect every PHP/Magento dependency pipeline
+    url: https://blog.packagist.com/feed/
+    limit: 30
+    categories:
+      - news
+      - composer
+      - supply-chain
+
   # NIST NVD CVE Database (filtered for Adobe Commerce/Magento/AEM)
   - type: nist-nvd
     name: nist-nvd
