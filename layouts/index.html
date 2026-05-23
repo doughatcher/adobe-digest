@@ -756,6 +756,7 @@
                 <span class="spectrum-logo-text">Adobe Digest</span>
             </a>
             <nav class="spectrum-nav">
+                <a href="/blog/" class="spectrum-nav-link">Blog</a>
                 <a href="/archive/" class="spectrum-nav-link">Archive</a>
                 <a href="/bulletins/feed.xml" class="spectrum-nav-link">RSS</a>
                 <a href="https://github.com/doughatcher/adobe-digest" class="spectrum-nav-link" target="_blank" rel="noopener">GitHub</a>
@@ -950,6 +951,31 @@
                         <div style="color: #eb1000; font-weight: 700; font-size: 0.875rem; margin-top: 0.25rem;">6 Hours</div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Blog Callout -->
+        <section class="section" style="margin-top: 2rem;">
+            <div class="section-header">
+                <h2 class="section-title">From the Blog</h2>
+                <a href="/blog/" class="section-action">All Posts →</a>
+            </div>
+            <div style="background: #2c2c2c; border: 1px solid #3e3e3e; border-radius: 8px; padding: 1.5rem;">
+                <p style="color: #aaa; margin-bottom: 1rem; font-size: 0.9375rem;">
+                    Editorial analysis of the Commerce security landscape — the correlation, context, and preemptive takes the automated bulletins cannot provide.
+                </p>
+                {{ $blogPages := where .Site.RegularPages "Section" "blog" }}
+                {{ range first 3 $blogPages.ByDate.Reverse }}
+                <div style="border-top: 1px solid #3e3e3e; padding: 1rem 0;">
+                    <a href="{{ .Permalink }}" style="color: #f5f5f5; font-weight: 600; text-decoration: none; display: block; margin-bottom: 0.25rem;">{{ .Title }}</a>
+                    <p style="color: #888; font-size: 0.875rem; margin: 0;">{{ .Summary | truncate 160 }}</p>
+                    <div style="margin-top: 0.5rem; font-size: 0.8125rem; color: #666;">
+                        <time>{{ .Date.Format "January 2, 2006" }}</time> · {{ .ReadingTime }} min read
+                    </div>
+                </div>
+                {{ else }}
+                <p style="color: #666;">First post coming soon.</p>
+                {{ end }}
             </div>
         </section>
 

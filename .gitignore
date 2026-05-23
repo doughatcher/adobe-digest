@@ -14,4 +14,6 @@ hugo
 hugo_*
 *.tar.gz
 
-content/
+# Content managed by Micro.blog, not git — except editorial blog section
+content/*
+!content/blog/
