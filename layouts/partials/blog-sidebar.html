@@ -16,17 +16,22 @@
 {{ if or $authorSlugs $hasToc $related }}
 <aside class="blog-sidebar">
 
+    {{/* `$.Site.Data.authors` can be nil on hosts that don't sync data/ in their
+         theme reload (Micro.blog has been observed to skip it). Default to an
+         empty dict so the lookup degrades to "no author block" rather than
+         crashing the build. */}}
+    {{ $authorsData := $.Site.Data.authors | default dict }}
     {{ if $authorSlugs }}
     <div class="blog-sidebar-block blog-author-block">
         <h3 class="blog-sidebar-title">{{ if gt (len $authorSlugs) 1 }}Authors{{ else }}Author{{ end }}</h3>
         {{ range $authorSlugs }}
-            {{ $a := index $.Site.Data.authors . }}
+            {{ $a := index $authorsData . }}
             {{ if $a }}
             <div class="blog-author h-card">
                 {{ with $a.avatar }}
                 <img class="blog-author-avatar u-photo" src="{{ . }}" alt="{{ $a.name }}">
                 {{ else }}
-                <div class="blog-author-avatar blog-author-avatar-fallback" aria-hidden="true">{{ substr $a.name 0 1 }}</div>
+                <div class="blog-author-avatar blog-author-avatar-fallback" aria-hidden="true">{{ substr (default "?" $a.name) 0 1 }}</div>
                 {{ end }}
                 <div class="blog-author-text">
                     {{ if $a.url }}
