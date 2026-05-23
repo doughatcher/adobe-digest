@@ -556,13 +556,13 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-05-18T16:05:24.194426",
+  "last_updated": "2026-05-23T04:27:48.693607",
   "total_count": 555,
   "release_tracking": {
     "adobe-commerce-2-4-9": {
       "last_state": "ga",
-      "content_hash": "6837d7f52d6908fc038fc13508f5b7f5",
-      "last_scraped": "2026-05-18T16:05:12.823724",
+      "content_hash": "cc05f5e1e4999d02355532cb396d6bfa",
+      "last_scraped": "2026-05-23T04:27:21.674516",
       "version": "2-4-9"
     },
     "adobe-commerce-2-4-8-p5": {
