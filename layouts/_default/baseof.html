@@ -23,10 +23,12 @@
     {{ else }}
         {{ $description = .Content | plainify | truncate 280 }}
     {{ end }}
-    {{/* og:image: 1200x630 brand card by default. Per-post override via
-         `image: /path/to/post-card.png` in frontmatter. Falls through to
-         site-wide brand card for posts that don't supply one. */}}
-    {{ $ogImage := .Params.image | default "/og-card.png" | absURL }}
+    {{/* og:image resolution lives in the og-image partial. By default,
+         regular pages get an auto-generated 1200x630 card with the post
+         title overlaid on the brand template; the home page, section
+         lists, and taxonomies fall back to the static site-wide brand
+         card. Per-post `image:` frontmatter wins over both. */}}
+    {{ $ogImage := partial "og-image.html" . }}
     {{ $twitterCard := "summary_large_image" }}
     <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
     <meta property="og:site_name" content="Experience Digest — Independent Community Resource">
