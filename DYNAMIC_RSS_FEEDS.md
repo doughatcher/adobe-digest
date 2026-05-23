@@ -29,22 +29,12 @@ The homepage references these external feeds for transparency about data sourcin
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    micro.blog                           │
-│  (automatically generates and hosts feed.json)          │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│           https://experiencedigest.org/feed.json             │
-│                  (canonical feed URL)                   │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                RSS Readers / Subscribers                │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    A["micro.blog<br/>(automatically generates and hosts feed.json)"]
+    B["https://experiencedigest.org/feed.json<br/>(canonical feed URL)"]
+    C["RSS readers / subscribers"]
+    A --> B --> C
 ```
 
 ## Why Not Hugo-Generated Feeds?

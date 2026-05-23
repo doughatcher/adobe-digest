@@ -65,30 +65,16 @@ Subscribe to stay updated on Adobe security bulletins:
 
 ## Architecture
 
-```
-┌─────────────────┐
-│ GitHub Actions  │  Runs every 6 hours
-│  (Scraper)      │  
-└────────┬────────┘
-         │
-         ├──> Scrape Adobe HelpX
-         ├──> Scrape Adobe Commerce Releases
-         ├──> Scrape Magento Open Source Releases
-         ├──> Scrape Sansec.io 
-         ├──> Scrape Akamai Blog (filtered)
-         ├──> Scrape NIST NVD CVEs (filtered)
-         │
-         v
-┌─────────────────┐
-│  Post to        │  Via Micropub API
-│  Micro.blog     │  
-└────────┬────────┘
-         │
-         v
-┌─────────────────┐
-│  experiencedigest.org│  Hugo static site
-│  (Micro.blog)   │  Custom theme
-└─────────────────┘
+```mermaid
+flowchart TD
+    A["GitHub Actions (Scraper)<br/>runs every 6 hours"] --> B[Adobe HelpX]
+    A --> C[Adobe Commerce Releases]
+    A --> D[Magento Open Source Releases]
+    A --> E[Sansec.io]
+    A --> F["Akamai Blog (filtered)"]
+    A --> G["NIST NVD CVEs (filtered)"]
+    B & C & D & E & F & G --> H["Post to Micro.blog<br/>via Micropub API"]
+    H --> I["experiencedigest.org<br/>(Micro.blog, custom Hugo theme)"]
 ```
 
 ## Local Development

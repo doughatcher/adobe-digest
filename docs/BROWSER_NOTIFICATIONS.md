@@ -41,20 +41,20 @@ Browser notifications are supported in:
 
 ### Architecture
 
-```
-User enables notifications
-    ↓
-Permission granted
-    ↓
-System starts periodic checks (every 6 hours)
-    ↓
-Fetches /feed.json
-    ↓
-Compares latest bulletin timestamp with last check
-    ↓
-If new bulletin found → Display notification
-    ↓
-Update last check timestamp
+```mermaid
+flowchart TD
+    A[User enables notifications]
+    B[Permission granted]
+    C[System starts periodic checks every 6 hours]
+    D[Fetch /feed.json]
+    E[Compare latest bulletin timestamp with last check]
+    F{New bulletin?}
+    G[Display notification]
+    H[Update last check timestamp]
+    A --> B --> C --> D --> E --> F
+    F -- yes --> G --> H
+    F -- no --> H
+    H --> C
 ```
 
 ### Data Storage
