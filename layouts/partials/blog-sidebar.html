@@ -16,11 +16,12 @@
 {{ if or $authorSlugs $hasToc $related }}
 <aside class="blog-sidebar">
 
-    {{/* `$.Site.Data.authors` can be nil on hosts that don't sync data/ in their
-         theme reload (Micro.blog has been observed to skip it). Default to an
-         empty dict so the lookup degrades to "no author block" rather than
-         crashing the build. */}}
-    {{ $authorsData := $.Site.Data.authors | default dict }}
+    {{/* Author definitions live under `params.authors` in config.json. Earlier
+         attempt used `data/authors/*.yaml` but Micro.blog's theme reload
+         skips data/ subdirs, so the lookup came up nil on prod. config.json
+         is always synced, so params is the reliable home. Still defaulting
+         to an empty dict so a missing `authors` map degrades gracefully. */}}
+    {{ $authorsData := $.Site.Params.authors | default dict }}
     {{ if $authorSlugs }}
     <div class="blog-sidebar-block blog-author-block">
         <h3 class="blog-sidebar-title">{{ if gt (len $authorSlugs) 1 }}Authors{{ else }}Author{{ end }}</h3>
