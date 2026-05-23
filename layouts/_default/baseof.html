@@ -23,15 +23,21 @@
     {{ else }}
         {{ $description = .Content | plainify | truncate 280 }}
     {{ end }}
-    {{ $ogImage := "/android-chrome-512x512.png" | absURL }}
+    {{/* og:image: 1200x630 brand card by default. Per-post override via
+         `image: /path/to/post-card.png` in frontmatter. Falls through to
+         site-wide brand card for posts that don't supply one. */}}
+    {{ $ogImage := .Params.image | default "/og-card.png" | absURL }}
+    {{ $twitterCard := "summary_large_image" }}
     <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
     <meta property="og:site_name" content="Experience Digest — Independent Community Resource">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:image" content="{{ $ogImage }}">
-    <meta property="og:image:alt" content="Experience Digest">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Experience Digest — Security intelligence for Adobe Commerce">
+    <meta name="twitter:card" content="{{ $twitterCard }}">
     <meta name="twitter:title" content="{{ $title }}">
     <meta name="twitter:description" content="{{ $description | truncate 200 }}">
     <meta name="twitter:image" content="{{ $ogImage }}">
