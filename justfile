@@ -81,6 +81,21 @@ refresh: scrape build
 deps:
     pip3 install pyyaml
 
+# Site-Specific: Syndication
+# ==========================
+
+# Install syndication dependencies
+syndicate-install:
+    pip3 install -r syndicate/requirements.txt
+
+# Run syndication dispatcher (auto-posts to dev.to with canonical URL)
+syndicate *ARGS:
+    cd syndicate && python3 syndicate.py {{ARGS}}
+
+# Dry-run: see what would happen without writing or posting
+syndicate-dry:
+    cd syndicate && python3 syndicate.py --dry-run
+
 # Micro.blog Development Tasks
 # =============================
 

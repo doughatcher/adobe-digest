@@ -1,0 +1,87 @@
+name: Syndicate to External Platforms
+
+on:
+  schedule:
+    # Twice daily, offset from scrape-and-post (:37 */6) so they don't overlap
+    - cron: '17 13,21 * * *'
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Comma-separated platforms'
+        required: false
+        default: 'devto'
+      limit:
+        description: 'Max feed items to consider per platform'
+        required: false
+        default: '5'
+      dry_run:
+        description: 'Dry run (no writes, no posts)'
+        required: false
+        default: 'false'
+
+jobs:
+  syndicate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          cd syndicate
+          pip install -r requirements.txt
+
+      - name: Dispatch syndication
+        env:
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+        run: |
+          cd syndicate
+          ARGS=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          if [ -n "${{ github.event.inputs.platforms }}" ]; then
+            ARGS="$ARGS --platforms ${{ github.event.inputs.platforms }}"
+          fi
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          fi
+          python3 syndicate.py $ARGS
+
+      - name: Commit tracking
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add syndicate/syndicated.json
+
+          if ! git diff --staged --quiet; then
+            git commit -m "syndicate: update tracking [skip ci]"
+            git push
+          else
+            echo "ℹ️  No changes to commit"
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Syndication Run"
+            echo ""
+            if [ -f syndicate/syndicated.json ]; then
+              DEVTO_COUNT=$(jq '.devto | length' syndicate/syndicated.json)
+              echo "- Total dev.to posts tracked: **${DEVTO_COUNT}**"
+            fi
+          } >> $GITHUB_STEP_SUMMARY
