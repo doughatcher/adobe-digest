@@ -118,8 +118,8 @@ Leave them - they'll naturally fall off the feed over time.
 
 ### Step 4: Verify
 After cleanup, check:
-- https://adobedigest.com/ - Homepage should show no duplicates
-- https://adobedigest.com/feed.json - Feed should have unique titles
+- https://experiencedigest.org/ - Homepage should show no duplicates
+- https://experiencedigest.org/feed.json - Feed should have unique titles
 - https://micro.blog/posts - Your posts list should be clean
 
 ## Prevention (Already Implemented ✅)
@@ -149,7 +149,7 @@ The new system prevents future duplicates:
 
 ### "Could not load existing posts from feed"
 - Check internet connection
-- Verify https://adobedigest.com/feed.json is accessible
+- Verify https://experiencedigest.org/feed.json is accessible
 - May need to wait a few minutes after posting
 
 ### "MICROBLOG_TOKEN not set"

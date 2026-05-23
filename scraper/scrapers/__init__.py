@@ -1,5 +1,5 @@
 """
-Scraper modules for Adobe Digest
+Scraper modules for Experience Digest
 """
 
 from .adobe_helpx import AdobeHelpxScraper

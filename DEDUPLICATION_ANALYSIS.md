@@ -3,7 +3,7 @@
 ## Current Pipeline
 
 ### 1. Scraper (`scraper.py`)
-- Loads existing posts from **live feed** (`https://adobedigest.com/feed.json`)
+- Loads existing posts from **live feed** (`https://experiencedigest.org/feed.json`)
 - Extracts IDs from feed (APSB IDs and Sansec slugs)
 - Passes `existing_posts` set to individual scrapers
 - **Limitation**: Feed only returns 20 most recent items (JSON Feed spec)

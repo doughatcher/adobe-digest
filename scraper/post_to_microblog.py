@@ -20,7 +20,7 @@ class MicroblogPoster:
         self.api_url = os.getenv('MICROBLOG_API_URL', 'https://micro.blog/micropub')
         self.token = os.getenv('MICROBLOG_TOKEN')
         self.mp_destination = os.getenv('MICROBLOG_MP_DESTINATION')
-        self.feed_url = 'https://adobedigest.com/feed.json'
+        self.feed_url = 'https://experiencedigest.org/feed.json'
         
         if not self.token:
             raise ValueError("MICROBLOG_TOKEN not set in environment")
@@ -71,7 +71,7 @@ class MicroblogPoster:
                         existing_ids.add(match.group(0).upper())
                     else:
                         # Extract slug from URL for non-APSB posts (e.g., Sansec)
-                        # URL format: https://adobedigest.com/2025/10/22/sansec-sessionreaper-exploitation.html
+                        # URL format: https://experiencedigest.org/2025/10/22/sansec-sessionreaper-exploitation.html
                         slug_match = re.search(r'/([^/]+)\.html$', url)
                         if slug_match:
                             slug = slug_match.group(1)
@@ -186,14 +186,14 @@ class MicroblogPoster:
                 if re.search(re.escape(post_id.lower()), url.lower()):
                     # Convert micro.blog subdomain to custom domain for API compatibility
                     if 'adobedigest.micro.blog' in url:
-                        url = url.replace('adobedigest.micro.blog', 'adobedigest.com')
+                        url = url.replace('adobedigest.micro.blog', 'experiencedigest.org')
                     return url
                 
                 # Also check title for APSB IDs
                 title = item.get('title', '')
                 if re.search(re.escape(post_id), title, re.IGNORECASE):
                     if 'adobedigest.micro.blog' in url:
-                        url = url.replace('adobedigest.micro.blog', 'adobedigest.com')
+                        url = url.replace('adobedigest.micro.blog', 'experiencedigest.org')
                     return url
             return None
         except Exception as e:

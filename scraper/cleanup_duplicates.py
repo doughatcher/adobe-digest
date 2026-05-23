@@ -20,7 +20,7 @@ class DuplicateCleanup:
     def __init__(self):
         self.api_url = os.getenv('MICROBLOG_API_URL', 'https://micro.blog/micropub')
         self.token = os.getenv('MICROBLOG_TOKEN')
-        self.feed_url = 'https://adobedigest.com/feed.json'
+        self.feed_url = 'https://experiencedigest.org/feed.json'
         
         if not self.token:
             raise ValueError("MICROBLOG_TOKEN not set in environment")
@@ -333,7 +333,7 @@ If you prefer manual control:
 1. First run with --api to see all duplicates
 2. Review the list carefully
 3. If satisfied, run with --api --delete
-4. Verify on https://adobedigest.com/ afterward
+4. Verify on https://experiencedigest.org/ afterward
 
 ⚠️  CANNOT UNDO
 ---------------

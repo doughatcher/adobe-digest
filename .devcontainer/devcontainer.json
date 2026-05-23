@@ -1,5 +1,5 @@
 {
-	"name": "Adobe Digest",
+	"name": "Experience Digest",
 	"image": "mcr.microsoft.com/devcontainers/base:noble",
 	"features": {
 		"ghcr.io/devcontainers/features/hugo:1": {

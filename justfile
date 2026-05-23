@@ -1,4 +1,4 @@
-# Adobe Digest - Justfile
+# Experience Digest - Justfile
 # Run tasks with: just <recipe-name>
 
 # Load environment variables from .env file
