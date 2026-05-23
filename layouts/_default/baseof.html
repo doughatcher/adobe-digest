@@ -12,6 +12,8 @@
     <title>{{ $title }}</title>
     <meta name="description" content="{{ if .IsHome }}An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe.{{ else }}{{ .Summary | truncate 155 }}{{ end }}">
     <meta name="author" content="Doug Hatcher">
+
+    {{ partial "google-analytics.html" . }}
     {{ $homeDescription := "An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Not affiliated with Adobe." }}
     {{ $description := "" }}
     {{ if .IsHome }}
