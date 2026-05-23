@@ -10,6 +10,16 @@ summary: "Two command injection vulnerabilities in Composer's Perforce driver ar
 
 Update Composer to 2.9.6 or 2.2.27 LTS now. If that sentence is enough, you're done. If you want to understand why this one is worth a closer look, keep reading.
 
+## Quick Refresher: Composer, Drivers, and Why Perforce Is in There
+
+If you don't live in PHP-land daily, this advisory reads as opaque, so a thirty-second primer.
+
+[Composer](https://getcomposer.org/) is the dependency manager every modern PHP project uses. For Magento and Adobe Commerce specifically, it is how the core platform itself ships and how every module — first-party, third-party, your own internal libraries — gets installed and updated. When a developer runs `composer install` on a fresh Magento checkout, Composer reads `composer.json`, resolves the dependency graph, downloads each package, and assembles `vendor/`. When CI deploys a release, it runs the same command. There is no Magento install today that does not run Composer many times a day.
+
+A `composer.json` lists each dependency along with where to fetch it from. Most packages come from [Packagist](https://packagist.org/) (the public PHP registry) or its commercial sibling [Private Packagist](https://packagist.com/). But you can also point Composer directly at a source-control repository — a git URL, a mercurial repo, a subversion checkout, or a [Perforce](https://www.perforce.com/products/helix-core) depot. To do that, you declare a repository in `composer.json` with a `type:` field naming which version-control system to use. Composer ships with a **VCS driver** for each supported type — `git`, `svn`, `hg`, `fossil`, `perforce` — that knows how to clone, list versions, and fetch source from that system.
+
+The Perforce driver is one of those bundled drivers. It exists because Perforce is the dominant version-control system in game studios, large enterprises with legacy commercial codebases, and some sectors of finance and manufacturing — places where PHP shops occasionally need to pull a package from a Perforce depot. The driver is shipped with Composer by default. **It loads regardless of whether you have ever configured a Perforce repository.** That last point is the whole story of this CVE.
+
 ## The Perforce Driver Is Loaded Whether You Use It or Not
 
 [CVE-2026-40261](https://github.com/composer/composer/security/advisories/GHSA-gqw4-4w2p-838q) and [CVE-2026-40176](https://github.com/composer/composer/security/advisories/GHSA-wg36-wvj6-r67p) are both in Composer's Perforce VCS driver - the code that handles repositories declared as perforce type in a composer.json. Neither requires Perforce to be installed. Both allow arbitrary command execution in the context of whatever runs composer install or composer update.
