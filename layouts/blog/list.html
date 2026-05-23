@@ -13,7 +13,7 @@
         {{ range $paginator.Pages }}
         <article class="content-card" style="margin-bottom: 1.5rem;">
             {{ if .Params.category }}
-            <span style="font-size: 0.75rem; color: #f97316; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">{{ .Params.category }}</span>
+            <span style="font-size: 0.75rem; color: #14b8a6; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">{{ .Params.category }}</span>
             {{ end }}
 
             <h2 class="page-title" style="font-size: 1.25rem; margin: 0.25rem 0 0.5rem;">
@@ -31,7 +31,7 @@
                     <span class="meta-icon">⏱</span>
                     {{ .ReadingTime }} min read
                 </div>
-                <a href="{{ .Permalink }}" style="margin-left: auto; color: #f97316; font-size: 0.875rem; text-decoration: none;">Read →</a>
+                <a href="{{ .Permalink }}" style="margin-left: auto; color: #14b8a6; font-size: 0.875rem; text-decoration: none;">Read →</a>
             </div>
         </article>
         {{ else }}
@@ -53,7 +53,7 @@
     </div>
 
     <p style="margin-top: 2rem; color: #666; font-size: 0.875rem;">
-        Follow via <a href="/blog/feed.xml" style="color: #f97316;">RSS</a> or on <a href="https://micro.blog/experiencedigest" style="color: #f97316;">Micro.blog</a>.
+        Follow via <a href="/blog/feed.xml" style="color: #14b8a6;">RSS</a> or on <a href="https://micro.blog/experiencedigest" style="color: #14b8a6;">Micro.blog</a>.
     </p>
 </div>
 {{ end }}
