@@ -52,9 +52,9 @@ jobs:
       - name: Check for screenshots in PR description or committed to branch
         if: steps.check-template-changes.outputs.template_changed == 'true'
         id: check-screenshots
+        env:
+          PR_BODY: ${{ steps.pr-body.outputs.result }}
         run: |
-          PR_BODY="${{ steps.pr-body.outputs.result }}"
-
           # Count image references in PR body
           DESKTOP_COUNT=$(echo "$PR_BODY" | grep -iE "(desktop.*screenshot|screenshot.*desktop|!\[.*desktop)" | wc -l)
           TABLET_COUNT=$(echo "$PR_BODY" | grep -iE "(tablet.*screenshot|screenshot.*tablet|ipad.*pro|!\[.*tablet)" | wc -l)
