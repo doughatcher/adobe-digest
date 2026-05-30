@@ -47,6 +47,11 @@
 
     {{ partial "social-share.html" . }}
 
+    <!-- Micro.blog Conversation Thread —
+         pulls in any micro.blog replies/likes for this URL. Same widget
+         doughatcher.com uses on its single-post template. -->
+    <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+
     <div class="action-group">
         {{ if or .NextInSection .PrevInSection }}
             {{ if .PrevInSection }}
