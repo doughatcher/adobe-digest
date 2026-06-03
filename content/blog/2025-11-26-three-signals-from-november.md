@@ -27,7 +27,7 @@ The [Xurum webshell campaign](https://www.akamai.com/blog/security-research/new-
 1. A meaningful percentage of Magento installs are still unpatched against a well-documented attack chain.
 2. The attacker tooling has matured — Xurum has environment-awareness that older skimmer campaigns lacked.
 
-The practical read for commerce ops teams: if you're running a Magento instance and haven't validated your patching posture against Akamai's published indicators, do that before reading the rest of this.
+The practical read for commerce ops teams: if you're running a Magento instance and haven't validated your patching posture against [Akamai's published indicators](https://www.akamai.com/blog/security-research/new-sophisticated-magento-campaign-xurum-webshell), do that before reading the rest of this.
 
 ## The Risk That Patch Notes Don't Quantify: CVE-2025-54236
 
