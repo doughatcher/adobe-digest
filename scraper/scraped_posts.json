@@ -461,6 +461,9 @@
     "nist-cve-2026-47966",
     "nist-cve-2026-47974",
     "nist-cve-2026-47978",
+    "nist-cve-2026-47986",
+    "nist-cve-2026-47987",
+    "nist-cve-2026-47989",
     "nist-cve-2026-47990",
     "nist-cve-2026-47991",
     "nist-cve-2026-47993",
@@ -479,6 +482,8 @@
     "nist-cve-2026-48297",
     "nist-cve-2026-48299",
     "nist-cve-2026-48300",
+    "nist-cve-2026-48301",
+    "nist-cve-2026-48304",
     "nist-cve-2026-5603",
     "pci-dss-update-2025",
     "polyfill-supply-chain-attack",
@@ -596,6 +601,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-06-11T11:14:23.632356",
-  "total_count": 595
+  "last_updated": "2026-06-11T16:39:50.719280",
+  "total_count": 600
 }
