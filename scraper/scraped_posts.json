@@ -462,6 +462,9 @@
     "nist-cve-2026-47949",
     "nist-cve-2026-47950",
     "nist-cve-2026-47951",
+    "nist-cve-2026-47956",
+    "nist-cve-2026-47957",
+    "nist-cve-2026-47958",
     "nist-cve-2026-47962",
     "nist-cve-2026-47966",
     "nist-cve-2026-47970",
@@ -499,6 +502,7 @@
     "nist-cve-2026-48300",
     "nist-cve-2026-48301",
     "nist-cve-2026-48304",
+    "nist-cve-2026-53787",
     "nist-cve-2026-5603",
     "pci-dss-update-2025",
     "polyfill-supply-chain-attack",
@@ -506,6 +510,7 @@
     "rekoobe-fishpig-magento",
     "sansec-abs-cbn.com-hacked",
     "sansec-adminer-4.6.2-file-disclosure-vulnerability",
+    "sansec-amasty-order-attributes-file-upload",
     "sansec-american-cancer-society-magecart",
     "sansec-analysis-12-of-online-stores-leak-private-backups",
     "sansec-and-europol-counter-online",
@@ -616,6 +621,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-06-12T10:51:25.371711",
-  "total_count": 615
+  "last_updated": "2026-06-12T15:50:05.676157",
+  "total_count": 620
 }
