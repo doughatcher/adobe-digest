@@ -462,8 +462,13 @@
     "nist-cve-2026-47949",
     "nist-cve-2026-47950",
     "nist-cve-2026-47951",
+    "nist-cve-2026-47962",
     "nist-cve-2026-47966",
+    "nist-cve-2026-47970",
+    "nist-cve-2026-47972",
+    "nist-cve-2026-47973",
     "nist-cve-2026-47974",
+    "nist-cve-2026-47975",
     "nist-cve-2026-47977",
     "nist-cve-2026-47978",
     "nist-cve-2026-47980",
@@ -611,6 +616,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-06-12T05:19:06.766467",
-  "total_count": 610
+  "last_updated": "2026-06-12T10:51:25.371711",
+  "total_count": 615
 }
