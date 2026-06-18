@@ -637,7 +637,7 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-06-18T10:57:57.178799",
+  "last_updated": "2026-06-18T21:07:01.724085",
   "total_count": 636,
   "release_tracking": {
     "adobe-commerce-2-4-9": {
@@ -846,104 +846,104 @@
     },
     "adobe-commerce-2-4-5-p17": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:43.851575",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:44.720735",
       "version": "2-4-5-p17"
     },
     "adobe-commerce-2-4-5-p16": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:43.911312",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:44.811392",
       "version": "2-4-5-p16"
     },
     "adobe-commerce-2-4-5-p15": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:43.975648",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:44.917788",
       "version": "2-4-5-p15"
     },
     "adobe-commerce-2-4-5-p14": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.042401",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.038915",
       "version": "2-4-5-p14"
     },
     "adobe-commerce-2-4-5-p13": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.102647",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.128452",
       "version": "2-4-5-p13"
     },
     "adobe-commerce-2-4-5-p12": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.162796",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.204694",
       "version": "2-4-5-p12"
     },
     "adobe-commerce-2-4-5-p11": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.222066",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.301316",
       "version": "2-4-5-p11"
     },
     "adobe-commerce-2-4-5-p10": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.282718",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.387563",
       "version": "2-4-5-p10"
     },
     "adobe-commerce-2-4-5-p9": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.344162",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.463122",
       "version": "2-4-5-p9"
     },
     "adobe-commerce-2-4-5-p8": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.402855",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.537457",
       "version": "2-4-5-p8"
     },
     "adobe-commerce-2-4-5-p7": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.465088",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.613070",
       "version": "2-4-5-p7"
     },
     "adobe-commerce-2-4-5-p6": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.557912",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.723986",
       "version": "2-4-5-p6"
     },
     "adobe-commerce-2-4-5-p5": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.619049",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.800071",
       "version": "2-4-5-p5"
     },
     "adobe-commerce-2-4-5-p4": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.680014",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.877140",
       "version": "2-4-5-p4"
     },
     "adobe-commerce-2-4-5-p3": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.742448",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:45.952707",
       "version": "2-4-5-p3"
     },
     "adobe-commerce-2-4-5-p2": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.805734",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:46.030691",
       "version": "2-4-5-p2"
     },
     "adobe-commerce-2-4-5-p1": {
       "last_state": "ga",
-      "content_hash": "195603e43d7e83d9725ccba8c99aa560",
-      "last_scraped": "2026-06-18T10:57:44.864260",
+      "content_hash": "fa40ee2fe3358ce975a92790f695de23",
+      "last_scraped": "2026-06-18T21:06:46.107572",
       "version": "2-4-5-p1"
     },
     "adobe-commerce-2-4-5": {
@@ -954,110 +954,110 @@
     },
     "adobe-commerce-2-4-4-p18": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.124108",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.222290",
       "version": "2-4-4-p18"
     },
     "adobe-commerce-2-4-4-p17": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.190318",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.312725",
       "version": "2-4-4-p17"
     },
     "adobe-commerce-2-4-4-p16": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.253782",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.393158",
       "version": "2-4-4-p16"
     },
     "adobe-commerce-2-4-4-p15": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.319108",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.483146",
       "version": "2-4-4-p15"
     },
     "adobe-commerce-2-4-4-p14": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.381036",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.562344",
       "version": "2-4-4-p14"
     },
     "adobe-commerce-2-4-4-p13": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.442706",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.646544",
       "version": "2-4-4-p13"
     },
     "adobe-commerce-2-4-4-p12": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.504865",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:48.847947",
       "version": "2-4-4-p12"
     },
     "adobe-commerce-2-4-4-p11": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.601186",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.118436",
       "version": "2-4-4-p11"
     },
     "adobe-commerce-2-4-4-p10": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.665386",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.238654",
       "version": "2-4-4-p10"
     },
     "adobe-commerce-2-4-4-p9": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.727399",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.326129",
       "version": "2-4-4-p9"
     },
     "adobe-commerce-2-4-4-p8": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.789328",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.402767",
       "version": "2-4-4-p8"
     },
     "adobe-commerce-2-4-4-p7": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.852837",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.476688",
       "version": "2-4-4-p7"
     },
     "adobe-commerce-2-4-4-p6": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.915209",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.554924",
       "version": "2-4-4-p6"
     },
     "adobe-commerce-2-4-4-p5": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:46.975514",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.631259",
       "version": "2-4-4-p5"
     },
     "adobe-commerce-2-4-4-p4": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:47.035876",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.704999",
       "version": "2-4-4-p4"
     },
     "adobe-commerce-2-4-4-p3": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:47.095392",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.779588",
       "version": "2-4-4-p3"
     },
     "adobe-commerce-2-4-4-p2": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:47.156352",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.859167",
       "version": "2-4-4-p2"
     },
     "adobe-commerce-2-4-4-p1": {
       "last_state": "ga",
-      "content_hash": "8bcb8f4db1c063aae2650999305aaa8a",
-      "last_scraped": "2026-06-18T10:57:47.223006",
+      "content_hash": "904bef07656ae6825c594464134dc25f",
+      "last_scraped": "2026-06-18T21:06:49.937599",
       "version": "2-4-4-p1"
     },
     "adobe-commerce-2-4-4": {
