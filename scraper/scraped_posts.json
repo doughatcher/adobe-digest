@@ -73,6 +73,8 @@
     "APSB26-49",
     "APSB26-56",
     "APSB26-57",
+    "APSB26-73",
+    "APSB26-74",
     "adobe-commerce-2-4-0",
     "adobe-commerce-2-4-1",
     "adobe-commerce-2-4-2",
@@ -298,6 +300,9 @@
     "nist-cve-2024-39418",
     "nist-cve-2024-39419",
     "nist-cve-2024-41676",
+    "nist-cve-2024-43712",
+    "nist-cve-2024-43714",
+    "nist-cve-2024-43715",
     "nist-cve-2024-43717",
     "nist-cve-2024-43721",
     "nist-cve-2024-43722",
@@ -1112,6 +1117,6 @@
     "vendors-defeat-magento-security-patch-simple-check",
     "virustotal-sansec"
   ],
-  "last_updated": "2026-07-14T14:28:30.633696",
-  "total_count": 1111
+  "last_updated": "2026-07-14T19:54:46.506720",
+  "total_count": 1116
 }
