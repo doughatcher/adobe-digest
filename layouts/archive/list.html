@@ -1,66 +1,35 @@
 {{ define "main" }}
-<div class="page-wrapper">
-    <header class="page-header">
-        <h1 class="page-title">{{ .Title }}</h1>
-        {{ with .Description }}
-        <p class="page-description">{{ . }}</p>
-        {{ end }}
-        {{ $allPosts := .Site.RegularPages }}
-        {{ $allPosts = where $allPosts "Section" "!=" "newsletters" }}
-        {{ $allPosts = where $allPosts "Section" "!=" "bulletins" }}
-        {{ $allPosts = where $allPosts "Section" "!=" "archive" }}
-        {{ $allPosts = where $allPosts "Section" "!=" "replies" }}
-        {{ $filtered := slice }}
-        {{ range $allPosts }}
-            {{ if not (in .RelPermalink "/photos/") }}
-                {{ $filtered = $filtered | append . }}
-            {{ end }}
-        {{ end }}
-        {{ $paginator := .Paginate ($filtered.ByDate.Reverse) 25 }}
-        <div class="page-meta">
-            <div class="meta-item">
-                <span class="meta-icon">📄</span>
-                <span>{{ len $filtered }} posts</span>
-            </div>
-        </div>
-    </header>
+{{ $posts := where .Site.RegularPages "Section" "in" (slice "blog" "post" "posts") }}
+{{ $paginator := .Paginate ($posts.ByDate.Reverse) 30 }}
 
-    <div class="posts-list">
+<header class="fg-hero">
+    <div class="fg-hero-inner">
+        <div class="fg-eyebrow">Index</div>
+        <h1 class="fg-title">Archive</h1>
+        <p class="fg-lede">Every bulletin analysis and research piece — {{ len $posts }} entries, newest first.</p>
+    </div>
+</header>
+
+<div class="fg-body">
+    <div class="archive-list">
         {{ range $paginator.Pages }}
-        <article class="news-item">
-            <div class="news-meta">
-                <time class="news-date">{{ .Date.Format "January 2, 2006" }}</time>
-                {{ if .Params.categories }}
-                <span class="news-badge">
-                    {{ range first 1 .Params.categories }}{{ . | humanize | title }}{{ end }}
-                </span>
-                {{ end }}
+        <a class="archive-row" href="{{ .RelPermalink }}">
+            <div class="archive-row-meta">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                <span class="archive-cat">{{ with .Params.category }}{{ . }}{{ else }}{{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Analysis{{ end }}{{ end }}</span>
             </div>
-            
-            <h2 class="news-title">
-                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-            </h2>
-            
-            {{ if .Summary }}
-            <div class="content-wrapper">
-                <p>{{ .Summary | truncate 280 }}</p>
+            <div class="archive-row-body">
+                <h2 class="archive-row-title">{{ .Title }}</h2>
+                {{ with .Summary }}<p class="archive-row-dek">{{ . | truncate 180 }}</p>{{ end }}
             </div>
-            {{ end }}
-        </article>
+        </a>
         {{ end }}
     </div>
 
     {{ if gt $paginator.TotalPages 1 }}
-    <nav class="pagination">
-        {{ if $paginator.HasPrev }}
-        <a href="{{ $paginator.Prev.URL }}" class="pagination-prev">← Previous</a>
-        {{ end }}
-        
-        <span class="pagination-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-        
-        {{ if $paginator.HasNext }}
-        <a href="{{ $paginator.Next.URL }}" class="pagination-next">Next →</a>
-        {{ end }}
+    <nav class="pagination" style="margin-top: 2rem;">
+        {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="xd-btn xd-btn-secondary">← Newer</a>{{ end }}
+        {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="xd-btn xd-btn-secondary">Older →</a>{{ end }}
     </nav>
     {{ end }}
 </div>

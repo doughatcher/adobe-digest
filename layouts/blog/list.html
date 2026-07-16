@@ -1,59 +1,64 @@
 {{ define "main" }}
+{{ $paginator := .Paginate .Pages (.Site.Params.posts_per_page | default 12) }}
+{{ $lead := index $paginator.Pages 0 }}
+
+<header class="fg-hero">
+    <div class="fg-hero-inner">
+        <div class="fg-eyebrow">Experience Digest</div>
+        <h1 class="fg-title">Flagship</h1>
+        <p class="fg-lede">Security intelligence for enterprise commerce — analysis of the Adobe Commerce &amp; Experience Manager landscape, and the preemptive takes the automated bulletins can’t provide.</p>
+    </div>
+</header>
+
 <div class="page-wrapper">
-    <div class="page-header" style="margin-bottom: 2rem;">
-        <h1 class="page-title">Blog</h1>
-        <p style="color: #aaa; margin-top: 0.5rem;">
-            Editorial coverage of the Commerce security landscape — the correlation, context, and preemptive takes the automated bulletins cannot provide.
-        </p>
+    <div class="section-header" style="margin-bottom: 1.25rem;">
+        <h2 class="section-title">Latest analysis</h2>
     </div>
 
-    <div class="posts-list">
-        {{ $paginator := .Paginate .Pages (.Site.Params.posts_per_page | default 10) }}
+    {{ with $lead }}
+    <a class="lead-story" href="{{ .Permalink }}">
+        <div class="lead-kicker">
+            {{ with .Params.category }}<span class="kicker-cat">{{ . }}</span>{{ end }}
+            <span class="kicker-lead">Lead story</span>
+        </div>
+        <h2 class="lead-title">{{ .Title }}</h2>
+        <p class="lead-dek">{{ .Summary | truncate 300 }}</p>
+        <div class="lead-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            <span class="dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
+            <span class="lead-readmore">Read the analysis →</span>
+        </div>
+    </a>
+    {{ end }}
 
-        {{ range $paginator.Pages }}
-        <article class="content-card" style="margin-bottom: 1.5rem;">
-            {{ if .Params.category }}
-            <span style="font-size: 0.75rem; color: #14b8a6; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">{{ .Params.category }}</span>
-            {{ end }}
-
-            <h2 class="page-title" style="font-size: 1.25rem; margin: 0.25rem 0 0.5rem;">
-                <a href="{{ .Permalink }}" style="color: #f5f5f5; text-decoration: none;">{{ .Title }}</a>
-            </h2>
-
-            <p style="color: #aaa; margin-bottom: 0.75rem; font-size: 0.9375rem;">{{ .Summary | truncate 240 }}</p>
-
-            <div class="page-meta">
-                <div class="meta-item">
-                    <span class="meta-icon">📅</span>
-                    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-icon">⏱</span>
-                    {{ .ReadingTime }} min read
-                </div>
-                <a href="{{ .Permalink }}" style="margin-left: auto; color: #14b8a6; font-size: 0.875rem; text-decoration: none;">Read →</a>
+    {{ $rest := after 1 $paginator.Pages }}
+    {{ if $rest }}
+    <div class="story-grid">
+        {{ range $rest }}
+        <a class="story-card" href="{{ .Permalink }}">
+            {{ with .Params.category }}<span class="kicker-cat">{{ . }}</span>{{ end }}
+            <h3 class="story-title">{{ .Title }}</h3>
+            <p class="story-dek">{{ .Summary | truncate 150 }}</p>
+            <div class="story-meta">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                <span class="dot">·</span>
+                <span>{{ .ReadingTime }} min</span>
             </div>
-        </article>
-        {{ else }}
-        <div class="content-card">
-            <p style="color: #666;">No posts yet — check back soon.</p>
-        </div>
-        {{ end }}
-
-        {{ if gt $paginator.TotalPages 1 }}
-        <div class="action-group" style="margin-top: 1.5rem;">
-            {{ if $paginator.HasPrev }}
-            <a href="{{ $paginator.Prev.URL }}" class="spectrum-btn spectrum-btn-secondary">← Newer</a>
-            {{ end }}
-            {{ if $paginator.HasNext }}
-            <a href="{{ $paginator.Next.URL }}" class="spectrum-btn spectrum-btn-secondary">Older →</a>
-            {{ end }}
-        </div>
+        </a>
         {{ end }}
     </div>
+    {{ end }}
 
-    <p style="margin-top: 2rem; color: #666; font-size: 0.875rem;">
-        Follow via <a href="/blog/feed.xml" style="color: #14b8a6;">RSS</a> or on <a href="https://micro.blog/experiencedigest" style="color: #14b8a6;">Micro.blog</a>.
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="action-group" style="margin-top: 2.5rem; justify-content: center;">
+        {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="spectrum-btn spectrum-btn-secondary">← Newer</a>{{ end }}
+        {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="spectrum-btn spectrum-btn-secondary">Older →</a>{{ end }}
+    </div>
+    {{ end }}
+
+    <p class="periodical-foot">
+        Follow via <a href="/blog/feed.xml">RSS</a> or on <a href="https://micro.blog/experiencedigest">Micro.blog</a>.
     </p>
 </div>
 {{ end }}

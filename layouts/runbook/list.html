@@ -1,0 +1,20 @@
+{{ define "main" }}
+<article class="fieldguide">
+    <header class="fg-hero">
+        <div class="fg-hero-inner">
+            <nav class="fg-breadcrumb"><a href="/">Home</a><span>/</span><span>Field Guide</span></nav>
+            <div class="fg-eyebrow">Field Guide</div>
+            <h1 class="fg-title">{{ .Title }}</h1>
+            {{ with .Params.summary }}<p class="fg-lede">{{ . }}</p>{{ end }}
+            <div class="fg-hero-actions">
+                <a href="#subscribe" class="xd-btn xd-btn-accent">Get bulletin alerts</a>
+                <a href="/blog/" class="xd-btn xd-btn-secondary">Read the analysis →</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="fg-body content-wrapper e-content">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}

@@ -74,50 +74,17 @@
                 <span class="xd-logo-text">Experience Digest</span>
             </a>
             <nav class="xd-nav">
-                <a href="/blog/" class="xd-nav-link">Blog</a>
+                <a href="/blog/" class="xd-nav-link">Analysis</a>
                 <a href="/runbook/" class="xd-nav-link">Runbook</a>
                 <a href="/archive/" class="xd-nav-link">Archive</a>
                 <a href="https://experiencedigest.org/feed.json" class="xd-nav-link">RSS</a>
-                <a href="https://github.com/doughatcher/experience-digest" class="xd-nav-link" target="_blank" rel="noopener">GitHub</a>
             </nav>
+            <a href="#subscribe" class="xd-header-cta">Subscribe</a>
         </div>
     </header>
     
     {{ block "main" . }}{{ end }}
     
-    <footer class="xd-footer">
-        <div class="subscribe-card">
-            <h3 class="subscribe-title">Stay Ahead of Security Threats</h3>
-            <p class="subscribe-desc">Get bulletins and research updates delivered to your inbox</p>
-            <form method="POST" action="https://micro.blog/users/subscribe/267908" class="subscribe-form">
-                <input type="email" name="email" size="30" placeholder="Your email address" class="subscribe-input" />
-                <input type="submit" value="Subscribe" class="subscribe-button" />
-            </form>
-            <div class="subscribe-features">
-                <span>Official security bulletins</span>
-                <span>Industry research</span>
-                <span>Zero spam</span>
-            </div>
-        </div>
-        
-        <div class="footer-social">
-            <p class="social-title">Resources</p>
-            <div class="social-links">
-                <a href="/runbook/" class="social-link">CVE Response Runbook</a>
-                <a href="/blog/" class="social-link">All Posts</a>
-                <a href="/archive/" class="social-link">Archive</a>
-            </div>
-            <p class="social-title" style="margin-top: 1.25rem;">Follow on Social</p>
-            <div class="social-links">
-                <a href="https://micro.blog/experiencedigest" target="_blank" rel="noopener" class="social-link">Micro.blog</a>
-                <a href="https://mastodon.social/deck/@experiencedigest" target="_blank" rel="noopener me" class="social-link">Mastodon</a>
-                <a href="https://bsky.app/profile/experiencedigest.bsky.social" target="_blank" rel="noopener" class="social-link">Bluesky</a>
-            </div>
-            <p class="footer-disclaimer" style="margin-top: 1.5rem; padding: 1rem; border: 1px solid #374151; border-radius: 0.5rem; background: #1f2937; font-size: 0.875rem; color: #d1d5db; text-align: center;">
-                <strong>Independent Community Resource</strong><br>
-                This site is maintained by <a href="https://doughatcher.com/" style="color: #60a5fa;">Doug Hatcher</a> and is not affiliated with, endorsed by, or sponsored by Adobe, Inc. Adobe is a trademark of Adobe, Inc.
-            </p>
-        </div>
-    </footer>
+    {{ partial "site-footer.html" . }}
 </body>
 </html>
