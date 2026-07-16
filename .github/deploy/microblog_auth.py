@@ -282,42 +282,61 @@ class MicroblogAuthenticator:
             # Non-fatal - cookie might still work
             return True
     
-    def authenticate(self, output_file=None):
-        """Complete authentication flow"""
+    def authenticate(self, output_file=None, max_attempts=3):
+        """Complete authentication flow.
+
+        Micro.blog sign-in links are single-use and the magic-link step
+        occasionally comes back without a rack.session cookie (stale/consumed
+        link or a transient server response). Rather than fail the whole deploy
+        — which previously required a manual workflow re-run — retry the full
+        request→email→follow sequence with a *fresh* link each time.
+        """
         print("🚀 Micro.blog Email Authentication")
         print("=" * 60)
-        
-        # Step 1: Request sign-in email
-        request_time = self.request_signin_email()
-        if not request_time:
-            return None
-        
-        # Step 2: Connect to Gmail
-        mail = self.connect_to_gmail()
-        if not mail:
-            return None
-        
-        # Step 3: Search for sign-in email
-        magic_link = self.search_for_signin_email(mail, request_time)
-        
-        # Close IMAP connection
-        try:
-            mail.close()
-            mail.logout()
-        except:
-            pass
-        
-        if not magic_link:
-            return None
-        
-        # Step 4: Follow magic link and get cookie
-        session_cookie = self.follow_magic_link(magic_link)
+
+        session_cookie = None
+        for attempt in range(1, max_attempts + 1):
+            if attempt > 1:
+                print(f"\n🔁 Auth attempt {attempt}/{max_attempts} — requesting a fresh sign-in email...")
+                time.sleep(8)
+
+            # Step 1: Request sign-in email
+            request_time = self.request_signin_email()
+            if not request_time:
+                continue
+
+            # Step 2: Connect to Gmail
+            mail = self.connect_to_gmail()
+            if not mail:
+                continue
+
+            # Step 3: Search for sign-in email (shorter per-attempt window so a
+            # flake retries the whole flow instead of blocking for 15 min)
+            magic_link = self.search_for_signin_email(mail, request_time, max_retries=20, retry_interval=15)
+
+            # Close IMAP connection
+            try:
+                mail.close()
+                mail.logout()
+            except Exception:
+                pass
+
+            if not magic_link:
+                continue
+
+            # Step 4: Follow magic link and get cookie
+            session_cookie = self.follow_magic_link(magic_link)
+            if session_cookie:
+                break
+            print(f"   ⚠️  Attempt {attempt}/{max_attempts} yielded no session cookie; retrying with a fresh link.")
+
         if not session_cookie:
+            print(f"❌ Authentication failed after {max_attempts} attempts")
             return None
-        
+
         # Step 5: Switch to target blog
         self.switch_active_blog(session_cookie)
-        
+
         # Step 6: Save cookie if output file specified
         if output_file:
             try:

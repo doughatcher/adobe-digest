@@ -1,12 +1,19 @@
 {{ define "main" }}
-{{ $cves := where .Site.RegularPages "Params.categories" "intersect" (slice "cve") }}
-{{ $cvesByDate := $cves.ByDate.Reverse }}
-{{ $latest := first 18 $cvesByDate }}
-{{ $commerce := first 6 (where $cves "Params.tags" "intersect" (slice "adobe-commerce")).ByDate.Reverse }}
-{{ $aem := first 6 (where $cves "Params.tags" "intersect" (slice "adobe-experience-manager")).ByDate.Reverse }}
-{{ $research := first 5 (where (where .Site.RegularPages "Type" "post") "Params.categories" "intersect" (slice "news")).ByDate.Reverse }}
+{{/* micro.blog strips the scraper's frontmatter (categories/tags), so classify
+     off the title (CVE id) and content (product) instead. */}}
+{{ $posts := where .Site.RegularPages "Type" "post" }}
+{{ $cves := slice }}{{ $research := slice }}
+{{ range $posts }}{{ if findRE "CVE-[0-9]" .Title }}{{ $cves = $cves | append . }}{{ else }}{{ $research = $research | append . }}{{ end }}{{ end }}
+{{ $cves = sort $cves "Date" "desc" }}
+{{ $research = sort $research "Date" "desc" }}
+{{ $commerce := slice }}{{ $aem := slice }}
+{{ range $cves }}{{ if findRE "(?i)adobe commerce|magento" .Content }}{{ $commerce = $commerce | append . }}{{ else if findRE "(?i)experience manager|\\bAEM\\b" .Content }}{{ $aem = $aem | append . }}{{ end }}{{ end }}
+{{ $latest := first 18 $cves }}
+{{ $commerce = first 6 $commerce }}
+{{ $aem = first 6 $aem }}
+{{ $research = first 5 $research }}
 {{ $analysis := first 3 (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
-{{ $lastUpdate := "" }}{{ with $cvesByDate }}{{ $lastUpdate = (index . 0).Date.Format "Jan 2" }}{{ end }}
+{{ $lastUpdate := "" }}{{ with $cves }}{{ $lastUpdate = (index . 0).Date.Format "Jan 2" }}{{ end }}
 
 <header class="fg-hero">
     <div class="fg-hero-inner">

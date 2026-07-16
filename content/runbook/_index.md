@@ -6,6 +6,20 @@ summary: "How to turn an Adobe security bulletin into a response instead of a sc
 
 When an Adobe Commerce or Experience Manager bulletin drops, the teams that fare well aren't the ones with heroics — they're the ones who already decided what happens next. This is a working template for that decision. It's deliberately practical, it favors controls Adobe already recommends, and every timeline in it is a **target to calibrate**, not a promise. Take what fits your environment and your contracts; discard the rest.
 
+## Whose signal you follow, and why
+
+A quick orientation, because it sets the entire posture of this runbook.
+
+**The CVE system, briefly.** A CVE is a catalog number — assigned by a CVE Numbering Authority (CNA) and coordinated by MITRE under CISA. **Adobe is its own CNA.** It runs its own Product Security Incident Response Team (PSIRT); it investigates, reserves the CVE, builds the fix, publishes the advisory (the APSB bulletins), and scores it — with both a CVSS base score *and* Adobe's own **Priority rating**, its read on exploitation likelihood and how fast to move. NIST's National Vulnerability Database re-scores the same CVE independently, usually a few days later. So for any Adobe vulnerability there are effectively two voices: Adobe, and everyone else.
+
+**Who is contractually on the hook.** When an agency or GSI implements Adobe Commerce or Experience Manager, it is building on a platform the customer licenses **from Adobe, under Adobe's contract.** The security of that platform — the core code, the patches, the disclosure timeline — is Adobe's to provide. Adobe owns the PSIRT, the bulletins, the fixes, and the severity ratings. That isn't a courtesy; it's the deal the customer paid for.
+
+**So the default posture is alignment, not second-guessing.** Because Adobe is the party contractually responsible for the platform's security footprint, **their severity and release cadence are the authoritative signal.** When Adobe and a third party disagree on urgency, weight the one who has to stand behind the fix. Adobe is, in effect, publishing a roadmap: as they map out the vulnerability picture, their Priority ratings and patch cadence *are* the prescribed path to a secured platform. The implementer's job is to be an excellent support vehicle for that roadmap — apply Adobe's patches quickly, follow their cadence, and use judgment to cover the gap while a fix rolls out.
+
+**What this is not.** It is not a mandate to take the storefront offline every time a CVE appears — over-reaction is its own failure mode, and it spends the credibility you need for the moment something genuinely warrants an emergency change. And it is not blind trust: you still watch for active exploitation (CISA KEV, public proof-of-concept) and apply compensating controls in the window. But the baseline is disciplined alignment with Adobe, not adversarial re-adjudication of every score.
+
+**Where your own judgment carries more weight.** Adobe owns the *platform*. It does not own your configuration, your custom code, your hosting, or your third-party extensions — the Amasty-class supply chain. Those are yours, and that is exactly where independent scrutiny and faster reaction pay off, because no vendor is standing behind them for you.
+
 ## Before the next bulletin: standing controls
 
 The cheapest CVE to respond to is the one your architecture already blunted. Put these in place while it's calm, and most future bulletins become a routine dependency bump instead of a fire drill.
@@ -30,7 +44,7 @@ A CVSS score is not a priority; it's an input to one. The failure mode is treati
 
 - **Score the batch, not the bug.** If one bulletin ships an authorization bypass *and* an RCE that "requires admin," assume the chain exists — the low-privilege bug is the on-ramp to the high-privilege one.
 - **CVSS tells you how bad; other signals tell you how soon.** Weigh Adobe's own **Priority rating**, **CISA KEV**, **EPSS**, and any public proof-of-concept alongside the base score.
-- **Mind the scoring splits.** When NIST and Adobe disagree (usually on "privileges required"), default to the more conservative read for your internal risk register.
+- **Mind the scoring splits — but let Adobe anchor the schedule.** When NIST and Adobe disagree (usually on "privileges required"), the gap is useful for sizing your compensating-controls window and understanding the worst case — but Adobe's Priority rating and release cadence are what you schedule against, because Adobe owns the fix. Don't let a higher third-party number stampede you into over-reaction.
 
 ## The first 24–48 hours on a Critical
 
