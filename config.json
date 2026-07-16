@@ -108,7 +108,7 @@
   "params": {
     "author": {
       "name": "Doug Hatcher",
-      "avatar": "https://avatars.micro.blog/avatars/2025/42/1836278.jpg",
+      "avatar": "https://experiencedigest.org/avatar.jpg",
       "username": "experiencedigest",
       "activitypub": {
         "username": "[ACTIVITYPUB_USERNAME]",
@@ -120,13 +120,13 @@
         "name": "Doug Hatcher",
         "title": "Enterprise Architect at Blue Acorn iCI",
         "url": "https://doughatcher.com",
-        "avatar": "https://avatars.micro.blog/avatars/2025/42/1836278.jpg"
+        "avatar": "https://experiencedigest.org/avatar.jpg"
       }
     },
     "description": "An independent community digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager. Community-maintained, not affiliated with Adobe.",
     "about_me": "Enterprise architecture and tech junkie",
     "bio": "Enterprise architecture and tech junkie",
-    "avatar": "https://avatars.micro.blog/avatars/2025/42/1836278.jpg",
+    "avatar": "https://experiencedigest.org/avatar.jpg",
     "microblog_username": "hatcher",
     "twitter_username": "superterran",
     "github_username": "superterran",
