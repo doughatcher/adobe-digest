@@ -3533,3 +3533,74 @@ a.blog-author-name:hover {
     .archive-row { grid-template-columns: 1fr; gap: 0.5rem; }
     .archive-row-meta { flex-direction: row; gap: 0.75rem; align-items: center; }
 }
+
+/* ===== CVE feed (homepage) ===== */
+.home-section { margin-top: 2.75rem; }
+.home-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+@media (max-width: 820px) { .home-two-col { grid-template-columns: 1fr; } }
+
+.cve-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.cve-row {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr) 52px auto auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.68rem 1rem;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    transition: background 0.12s ease;
+}
+.cve-row:first-child { border-top: none; }
+.cve-row:hover { background: var(--surface-2); }
+.cve-id { color: var(--text); font-weight: 600; font-size: 0.9rem; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cve-cvss { color: var(--text-dim); font-size: 0.82rem; font-variant-numeric: tabular-nums; text-align: right; }
+.cve-prod { color: var(--text-muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--line); border-radius: 999px; padding: 0.12rem 0.55rem; white-space: nowrap; }
+.cve-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+.home-two-col .cve-prod { display: none; }
+.cve-empty { color: var(--text-muted); font-size: 0.9rem; padding: 1.1rem; }
+
+/* Severity badges (replace the emoji orbs) */
+.sev-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 74px; padding: 0.22rem 0.4rem;
+    border-radius: 5px; font-size: 0.6rem; font-weight: 800;
+    letter-spacing: 0.06em; text-transform: uppercase;
+}
+.sev-critical { background: rgba(239, 68, 68, 0.16); color: #f4726f; }
+.sev-high     { background: rgba(234, 140, 58, 0.16); color: #ef9a4e; }
+.sev-medium   { background: rgba(214, 170, 74, 0.15); color: #dcb765; }
+.sev-low      { background: rgba(128, 128, 128, 0.16); color: var(--text-dim); }
+.sev-unknown  { background: rgba(128, 128, 128, 0.12); color: var(--text-muted); }
+
+/* Research list */
+.research-list { display: flex; flex-direction: column; }
+.research-item { display: block; padding: 0.8rem 0; border-top: 1px solid var(--line); text-decoration: none; }
+.research-item:first-child { border-top: none; padding-top: 0.2rem; }
+.research-title { font-size: 0.95rem; font-weight: 600; color: var(--text); margin: 0 0 0.2rem; line-height: 1.35; transition: color 0.12s ease; }
+.research-item:hover .research-title { color: var(--brand-hover); }
+.research-meta { color: var(--text-muted); font-size: 0.78rem; }
+
+@media (max-width: 560px) {
+    .cve-row { grid-template-columns: 74px minmax(0,1fr) auto; gap: 0.6rem; }
+    .cve-cvss, .cve-date { display: none; }
+}
+
+/* ===== CVE single page ===== */
+.cve-hero-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
+.cve-hero-head .sev-badge { font-size: 0.66rem; min-width: 84px; padding: 0.3rem 0.6rem; }
+.cve-hero-head .cve-prod { display: inline-block; font-size: 0.68rem; }
+.cve-hero-title {
+    font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, monospace);
+    font-size: 2.3rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0 0 0.7rem;
+    line-height: 1.1;
+}
+.cve-hero-meta { display: flex; flex-wrap: wrap; gap: 1.25rem; color: var(--text-dim); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.cve-hero-score { color: var(--text); font-weight: 700; }
+.cve-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 2.5rem 0 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.cve-tag { font-size: 0.72rem; color: var(--text-muted); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0.25rem 0.7rem; text-decoration: none; }
+.cve-tag:hover { color: var(--brand); border-color: var(--brand-dim); }
+@media (max-width: 720px) { .cve-hero-title { font-size: 1.7rem; } }

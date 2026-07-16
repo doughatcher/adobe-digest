@@ -1,93 +1,47 @@
 {{ define "main" }}
-<div class="page-wrapper">
-    <nav class="breadcrumb">
-        <a href="/">Home</a>
-        <span class="breadcrumb-separator">/</span>
-        {{ if .Params.categories }}
-        {{ $category := index .Params.categories 0 }}
-        <a href="/categories/{{ $category | urlize }}/">{{ $category | humanize | title }}</a>
-        <span class="breadcrumb-separator">/</span>
-        {{ end }}
-        <span class="current">{{ .Title }}</span>
-    </nav>
-    
-    <article class="content-card h-entry" style="margin-top: 2rem;">
-        <header class="page-header">
-            <h1 class="page-title p-name">{{ .Title }}</h1>
-            <div class="page-meta">
-                <div class="meta-item">
-                    <span class="meta-icon">📅</span>
-                    <time class="dt-published" datetime="{{ .Date.Format "2006-01-02" }}">
-                        {{ .Date.Format "January 2, 2006" }}
-                    </time>
-                </div>
-                {{ if .Params.categories }}
-                <div class="meta-item">
-                    <span class="meta-icon">📁</span>
-                    <span>{{ index .Params.categories 0 | humanize | title }}</span>
-                </div>
-                {{ end }}
+{{- $sev := "" -}}{{- with (findRE "(CRITICAL|HIGH|MEDIUM|LOW)" .Title 1) }}{{ $sev = index . 0 }}{{ end -}}
+{{- $cvss := "" -}}{{- with (findRE "CVSS [0-9.]+" .Title 1) }}{{ $cvss = replace (index . 0) "CVSS " "" }}{{ end -}}
+{{- $cve := .Title -}}{{- with (findRE "CVE-[0-9]+-[0-9]+" .Title 1) }}{{ $cve = index . 0 }}{{ end -}}
+{{- $prod := "" -}}{{- if in .Params.tags "adobe-commerce" }}{{ $prod = "Adobe Commerce" }}{{ else if in .Params.tags "adobe-experience-manager" }}{{ $prod = "Experience Manager" }}{{ end -}}
+{{- $isCve := findRE "CVE-[0-9]" .Title -}}
+
+<article class="fieldguide h-entry" style="margin-top: 0;">
+    <header class="fg-hero">
+        <div class="fg-hero-inner">
+            <nav class="fg-breadcrumb"><a href="/">Home</a><span>/</span><a href="/archive/">Archive</a><span>/</span><span>{{ if $isCve }}{{ $cve }}{{ else }}{{ .Title | truncate 44 }}{{ end }}</span></nav>
+            {{ if $isCve }}
+            <div class="cve-hero-head">
+                <span class="sev-badge sev-{{ lower $sev | default "unknown" }}">{{ $sev | default "—" }}</span>
+                {{ with $prod }}<span class="cve-prod">{{ . }}</span>{{ end }}
             </div>
-        </header>
-        
-        <div class="content-wrapper e-content">
-            {{ .Content }}
+            <h1 class="cve-hero-title p-name">{{ $cve }}</h1>
+            <div class="cve-hero-meta">
+                {{ with $cvss }}<span class="cve-hero-score">CVSS {{ . }}</span>{{ end }}
+                <span>Disclosed <time class="dt-published" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time></span>
+            </div>
+            <div class="fg-hero-actions">
+                <a href="https://nvd.nist.gov/vuln/detail/{{ $cve }}" target="_blank" rel="noopener" class="xd-btn xd-btn-accent">View full record on NIST NVD →</a>
+                <a href="/runbook/" class="xd-btn xd-btn-secondary">CVE Response Runbook</a>
+            </div>
+            {{ else }}
+            <div class="fg-eyebrow">Research</div>
+            <h1 class="fg-title p-name">{{ .Title }}</h1>
+            <div class="cve-hero-meta"><span><time class="dt-published" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time></span></div>
+            {{ end }}
         </div>
-        
+    </header>
+
+    <div class="fg-body content-wrapper e-content">
+        {{ .Content | replaceRE "(🔴|🟠|🟡|🟢|⚠️|📅|📁|✅|🔗)" "" | safeHTML }}
+
         {{ if .Params.tags }}
-        <div class="tags-section" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #3e3e3e;">
-            <div class="tags-container">
-                {{ range .Params.tags }}
-                <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag p-category">{{ . }}</a>
-                {{ end }}
-            </div>
+        <div class="cve-tags">
+            {{ range .Params.tags }}<a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="cve-tag p-category">{{ . }}</a>{{ end }}
         </div>
         {{ end }}
-    </article>
 
-    {{ partial "social-share.html" . }}
-
-    <!-- Micro.blog Conversation Thread —
-         pulls in any micro.blog replies/likes for this URL. Same widget
-         doughatcher.com uses on its single-post template. -->
-    <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
-
-    <div class="action-group">
-        {{ if or .NextInSection .PrevInSection }}
-            {{ if .PrevInSection }}
-            <a href="{{ .PrevInSection.Permalink }}" class="xd-btn xd-btn-secondary">
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
-                Previous
-            </a>
-            {{ end }}
-            
-            {{ if .NextInSection }}
-            <a href="{{ .NextInSection.Permalink }}" class="xd-btn xd-btn-secondary">
-                Next
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
-            {{ end }}
-        {{ end }}
-        
-        {{ if .Params.categories }}
-        <a href="/categories/{{ index .Params.categories 0 | urlize }}/" class="xd-btn xd-btn-secondary">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
-            </svg>
-            All {{ index .Params.categories 0 | humanize | title }}
-        </a>
-        {{ end }}
-        
-        <a href="/" class="xd-btn xd-btn-accent">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-            </svg>
-            Home
-        </a>
+        {{ partial "social-share.html" . }}
+        <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     </div>
-</div>
+</article>
 {{ end }}

@@ -1,24 +1,24 @@
 {{ define "main" }}
-{{ $allPages := .Site.RegularPages }}
-{{ $allBulletins := where $allPages "Type" "in" (slice "post" "posts") }}
-{{ if eq (len $allBulletins) 0 }}
-    {{ $allBulletins = where (where $allPages ".Title" "!=" "") ".Title" "like" "APSB" }}
-{{ end }}
-{{ $recentPosts := first 5 (where .Site.RegularPages "Type" "not in" (slice "archive" "newsletter")).ByDate.Reverse }}
-{{ $lastUpdate := "" }}
-{{ with $allBulletins.ByDate.Reverse }}{{ $lastUpdate = (index . 0).Date.Format "Jan 2" }}{{ end }}
+{{ $cves := where .Site.RegularPages "Params.categories" "intersect" (slice "cve") }}
+{{ $cvesByDate := $cves.ByDate.Reverse }}
+{{ $latest := first 18 $cvesByDate }}
+{{ $commerce := first 6 (where $cves "Params.tags" "intersect" (slice "adobe-commerce")).ByDate.Reverse }}
+{{ $aem := first 6 (where $cves "Params.tags" "intersect" (slice "adobe-experience-manager")).ByDate.Reverse }}
+{{ $research := first 5 (where (where .Site.RegularPages "Type" "post") "Params.categories" "intersect" (slice "news")).ByDate.Reverse }}
+{{ $analysis := first 3 (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
+{{ $lastUpdate := "" }}{{ with $cvesByDate }}{{ $lastUpdate = (index . 0).Date.Format "Jan 2" }}{{ end }}
 
 <header class="fg-hero">
     <div class="fg-hero-inner">
         <div class="fg-eyebrow">Independent Resource</div>
         <h1 class="fg-title">Security intelligence for enterprise commerce</h1>
-        <p class="fg-lede">An independent digest tracking security bulletins, CVEs, and research for Adobe Commerce and Experience Manager — the correlation and context the automated advisories don’t provide.</p>
+        <p class="fg-lede">Every Adobe Commerce and Experience Manager CVE, bulletin, and research finding — tracked, scored, and put in context the automated advisories don’t provide.</p>
         <div class="fg-hero-actions">
             <a href="/blog/" class="xd-btn xd-btn-accent">Read the latest analysis</a>
             <a href="/runbook/" class="xd-btn xd-btn-secondary">CVE Response Runbook →</a>
         </div>
         <div class="fg-hero-stats">
-            <div class="fg-stat"><span class="fg-stat-num accent">{{ len $allBulletins }}</span><span class="fg-stat-label">Bulletins tracked</span></div>
+            <div class="fg-stat"><span class="fg-stat-num accent">{{ len $cves }}</span><span class="fg-stat-label">CVEs tracked</span></div>
             <div class="fg-stat"><span class="fg-stat-num">3</span><span class="fg-stat-label">Products monitored</span></div>
             <div class="fg-stat"><span class="fg-stat-num">{{ $lastUpdate }}</span><span class="fg-stat-label">Last update</span></div>
             <div class="fg-stat"><span class="fg-stat-num">6h</span><span class="fg-stat-label">Refresh cycle</span></div>
@@ -27,80 +27,65 @@
 </header>
 
 <div class="page-wrapper">
-    <div class="blog-layout">
-        <div class="blog-main">
-            <div class="section-header">
-                <h2 class="section-title">Latest analysis</h2>
-                <a href="/archive/" class="section-action">View all →</a>
-            </div>
-            <div class="home-updates">
-                {{ range $recentPosts }}
-                <a class="story-card" href="{{ .RelPermalink }}">
-                    <span class="kicker-cat">{{ with .Params.category }}{{ . }}{{ else }}{{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Analysis{{ end }}{{ end }}</span>
-                    <h3 class="story-title">{{ .Title }}</h3>
-                    <p class="story-dek">{{ .Summary | truncate 170 }}</p>
-                    <div class="story-meta">
-                        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-                        <span class="dot">·</span>
-                        <span>{{ .ReadingTime }} min read</span>
-                    </div>
-                </a>
-                {{ end }}
-            </div>
+    {{ with $analysis }}
+    <section class="home-section">
+        <div class="section-header">
+            <h2 class="section-title">Analysis</h2>
+            <a href="/blog/" class="section-action">All analysis →</a>
         </div>
+        <div class="home-updates">
+            {{ range . }}
+            <a class="story-card" href="{{ .RelPermalink }}">
+                <span class="kicker-cat">{{ with .Params.category }}{{ . }}{{ else }}Analysis{{ end }}</span>
+                <h3 class="story-title">{{ .Title }}</h3>
+                <p class="story-dek">{{ .Summary | truncate 170 }}</p>
+                <div class="story-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time><span class="dot">·</span><span>{{ .ReadingTime }} min read</span></div>
+            </a>
+            {{ end }}
+        </div>
+    </section>
+    {{ end }}
 
-        <aside class="blog-sidebar">
-            <div class="sidebar-card">
-                <h3 class="sidebar-card-title">About</h3>
-                <p class="sidebar-note">An independent community resource maintained by <a href="https://doughatcher.com/" target="_blank" rel="noopener">Doug Hatcher</a>. Not affiliated with Adobe, Inc.</p>
-                <p class="sidebar-note">Need help with Adobe Commerce security? <a href="https://doughatcher.com/consulting/" target="_blank" rel="noopener">Consulting services →</a></p>
-            </div>
+    <section class="home-section">
+        <div class="section-header">
+            <h2 class="section-title">Latest CVEs</h2>
+            <a href="/archive/" class="section-action">View all →</a>
+        </div>
+        <div class="cve-list">
+            {{ range $latest }}{{ partial "cve-row.html" . }}{{ else }}<p class="cve-empty">No CVEs indexed yet.</p>{{ end }}
+        </div>
+    </section>
 
-            <div class="sidebar-card">
-                <h3 class="sidebar-card-title">Resources</h3>
-                <div class="sidebar-links">
-                    <a href="https://helpx.adobe.com/security.html" target="_blank" rel="noopener" class="item-link">Adobe Security Center →</a>
-                    <a href="https://nvd.nist.gov/" target="_blank" rel="noopener" class="item-link">NIST NVD Database →</a>
-                    <a href="https://experiencedigest.org/feed.json" class="item-link">RSS Feed →</a>
-                    <a href="https://github.com/doughatcher/experience-digest" target="_blank" rel="noopener" class="item-link">GitHub Repository →</a>
-                </div>
-            </div>
-        </aside>
+    <div class="home-two-col">
+        <section class="home-section">
+            <div class="section-header"><h2 class="section-title">Adobe Commerce</h2></div>
+            <div class="cve-list">{{ range $commerce }}{{ partial "cve-row.html" . }}{{ else }}<p class="cve-empty">Nothing recent.</p>{{ end }}</div>
+        </section>
+        <section class="home-section">
+            <div class="section-header"><h2 class="section-title">Experience Manager</h2></div>
+            <div class="cve-list">{{ range $aem }}{{ partial "cve-row.html" . }}{{ else }}<p class="cve-empty">Nothing recent.</p>{{ end }}</div>
+        </section>
     </div>
 
-    <section class="home-coverage">
-        <div class="content-card">
-            <h3 class="card-title">Monitored products</h3>
-            <div class="coverage-stats">
-                <div class="mini-stat"><div class="mini-stat-number">{{ len $allBulletins }}</div><div class="mini-stat-label">Bulletins</div></div>
-                <div class="mini-stat"><div class="mini-stat-number">{{ $lastUpdate }}</div><div class="mini-stat-label">Last updated</div></div>
+    <section class="home-section">
+        <div class="section-header"><h2 class="section-title">Research &amp; sources</h2></div>
+        <div class="home-two-col">
+            <div class="research-list">
+                {{ range $research }}
+                <a class="research-item" href="{{ .RelPermalink }}">
+                    <h3 class="research-title">{{ .Title }}</h3>
+                    <div class="research-meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time></div>
+                </a>
+                {{ else }}
+                <p class="cve-empty">Independent research (Sansec, Akamai) appears here as it’s indexed.</p>
+                {{ end }}
             </div>
-            <div class="item-list">
-                <div class="item"><span class="item-name">Adobe Commerce</span><a href="/categories/adobe-commerce/" class="item-link">View →</a></div>
-                <div class="item"><span class="item-name">Experience Manager</span><a href="/categories/adobe-experience-manager/" class="item-link">View →</a></div>
-                <div class="item"><span class="item-name">AEM Forms</span><a href="/categories/adobe-aem-forms/" class="item-link">View →</a></div>
-            </div>
-        </div>
-
-        <div class="content-card">
-            <h3 class="card-title">Data sources</h3>
-            <div class="item-list">
-                <div class="source">
-                    <div class="source-row"><span class="item-name">Adobe Security</span><span class="source-links"><a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="item-link">Web</a><a href="https://experiencedigest.org/feed.json" class="item-link">RSS</a></span></div>
-                    <span class="item-desc">Official security bulletins (3 products)</span>
-                </div>
-                <div class="source">
-                    <div class="source-row"><span class="item-name">Adobe Commerce Releases</span><a href="https://experienceleague.adobe.com/en/docs/commerce-operations/release/versions" target="_blank" rel="noopener" class="item-link">Web</a></div>
-                    <span class="item-desc">Official release notes</span>
-                </div>
-                <div class="source">
-                    <div class="source-row"><span class="item-name">Sansec Research</span><a href="https://sansec.io/atom.xml" target="_blank" rel="noopener" class="item-link">RSS</a></div>
-                    <span class="item-desc">Security research articles</span>
-                </div>
-                <div class="source">
-                    <div class="source-row"><span class="item-name">Akamai Blog</span><a href="https://feeds.feedburner.com/akamai/blog" target="_blank" rel="noopener" class="item-link">RSS</a></div>
-                    <span class="item-desc">Filtered for Adobe topics</span>
-                </div>
+            <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Data sources</h3>
+                <div class="source"><div class="source-row"><span class="item-name">Adobe PSIRT</span><a href="https://helpx.adobe.com/security/security-bulletin.html" target="_blank" rel="noopener" class="item-link">Web</a></div><span class="item-desc">Official bulletins (Commerce, AEM, Forms)</span></div>
+                <div class="source"><div class="source-row"><span class="item-name">NIST NVD</span><a href="https://nvd.nist.gov/" target="_blank" rel="noopener" class="item-link">Web</a></div><span class="item-desc">CVE records &amp; CVSS scoring</span></div>
+                <div class="source"><div class="source-row"><span class="item-name">Sansec Research</span><a href="https://sansec.io/atom.xml" target="_blank" rel="noopener" class="item-link">RSS</a></div><span class="item-desc">Threat research &amp; skimming</span></div>
+                <div class="source"><div class="source-row"><span class="item-name">Akamai Blog</span><a href="https://feeds.feedburner.com/akamai/blog" target="_blank" rel="noopener" class="item-link">RSS</a></div><span class="item-desc">Filtered for Adobe topics</span></div>
             </div>
         </div>
     </section>
