@@ -1,14 +1,15 @@
 {{ define "main" }}
 {{/* micro.blog strips the scraper's frontmatter (categories/tags), so classify
      off the title (CVE id) and content (product) instead. */}}
-{{ $posts := where .Site.RegularPages "Type" "post" }}
+{{ $posts := where .Site.RegularPages "Type" "in" (slice "post" "posts") }}
 {{ $cves := slice }}{{ $research := slice }}
 {{ range $posts }}{{ if findRE "CVE-[0-9]" .Title }}{{ $cves = $cves | append . }}{{ else }}{{ $research = $research | append . }}{{ end }}{{ end }}
 {{ $cves = sort $cves "Date" "desc" }}
 {{ $research = sort $research "Date" "desc" }}
+{{/* product detection reads content, so scan only the recent set for the two columns */}}
 {{ $commerce := slice }}{{ $aem := slice }}
-{{ range $cves }}{{ if findRE "(?i)adobe commerce|magento" .Content }}{{ $commerce = $commerce | append . }}{{ else if findRE "(?i)experience manager|\\bAEM\\b" .Content }}{{ $aem = $aem | append . }}{{ end }}{{ end }}
-{{ $latest := first 18 $cves }}
+{{ range first 80 $cves }}{{ if findRE "(?i)adobe commerce|magento" .Content }}{{ $commerce = $commerce | append . }}{{ else if findRE "(?i)experience manager|\\bAEM\\b" .Content }}{{ $aem = $aem | append . }}{{ end }}{{ end }}
+{{ $latest := first 20 $cves }}
 {{ $commerce = first 6 $commerce }}
 {{ $aem = first 6 $aem }}
 {{ $research = first 5 $research }}

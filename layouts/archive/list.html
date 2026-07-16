@@ -1,36 +1,44 @@
 {{ define "main" }}
-{{ $posts := where .Site.RegularPages "Section" "in" (slice "blog" "post" "posts") }}
-{{ $paginator := .Paginate ($posts.ByDate.Reverse) 30 }}
+{{ $posts := where .Site.RegularPages "Type" "in" (slice "post" "posts") }}
+{{ $cves := slice }}
+{{ range $posts }}{{ if findRE "CVE-[0-9]" .Title }}{{ $cves = $cves | append . }}{{ end }}{{ end }}
+{{ $cves = sort $cves "Date" "desc" }}
+{{ $show := first 200 $cves }}
 
 <header class="fg-hero">
     <div class="fg-hero-inner">
         <div class="fg-eyebrow">Index</div>
-        <h1 class="fg-title">Archive</h1>
-        <p class="fg-lede">Every bulletin analysis and research piece — {{ len $posts }} entries, newest first.</p>
+        <h1 class="fg-title">CVE Archive</h1>
+        <p class="fg-lede">{{ len $cves }} Adobe Commerce &amp; Experience Manager CVEs tracked, newest first — filter by platform below. Looking for the write-ups? <a href="/blog/">Editorial analysis →</a></p>
     </div>
 </header>
 
 <div class="fg-body">
-    <div class="archive-list">
-        {{ range $paginator.Pages }}
-        <a class="archive-row" href="{{ .RelPermalink }}">
-            <div class="archive-row-meta">
-                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-                <span class="archive-cat">{{ with .Params.category }}{{ . }}{{ else }}{{ if findRE "APSB\\d{2}-\\d{2}" .Title }}Security Bulletin{{ else }}Analysis{{ end }}{{ end }}</span>
-            </div>
-            <div class="archive-row-body">
-                <h2 class="archive-row-title">{{ .Title }}</h2>
-                {{ with .Summary }}<p class="archive-row-dek">{{ . | truncate 180 }}</p>{{ end }}
-            </div>
-        </a>
-        {{ end }}
+    <div class="cve-filters" role="tablist" aria-label="Filter CVEs by platform">
+        <button class="cve-filter is-active" data-filter="all">All</button>
+        <button class="cve-filter" data-filter="Commerce">Adobe Commerce</button>
+        <button class="cve-filter" data-filter="AEM">Experience Manager</button>
     </div>
-
-    {{ if gt $paginator.TotalPages 1 }}
-    <nav class="pagination" style="margin-top: 2rem;">
-        {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="xd-btn xd-btn-secondary">← Newer</a>{{ end }}
-        {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="xd-btn xd-btn-secondary">Older →</a>{{ end }}
-    </nav>
-    {{ end }}
+    <div class="cve-list" id="cveList">
+        {{ range $show }}{{ partial "cve-row.html" . }}{{ else }}<p class="cve-empty">No CVEs indexed yet.</p>{{ end }}
+    </div>
+    {{ if gt (len $cves) 200 }}<p class="cve-empty">Showing the {{ len $show }} most recent of {{ len $cves }}. The full history is in the <a href="/feed.json">JSON feed</a>.</p>{{ end }}
 </div>
+
+<script>
+(function () {
+    var btns = document.querySelectorAll('.cve-filter');
+    var rows = document.querySelectorAll('#cveList .cve-row');
+    btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+            btns.forEach(function (x) { x.classList.remove('is-active'); });
+            b.classList.add('is-active');
+            var f = b.dataset.filter;
+            rows.forEach(function (r) {
+                r.style.display = (f === 'all' || r.dataset.product === f) ? '' : 'none';
+            });
+        });
+    });
+})();
+</script>
 {{ end }}

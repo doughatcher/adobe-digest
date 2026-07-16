@@ -3604,3 +3604,19 @@ a.blog-author-name:hover {
 .cve-tag { font-size: 0.72rem; color: var(--text-muted); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0.25rem 0.7rem; text-decoration: none; }
 .cve-tag:hover { color: var(--brand); border-color: var(--brand-dim); }
 @media (max-width: 720px) { .cve-hero-title { font-size: 1.7rem; } }
+
+/* CVE archive platform filters */
+.cve-filters { display: flex; gap: 0.5rem; margin-bottom: 1.35rem; flex-wrap: wrap; }
+.cve-filter {
+    padding: 0.42rem 0.95rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text-dim);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+.cve-filter:hover { color: var(--text); border-color: var(--line-strong); }
+.cve-filter.is-active { background: var(--brand); color: var(--bg); border-color: var(--brand); }
