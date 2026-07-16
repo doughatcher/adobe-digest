@@ -1,5 +1,5 @@
 ---
-title: "The Pattern Held: July's Adobe Bulletins and the Case for Reading Them as History"
+title: "Adobe Keeps Patching the Same Cracks: Inside July's Critical Commerce and AEM Bulletins"
 date: 2026-07-15T10:00:00-05:00
 draft: false
 author: doug-hatcher
@@ -21,9 +21,13 @@ related:
     date: "July 2, 2026"
 ---
 
-Apply the July 2026 security patch for your release line — the `…-2026-jul` builds, from `2.4.9-2026-jul` down to `2.4.4-p18-2026-jul` — this cycle. One catch worth knowing up front: these ship as *isolated* security patches, so you have to already be on the latest `-p` release for your line (2.4.8-p5, 2.4.7-p10, and so on) before they'll apply. If that's enough, you're done. If you want to understand why this particular week is worth reading as a chapter and not a checklist, keep going.
+On July 14, 2026, Adobe published two security bulletins on the same day: one for **Adobe Commerce** — the enterprise platform behind Magento storefronts — and one for **Adobe Experience Manager (AEM)**, its content-management sibling. Between them they fix four *critical* vulnerabilities, most of which let an attacker run their own code on your server. If you run either platform, the short version is: **patch now.**
 
-[APSB26-73](https://helpx.adobe.com/security/products/magento/apsb26-73.html) dropped on July 14, 2026, rated Priority 2. On the surface it's a routine out-of-band Commerce update. Look at the composition and it stops looking routine: **every finding in the core batch is rated Critical. Zero "Important," zero "Moderate."** That distribution is unusual. Most Commerce bulletins are a long tail of Importants with one or two Criticals riding along. This one is all headline.
+For Commerce, that means applying the July 2026 security patch for your release line — the `…-2026-jul` builds, from `2.4.9-2026-jul` down to `2.4.4-p18-2026-jul`. One catch worth knowing up front: these ship as *isolated* security patches, so you have to already be on the latest `-p` release for your line (2.4.8-p5, 2.4.7-p10, and so on) before they'll apply.
+
+If that's all you came for, you're done. But this week is worth a closer look than a checklist, because here's the uncomfortable part: it's the same small handful of flaws Adobe has been patching, under fresh CVE numbers, for four years running. This isn't a new problem getting fixed. It's an old one showing up again — and once you can see the pattern, the bulletins read very differently.
+
+Start with the Commerce bulletin, [APSB26-73](https://helpx.adobe.com/security/products/magento/apsb26-73.html), rated Priority 2. On the surface it's a routine out-of-band update. Look at the composition and it stops looking routine: **every finding in the core batch is rated Critical. Zero "Important," zero "Moderate."** That distribution is unusual. Most Commerce bulletins are a long tail of Importants with one or two Criticals riding along. This one is all headline.
 
 ## What's in it
 
