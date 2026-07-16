@@ -2875,18 +2875,25 @@ a.blog-author-name:hover {
    Markdown tables in blog post bodies. Styled to match the shadcn token
    system; scoped to .content-wrapper so it never touches layout tables. */
 .content-wrapper table {
+    /* Neutral grey palette (hue-free) so the table never clashes with the
+       theme's blue-tinted accent. rgba(128,128,128,a) reads as a light grey
+       over dark backgrounds and a soft grey over white — works in both modes. */
+    --tbl-line: rgba(128, 128, 128, 0.30);
+    --tbl-head: rgba(128, 128, 128, 0.12);
+    --tbl-zebra: rgba(128, 128, 128, 0.06);
+    --tbl-hover: rgba(128, 128, 128, 0.14);
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     margin: 1.75rem 0;
     font-size: 0.92rem;
     line-height: 1.5;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--tbl-line);
     border-radius: var(--radius);
     overflow: hidden;
 }
 .content-wrapper thead th {
-    background-color: hsl(var(--muted));
+    background-color: var(--tbl-head);
     color: hsl(var(--foreground));
     font-weight: 600;
     text-align: left;
@@ -2894,22 +2901,22 @@ a.blog-author-name:hover {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 0.7rem 0.9rem;
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 1px solid var(--tbl-line);
     white-space: nowrap;
 }
 .content-wrapper tbody td {
     padding: 0.65rem 0.9rem;
-    border-top: 1px solid hsl(var(--border));
+    border-top: 1px solid var(--tbl-line);
     vertical-align: top;
 }
 .content-wrapper tbody tr:first-child td {
     border-top: none;
 }
 .content-wrapper tbody tr:nth-child(odd) td {
-    background-color: hsl(var(--muted) / 0.35);
+    background-color: var(--tbl-zebra);
 }
 .content-wrapper tbody tr:hover td {
-    background-color: hsl(var(--muted) / 0.6);
+    background-color: var(--tbl-hover);
 }
 /* Keep CVE IDs and inline code from breaking mid-token */
 .content-wrapper table td:first-child {
