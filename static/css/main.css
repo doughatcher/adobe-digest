@@ -2935,3 +2935,46 @@ a.blog-author-name:hover {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+/* ─── Blog post body lists ────────────────────────────────────────────────
+   The single-post wrapper is .content-card, whose `.content-card li` rule
+   (built for .card-summary stat chips) forces every prose list item into a
+   flex chip with an uppercased, min-width:120px <strong>. On prose that
+   breaks any item with inline bold mid-sentence (two <strong>s collapse into
+   narrow word-per-line columns). Reset the actual article body to normal,
+   readable bullets; .card-summary keeps its chip styling untouched. */
+.content-wrapper ul,
+.content-wrapper ol {
+    list-style: revert;
+    padding-left: 1.6rem;
+    margin: 1rem 0;
+}
+.content-wrapper ul { list-style-type: disc; }
+.content-wrapper ol { list-style-type: decimal; }
+.content-wrapper li {
+    display: list-item;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0.45rem 0;
+    gap: normal;
+    color: inherit;
+    line-height: 1.65;
+}
+.content-wrapper li::marker {
+    color: rgba(128, 128, 128, 0.85);
+}
+.content-wrapper li + li {
+    margin-top: 0.5rem;
+}
+/* Inline bold stays inline bold — undo the uppercase label-chip treatment. */
+.content-wrapper li strong {
+    text-transform: none;
+    letter-spacing: normal;
+    min-width: 0;
+    flex-shrink: initial;
+    font-size: inherit;
+    color: inherit;
+    font-weight: 700;
+}
