@@ -2870,3 +2870,61 @@ a.blog-author-name:hover {
         order: 2;
     }
 }
+
+/* ─── Content tables (CVE listings, comparison grids) ─────────────────────
+   Markdown tables in blog post bodies. Styled to match the shadcn token
+   system; scoped to .content-wrapper so it never touches layout tables. */
+.content-wrapper table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.75rem 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.content-wrapper thead th {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--foreground));
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid hsl(var(--border));
+    white-space: nowrap;
+}
+.content-wrapper tbody td {
+    padding: 0.65rem 0.9rem;
+    border-top: 1px solid hsl(var(--border));
+    vertical-align: top;
+}
+.content-wrapper tbody tr:first-child td {
+    border-top: none;
+}
+.content-wrapper tbody tr:nth-child(odd) td {
+    background-color: hsl(var(--muted) / 0.35);
+}
+.content-wrapper tbody tr:hover td {
+    background-color: hsl(var(--muted) / 0.6);
+}
+/* Keep CVE IDs and inline code from breaking mid-token */
+.content-wrapper table td:first-child {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+.content-wrapper table code {
+    white-space: nowrap;
+}
+/* Horizontal scroll instead of cramped wrapping on small screens */
+@media (max-width: 640px) {
+    .content-wrapper table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
