@@ -18,7 +18,7 @@ related:
     date: "GitHub"
 ---
 
-Sansec keeps a public database of Magento and Adobe Commerce extensions with known security issues — [magevulndb](https://github.com/sansecio/magevulndb), 205 entries and counting. If you read the list looking for the vendors to avoid, you'll draw the wrong lesson. The names near the top are some of the largest, most established, most widely installed extension makers in the ecosystem. That isn't a coincidence, and it isn't an indictment. It's most of the point.
+Sansec keeps a public database of Magento and Adobe Commerce extensions with known security issues — [magevulndb](https://github.com/sansecio/magevulndb), 205 entries and counting. If you read the list looking for the vendors to avoid, you'll draw the wrong lesson. The names near the top are some of the largest, most established, most widely installed extension makers in the ecosystem. That isn't a coincidence, and it isn't an indictment.
 
 Being on this list is mostly a function of three things: how many modules you ship, how many stores run them, and whether you disclose and patch when something turns up. Big vendors score high on all three. Larger catalogs mean more surface area, more installs mean more researchers and attackers looking, and the reputable vendors actually publish advisories and cut fixes — which is what you want from a supplier, and also what lands a CVE in a public database with the vendor's name on it.
 
