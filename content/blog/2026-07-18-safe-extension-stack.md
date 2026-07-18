@@ -1,6 +1,6 @@
 ---
 title: "You Can't Shop Your Way to a Safe Extension Stack"
-date: 2026-07-18T10:00:00-05:00
+date: 2026-07-18T08:00:00-05:00
 draft: false
 author: doug-hatcher
 tags: [adobe-commerce, magento, extensions, third-party, supply-chain, vendor-risk, sansec, magevulndb, vulnerability-scanning, ci-cd, patch-management, security-posture]
