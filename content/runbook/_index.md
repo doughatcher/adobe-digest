@@ -28,6 +28,28 @@ The cheapest CVE to respond to is the one your architecture already blunted. Put
 - **Lock every endpoint.** Admin, REST and GraphQL, integration tokens, file-upload paths. Least privilege, IP-allowlist or VPN-gate what you can, and treat each surface as a target rather than a convenience.
 - **Centralize entitlements in IT.** IMS org membership and Commerce/Experience Cloud licensing provisioned and de-provisioned through IT gives you one control plane and guarantees access dies the moment someone rolls off.
 
+## Scan the extension layer
+
+Adobe's bulletins cover the platform. They say nothing about the third-party modules running inside it with the store's full privileges — the surface Sansec's incident data keeps naming as the most common way in. That layer is yours to watch, and it has a public list: [magevulndb](https://github.com/sansecio/magevulndb), Sansec's database of Magento and Adobe Commerce extensions with known security issues.
+
+It ships as a scanner for n98-magerun, the standard Magento CLI. Install it once:
+
+```
+mkdir -p ~/.n98-magerun2/modules
+cd ~/.n98-magerun2/modules
+git clone https://github.com/gwillem/magevulndb.git
+```
+
+Then run it from any store root, in a build step or on a schedule:
+
+```
+n98-magerun2.phar dev:module:security -q
+```
+
+It reloads the latest data on every run and returns an exit code you can gate on: `0` clean, `1` a known-vulnerable module is installed, `2` the data couldn't load. Put it in CI as a required step and exit `1` blocks the deploy automatically, with no human in the loop. Composer-managed shops can get comparable coverage from [Roave's SecurityAdvisories](https://github.com/Roave/SecurityAdvisories) at install time; magevulndb's advantage is that it also covers Magento 1 and installs composer never managed.
+
+One caveat, so nobody reads too much into a green result: a clean scan means no *known* issue, not no issue — it's a floor, not a ceiling. But the floor catches the failure mode that dominates real incidents: a store quietly running a module version with a public, catalogued, already-patched vulnerability. Ever having checked is most of the battle.
+
 ## Severity → target response
 
 A CVSS score is not a priority; it's an input to one. The failure mode is treating "Critical" as a feeling instead of a trigger for a response you've pre-agreed.
