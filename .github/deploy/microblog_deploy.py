@@ -258,7 +258,7 @@ class MicroblogDeployer:
         
         return False
     
-    def deploy(self, reload=True, rebuild=True, monitor=True):
+    def deploy(self, reload=True, rebuild=True, monitor=True, monitor_timeout=60):
         """Execute deployment sequence"""
         print("🚀 Micro.blog Deployment")
         print("=" * 60)
@@ -288,7 +288,7 @@ class MicroblogDeployer:
         # Monitor build by polling check endpoint
         if monitor and rebuild:
             print()
-            if not self.poll_check_endpoint():
+            if not self.poll_check_endpoint(timeout=monitor_timeout):
                 success = False
         
         print()
@@ -333,12 +333,13 @@ def main():
             sys.exit(0 if success else 1)
         
         if args.all:
-            success = deployer.deploy(reload=True, rebuild=True, monitor=True)
+            success = deployer.deploy(reload=True, rebuild=True, monitor=True, monitor_timeout=args.timeout)
         else:
             success = deployer.deploy(
                 reload=args.reload,
                 rebuild=args.rebuild,
-                monitor=args.monitor
+                monitor=args.monitor,
+                monitor_timeout=args.timeout,
             )
         
         sys.exit(0 if success else 1)
